@@ -1,0 +1,14 @@
+Package: SPAGxECCT
+Type: Package
+Title: A unified approach to large-scale genome-wide gene-environment interaction analysis.
+Version: 0.0.1
+Date: 2024-03-30
+Author: Yuzhuo Ma, Wenjian Bi
+Maintainer: Yuzhuo Ma <yuzhuoma@stu.pku.edu.cn>
+Description: A unified approach to large-scale genome-wide gene-environment interaction studies of binary traits, quantitative traits, time-to-event traits, and ordinal categorical traits.
+License: GPL3
+Encoding: UTF-8
+LazyData: true
+Imports: survival, ordinal
+LinkingTo: survival, ordinal
+RoxygenNote: 7.2.3
