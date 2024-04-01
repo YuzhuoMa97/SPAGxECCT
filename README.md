@@ -2,7 +2,7 @@
 A unified approach to large-scale genome-wide gene-environment interaction analysis.
 ## How to install and load this package
 ```
-library(devtools)  # author version: 0.0.9
+library(devtools)  # author version: 0.0.1
 install_github("YuzhuoMa97/SPAGxECCT")
 library(SPAGxECCT)
 ?SPAGxECCT  # manual of SPAGxECCT package
