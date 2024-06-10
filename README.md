@@ -1,5 +1,5 @@
 # SPAGxECCT 
-A unified approach to large-scale genome-wide gene-environment interaction analysis.
+A unified approach to large-scale genome-wide gene-environment interaction (G×E) analysis.
 ## How to install and load this package
 ```
 library(devtools)  # author version: 0.0.1
@@ -11,7 +11,7 @@ Current version is 0.0.1. For older version and version update information, ples
 
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 # SPAGxECCT introduction
-SPAGxECCT is a a G×E analysis framework, SPAGxECCT, which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event trait and ordinal categorical trait), and powerful across different scenarios
+SPAGxECCT is a a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event and ordinal categorical, binary, quantitative, and longitudinal traits).
 
 
 
