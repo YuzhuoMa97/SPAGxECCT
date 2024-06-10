@@ -1,5 +1,7 @@
 # SPAGxECCT 
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
+## Software dependencies and operating systems
+The package has been tested under linux and windows systems.
 ## How to install and load this package
 ```
 library(devtools)  # author version: 0.0.1
