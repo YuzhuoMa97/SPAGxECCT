@@ -20,7 +20,7 @@ SPAGxE<sub>CCT</sub> is a G×E analysis framework which is applicable to a wide 
   
 - In step 2, SPAGxE<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxE<sub>CCT</sub> tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E</sub> is updated to genotype-adjusted test statistics. To balance the computational efficiency and accuracy, SPAGxE<sub>CCT</sub> employs a hybrid strategy to combine normal distribution approximation and SPA to calculate p values, as in previous studies such as [SAIGE](https://saigegit.github.io/SAIGE-doc/) and [SPAGE](https://github.com/WenjianBI/SPAGE). For variants with significant marginal genetic effect, SPAGxE<sub>CCT</sub> additionally calculates p value through Wald test and then uses Cauchy combination (CCT) to combine p values from Wald test and the proposed genotype-adjusted test statistics.
 
-![plot] (https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/workflow_SPAGxECCT_MYZ.png)
+![plot](https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/workflow_SPAGxECCT_MYZ.png)
 
 ## SPAGxEmix<sub>CCT</sub> introduction
 As an extension of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub> is a G×E analysis framework which is applicable is applicable to include individuals from multiple ancestries or admixed populations. 
