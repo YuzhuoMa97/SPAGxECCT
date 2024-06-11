@@ -13,14 +13,14 @@ Current version is 0.0.1. For older version and version update information, ples
 
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
-## SPAGxECCT introduction
-SPAGxECCT is a a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event and ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxECCT contains two main steps (Figure 1). 
+## SPAGxE<sub>CCT</sub> introduction
+SPAGxE<sub>CCT</sub> is a a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event and ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxE<sub>CCT</sub> contains two main steps. 
 
-- In step 1, SPAGxECCT fits a covariates-only model and then calculates model residuals. The covariates include, but are not limited to, confounding factors such as age, gender, SNP-derived principal components (PCs), and environmental factors. The model specification and the corresponding model residuals vary depending on the type of trait. As the covariates-only model is genotype-independent, the model fitting and residuals calculation are only required once across a genome-wide analysis.
+- In step 1, SPAGxE<sub>CCT</sub> fits a covariates-only model and then calculates model residuals. The covariates include, but are not limited to, confounding factors such as age, gender, SNP-derived principal components (PCs), and environmental factors. The model specification and the corresponding model residuals vary depending on the type of trait. As the covariates-only model is genotype-independent, the model fitting and residuals calculation are only required once across a genome-wide analysis.
   
-- In step 2, SPAGxECCT identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxECCT tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>(G×E)</sub> as the test statistics to characterize marginal G×E effect, where E_i  i≤n denote the environmental factors. Otherwise, statistics S<sub>(G×E)</sub> is updated to $tilde{S}<sub>(G×E)</sub>$.
+- In step 2, SPAGxE<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxECCT tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>(G×E)</sub> is updated to genotype-adjusted test statistics.
 
-To balance the computational efficiency and accuracy, SPAGxECCT employs a hybrid strategy to combine normal distribution approximation and SPA to calculate p values, as in previous studies. For variants with significant marginal genetic effect, SPAGxECCT additionally calculates p value through Wald test and then uses Cauchy combination (CCT) to combine p values from Wald test and the proposed test statistics.
+To balance the computational efficiency and accuracy, SPAGxE<sub>CCT</sub> employs a hybrid strategy to combine normal distribution approximation and SPA to calculate p values, as in previous studies. For variants with significant marginal genetic effect, SPAGxE<sub>CCT</sub> additionally calculates p value through Wald test and then uses Cauchy combination (CCT) to combine p values from Wald test and the proposed test statistics.
 
 
 
