@@ -25,6 +25,7 @@ SPAGxE<sub>CCT</sub> is a G×E analysis framework which is applicable to a wide 
 ## SPAGxEmix<sub>CCT</sub> introduction
 SPAGxEmix<sub>CCT</sub> is an extension of SPAGxE<sub>CCT</sub> is a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event, ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxE<sub>CCT</sub> contains two main steps. 
 
+SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different individuals follow an identical binomial distribution. The assumption is usually valid in a homogeneous population. However, if the study cohort consists of individuals from multiple ancestries, this assumption could be violated. To address this issue, we propose SPAGxEmix<sub>CCT</sub> in which genotypes for different individuals still follow binomial distributions but the corresponding allele frequencies could be different. We estimate individual-level allele frequency using SNP-derived PCs and raw genotypes. 
 
 In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we applied SPAGxECCT to analyze time-to-event traits in UB Biobank. As a universal analysis framework, we also evaluated the performance of SPAGxECCT in ordinal categorical, binary, and quantitative trait analysis.  
 
