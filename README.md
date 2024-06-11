@@ -29,9 +29,7 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 
 - In step 1, SPAGxEmix<sub>CCT</sub> fits a covariates-only model and then calculates model residuals. Deatils can be found in the step 1 of SPAGxE<sub>CCT</sub>.
   
-- In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> uses the SNP-derived PCs and raw genotypes to estimate the individual-level allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT</sub> tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E(mix)</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics.
-
-- The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
+- In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> uses the SNP-derived PCs and raw genotypes to estimate the individual-level allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT</sub> tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E(mix)</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
   
 ## UK Biobank data analysis results
 
