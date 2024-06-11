@@ -14,7 +14,7 @@ Current version is 0.1.0. For older version and version update information, ples
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
 ## SPAGxE<sub>CCT</sub> introduction
-SPAGxE<sub>CCT</sub> is a a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event, ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxE<sub>CCT</sub> contains two main steps. 
+SPAGxE<sub>CCT</sub> is a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event, ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxE<sub>CCT</sub> contains two main steps. 
 
 - In step 1, SPAGxE<sub>CCT</sub> fits a covariates-only model and then calculates model residuals. The covariates include, but are not limited to, confounding factors such as age, gender, SNP-derived principal components (PCs), and environmental factors. The model specification and the corresponding model residuals vary depending on the type of trait. As the covariates-only model is genotype-independent, the model fitting and residuals calculation are only required once across a genome-wide analysis.
   
@@ -22,7 +22,8 @@ SPAGxE<sub>CCT</sub> is a a G×E analysis framework which is applicable to a wid
 
 - To balance the computational efficiency and accuracy, SPAGxE<sub>CCT</sub> employs a hybrid strategy to combine normal distribution approximation and SPA to calculate p values, as in previous studies such as [SAIGE](https://saigegit.github.io/SAIGE-doc/) and [SPAGE](https://github.com/WenjianBI/SPAGE). For variants with significant marginal genetic effect, SPAGxE<sub>CCT</sub> additionally calculates p value through Wald test and then uses Cauchy combination (CCT) to combine p values from Wald test and the proposed genotype-adjusted test statistics.
 
-
+## SPAGxEmix<sub>CCT</sub> introduction
+SPAGxEmix<sub>CCT</sub> is an extension of SPAGxE<sub>CCT</sub> is a G×E analysis framework which is applicable to a wide variety of complex traits with intricate structures (e.g. time-to-event, ordinal categorical, binary, quantitative, and longitudinal traits). SPAGxE<sub>CCT</sub> contains two main steps. 
 
 
 In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we applied SPAGxECCT to analyze time-to-event traits in UB Biobank. As a universal analysis framework, we also evaluated the performance of SPAGxECCT in ordinal categorical, binary, and quantitative trait analysis.  
