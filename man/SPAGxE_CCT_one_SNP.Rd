@@ -2,7 +2,7 @@
 % Please edit documentation in R/SPAGxECCT.R
 \name{SPAGxE_CCT_one_SNP}
 \alias{SPAGxE_CCT_one_SNP}
-\title{SaddlePoint Approximation implementation of gene-environmental interaction (GxE) analysis of complex traits (One-SNP-version).}
+\title{A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis (One-SNP-version).}
 \usage{
 SPAGxE_CCT_one_SNP(
   traits = "survival/binary/quantitative/categorical",
@@ -22,10 +22,10 @@ SPAGxE_CCT_one_SNP(
 \arguments{
 \item{g}{a numeric genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.}
 
-\item{others}{the same as function SPAGxE_CCT_surv. NOTE that we do not check subject order in this one-snp-version !!!}
+\item{others}{the same as function SPAGxE_CCT(). NOTE that we do not check subject order in this one-snp-version !!!}
 }
 \value{
-the same as function SPAGxE_CCT.
+the same as function SPAGxE_CCT().
 }
 \description{
 One-SNP-version SPAGxE_CCT function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.

@@ -2,6 +2,8 @@
 
 export(SPAGxE_CCT)
 export(SPAGxE_CCT_one_SNP)
+export(SPAGxEmix_CCT)
+export(SPAGxEmix_CCT_one_SNP)
 export(SPA_G_Get_Resid)
 import(ordinal)
 import(survival)
