@@ -33,9 +33,9 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 
 - The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
   
-## UK Biobank data analysis result
+## UK Biobank data analysis results
 
-In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we applied SPAGxE<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,149 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxECCT in ordinal categorical, binary, and quantitative trait analysis.  
+In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,149 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxECCT in ordinal categorical, binary, and quantitative trait analysis.  
 
 **Summary statistics of time-to-event traits in UK Biobank is available here.**
 
