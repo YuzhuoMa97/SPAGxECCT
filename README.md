@@ -32,12 +32,12 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 - In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> uses the SNP-derived PCs and raw genotypes to estimate the individual-level allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT</sub> tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E(mix)</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics.
 
 - The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
+  
+**UK Biobank data analysis results**
 
 In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we applied SPAGxE<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,149 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxECCT in ordinal categorical, binary, and quantitative trait analysis.  
 
 **Summary statistics of time-to-event traits in UK Biobank is available here.**
-
-
 
 ## Reference
 See **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits** (to be updated) for more details about SPAGxECCT.
