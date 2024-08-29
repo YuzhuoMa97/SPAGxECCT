@@ -1,7 +1,7 @@
 # SPAGxE<sub>CCT</sub> 
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
 ## Software dependencies and operating systems
-The package has been tested under linux and windows systems.
+The package has been tested under linux and windows systems. (The R package will be rewritten with RCPP codes)
 ## How to install and load this package
 ```
 library(devtools)  # author version: 2.4.5
