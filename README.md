@@ -38,7 +38,7 @@ SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>
 
 - In step 1, SPAGxEmix<sub>CCT</sub> fits a covariates-only model and then calculates model residuals. Details can be found in step 1 of SPAGxE<sub>CCT</sub>.
   
-- In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> estimates the ancestry-specific allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT-local</sub> tests for ancestry-specific marginal genetic effects via ancestry-specific score statistics. If the ancestry-specific marginal genetic effect is not significant, we use ancestry-specific S<sub>G×E(mix)</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
+- In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> estimates the ancestry-specific allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT-local</sub> tests for ancestry-specific marginal genetic effects via ancestry-specific score statistics. If the ancestry-specific marginal genetic effect is not significant, we use ancestry-specific S<sub>G×E(mix)</sub> as the test statistics to characterize ancestry-specific marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to ancestry-specific genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
   
 
   
