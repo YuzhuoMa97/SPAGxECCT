@@ -34,7 +34,7 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 ## Introduction of SPAGxEmix<sub>CCT-local</sub>
 SPAGxEmix<sub>CCT-local</sub> is a G×E analysis framework which is applicable to include local ancestry for analyses of multi-way admixed populations. 
 
-SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>, which can efficiently identify ancestry-specific GxE effects by incorporating local ancestry. Moreover, we propose SPAGxEmix<sub>CCT-local-global</sub>, which combines the p values from SPAGxEmix<sub>CCT<sub> and SPAGxEmix<sub>CCT-local</sub> and can serve as an optimal unified approach across various cross-ancestry genetic architectures. Similar as SPAGxEmix<sub>CCT-local</sub>, SPAGxEmix<sub>CCT-local</sub> contains two main steps. 
+SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>, which can efficiently identify ancestry-specific GxE effects by incorporating local ancestry. Moreover, we propose SPAGxEmix<sub>CCT-local-global</sub>, which combines the p values from SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub> and can serve as an optimal unified approach across various cross-ancestry genetic architectures. Similar as SPAGxEmix<sub>CCT-local</sub>, SPAGxEmix<sub>CCT-local</sub> contains two main steps. 
 
 - In step 1, SPAGxEmix<sub>CCT</sub> fits a covariates-only model and then calculates model residuals. Details can be found in step 1 of SPAGxE<sub>CCT</sub>.
   
