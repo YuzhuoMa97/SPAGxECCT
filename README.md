@@ -32,7 +32,7 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 - In step 2, SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> uses the SNP-derived PCs and raw genotypes to estimate the individual-level allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT</sub> tests for marginal genetic effect via score statistic. If the marginal genetic effect is not significant, we use S<sub>G×E(mix)</sub> as the test statistics to characterize marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
 
 ## Introduction of SPAGxEmix<sub>CCT-local</sub>
-SPAGxEmix<sub>CCT-local</sub> is a G×E analysis framework which is applicable to include local ancestry for analyses of multi-way admixed populations. 
+SPAGxEmix<sub>CCT-local</sub> is a G×E analysis framework which is applicable to include local ancestry to enhance statistical powers for analyses of multi-way admixed populations. 
 
 SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>, which can efficiently identify ancestry-specific GxE effects by incorporating local ancestry. Moreover, we propose SPAGxEmix<sub>CCT-local-global</sub>, which combines the p values from SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub> and can serve as an optimal unified approach across various cross-ancestry genetic architectures. Similar as SPAGxEmix<sub>CCT-local</sub>, SPAGxEmix<sub>CCT-local</sub> contains two main steps. 
 
