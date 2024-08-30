@@ -16,7 +16,7 @@ SPAGxEmix_CCT(
   Cutoff = 2,
   impute.method = "fixed",
   missing.cutoff = 0.15,
-  min.maf = 1e-05,
+  min.maf = 0.001,
   G.model = "Add",
   topPCs.pvalue.cutoff = 0.05,
   MAF.est.negative.ratio.cutoff = 0.1
