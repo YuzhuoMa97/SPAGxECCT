@@ -44,7 +44,7 @@ If the test statistic lies within the standard deviation cutoff, its p value is 
 otherwise, its p value is calculated based on a saddlepoint approximation.}
 
 \item{impute.method}{a character string (default: "fixed") to specify the method to impute missing genotypes.
-"fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. 2p where p is MAF).}
+"fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e., 2MAF).}
 
 \item{missing.cutoff}{a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 Any variant with missing rate higher than this cutoff will be excluded from the analysis.}
@@ -74,7 +74,7 @@ A scalable and accurate analysis framework for a large-scale genome-wide SPAGxEC
 \details{
 To run SPAGxEmixCCT, the following two steps are required:
 \itemize{
-  \item Step 1: Use function SPA_G_Null_Model() to fit a genotype-independent (covariate-only) model.
+  \item Step 1: Use function SPA_G_Null_Model() or other functions to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
   \item Step 2: Use function SPAGxEmix_CCT() to calculate p value for each genetic variant to conduct a GxE analysis.
 }
 

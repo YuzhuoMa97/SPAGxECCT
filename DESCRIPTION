@@ -1,7 +1,7 @@
 Package: SPAGxECCT
 Type: Package
 Title: A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis.
-Version: 0.2.1
+Version: 0.2.2
 Date: 2024-08-15
 Author: Yuzhuo Ma, Wenjian Bi
 Maintainer: Yuzhuo Ma <yuzhuoma@stu.pku.edu.cn>
@@ -12,3 +12,5 @@ LazyData: true
 Imports: survival, ordinal
 LinkingTo: survival, ordinal
 RoxygenNote: 7.3.1
+Depends: 
+    R (>= 2.10)

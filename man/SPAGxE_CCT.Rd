@@ -67,7 +67,7 @@ A scalable and accurate analysis framework for a large-scale genome-wide SPAGxEC
 \details{
 To run SPAGxECCT, the following two steps are required:
 \itemize{
-  \item Step 1: Use function SPA_G_Null_Model() to fit a genotype-independent (covariate-only) model.
+  \item Step 1: Use function SPA_G_Null_Model() or other functions to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
   \item Step 2: Use function SPAGxE_CCT() to calculate p value for each genetic variant to conduct a GxE analysis.
 }
 

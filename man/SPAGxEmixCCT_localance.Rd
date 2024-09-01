@@ -2,7 +2,7 @@
 % Please edit documentation in R/SPAGxECCT.R
 \name{SPAGxEmixCCT_localance}
 \alias{SPAGxEmixCCT_localance}
-\title{A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations to identify ancestry-specific GxE effects by incorporating local ancestry.}
+\title{A scalable and accurate framework to identify ancestry-specific GxE effects by incorporating local ancestry for large-scale genome-wide gene-environment interaction (GxE) analyses in admixed populations.}
 \usage{
 SPAGxEmixCCT_localance(
   traits = "survival/binary/quantitative/categorical",
@@ -22,12 +22,12 @@ SPAGxEmixCCT_localance(
 )
 }
 \arguments{
-\item{Geno.mtx}{a numeric ancestry-specific genotype matrix with each row as an individual and each column as a genetic variant.
+\item{Geno.mtx}{a numeric ancestry-specific genotype matrix with each row as an individual and each column as a genetic variant from an ancestry.
 Column names of genetic variations and row names of subject IDs are required.
 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.}
 
-\item{haplo.mtx}{matrix of local ancestry counts (the number of haplotypes) of the index ancestry to analyze.
-Each row represents an individual and each column represents local ancestry counts (the number of haplotypes) of the index ancestry at a genetic variant.}
+\item{haplo.mtx}{matrix of local ancestry counts (the number of haplotypes) of an ancestry to analyze.
+Each row represents an individual and each column represents local ancestry counts (the number of haplotypes) of the ancestry to analyze at a genetic variant.}
 
 \item{R}{model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)}
 
@@ -35,14 +35,14 @@ Each row represents an individual and each column represents local ancestry coun
 If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
 otherwise, its p value is calculated based on a saddlepoint approximation.}
 
-\item{E}{a numeric environmental factor with each element as a environmental factor value of an individual.}
+\item{E}{a numeric environmental factor with each element as an environmental factor value of an individual.}
 
 \item{Phen.mtx}{phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.}
 
 \item{Cova.mtx}{a covariate matrix excluding the environmental factor E and local ancestry counts (the number of haplotypes).}
 
 \item{Cova.haplo.mtx.list}{a list with each element as a matrix of local ancestry counts (the number of haplotypes) of an ancestry (i.e., haplo.mtx of an ancestry).
-If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) ancestries is enough.}
+If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) elements from (K-1) ancestries is enough.}
 
 \item{epsilon}{a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.}
 
@@ -70,12 +70,12 @@ an R matrix with the following columns
 \item{z.betaG.index.ance}{z values (using Var1) corresponding to the ancestry-specific score statistics testing for ancestry-specific marginal genetic effect}
 }
 \description{
-A scalable and accurate analysis framework for a large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative traits, binary traits, time-to-event traits, and ordinal categorical traits to identify ancestry-specific GxE effects by incorporating local ancestry.
+A scalable and accurate analysis framework to efficiently identify ancestry-specific GxE effects by incorporating local ancestry for a large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative traits, binary traits, time-to-event traits, and ordinal categorical traits in admixed populations.
 }
 \details{
 To run SPAGxEmixCCT_local, the following two steps are required:
 \itemize{
-  \item Step 1: Use function SPA_G_Null_Model() to fit a genotype-independent (covariate-only) model.
+  \item Step 1: Use function SPA_G_Null_Model() or other functions to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent model.
   \item Step 2: Use function SPAGxEmixCCT_localance() to calculate p value for each genetic variant to conduct a ancestry-specific GxE analysis by incorporating local ancestry.
 }
 
@@ -93,4 +93,75 @@ Time-varying covariates are also supported by splitting each subject into severa
 Sometimes, the order of subjects between phenotype data and genotype data are different, which could lead to some errors.
 To avoid that, we ask users to specify the IDs of both phenotype data (pIDs) and genotype data (gIDs) when fitting the null model.
 Users are responsible to check the consistency between pIDs and formula, and the consistency between gIDs and Geno.mtx.
+}
+\examples{
+
+# example 1  binary phenotype
+# load in phenotype and genotype
+library(SPAGxECCT)
+library(dplyr)
+
+data(package = "SPAGxECCT")
+data("Pheno.mtx")
+data("Geno.mtx")
+data("Geno.mtx.ance1")
+data("Geno.mtx.ance2")
+data("haplo.mtx.ance1")
+data("haplo.mtx.ance2")
+
+Cova.mtx = Pheno.mtx[,c("PC1", "PC2", "PC3", "PC4", "Cov1", "Cov2")]
+E = Pheno.mtx$E
+
+### fit null model
+resid  = SPA_G_Get_Resid(traits = "binary",
+                        y ~ Cov1 + Cov2  + E + PC1 + PC2 + PC3 + PC4,family=binomial(link="logit"),
+                        data=Pheno.mtx,
+                        pIDs=Pheno.mtx$IID,
+                        gIDs=rownames(Geno.mtx))
+
+### Cova.haplo.mtx.list
+
+Cova.haplo.mtx.list = list(haplo.mtx.ance1 = haplo.mtx.ance1,
+                          haplo.mtx.ance2 = haplo.mtx.ance2)
+
+### calculate p values for ancestry 1
+
+binary_res_ance1 = SPAGxEmixCCT_localance(traits = "binary",
+                                         Geno.mtx = Geno.mtx.ance1,
+                                         R = resid,
+                                         haplo.mtx = haplo.mtx.ance1,
+                                         E = E,
+                                         Phen.mtx = Pheno.mtx,
+                                         Cova.mtx = Cova.mtx,
+                                         Cova.haplo.mtx.list = Cova.haplo.mtx.list)
+
+
+colnames(binary_res_ance1) = c("Marker", "MAF.ance1","missing.rate.ance1",
+                              "Pvalue.spaGxE.ance1","Pvalue.spaGxE.Wald.ance1", "Pvalue.spaGxE.CCT.Wald.ance1",
+                              "Pvalue.normGxE.ance1", "Pvalue.betaG.ance1",
+                              "Stat.betaG.ance1","Var.betaG.ance1","z.betaG.ance1")
+
+### calculate p values for ancestry 2
+
+binary_res_ance2 = SPAGxEmixCCT_localance(traits = "binary",
+                                         Geno.mtx = Geno.mtx.ance2,
+                                         R = resid,
+                                         haplo.mtx = haplo.mtx.ance2,
+                                         E = E,
+                                         Phen.mtx = Pheno.mtx,
+                                         Cova.mtx = Cova.mtx,
+                                         Cova.haplo.mtx.list = Cova.haplo.mtx.list)
+
+
+colnames(binary_res_ance2) = c("Marker", "MAF.ance2","missing.rate.ance2",
+                              "Pvalue.spaGxE.ance2","Pvalue.spaGxE.Wald.ance2", "Pvalue.spaGxE.CCT.Wald.ance2",
+                              "Pvalue.normGxE.ance2", "Pvalue.betaG.ance2",
+                              "Stat.betaG.ance2","Var.betaG.ance2","z.betaG.ance2")
+
+### merge data frame
+
+binary.res = merge(binary_res_ance1, binary_res_ance2)
+
+head(binary.res)
+
 }
