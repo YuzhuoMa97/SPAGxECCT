@@ -1,7 +1,7 @@
 # SPAGxE<sub>CCT</sub> 
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
 ## Software dependencies and operating systems
-The package has been tested under linux and windows systems. (The R package will be rewritten with RCPP codes)
+The package has been tested under linux and windows systems. (The R package will be rewritten with RCPP codes soon.)
 ## How to install and load this package
 ```
 library(devtools)  # author version: 2.4.5
@@ -9,7 +9,7 @@ install_github("YuzhuoMa97/SPAGxECCT")
 library(SPAGxECCT)
 ?SPAGxECCT  # manual of SPAGxECCT package
 ```
-Current version is 0.1.0. For older version and version update information, plesase refer to OldVersions.  
+Current version is 0.2.1. For older version and version update information, plesase refer to OldVersions.  
 
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
@@ -40,8 +40,13 @@ SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>
   
 - In step 2, SPAGxEmix<sub>CCT-local</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> estimates the ancestry-specific allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT-local</sub> tests for ancestry-specific marginal genetic effects via ancestry-specific score statistics. If the ancestry-specific marginal genetic effect is not significant, we use ancestry-specific S<sub>G×E(mix)</sub> as the test statistics to characterize ancestry-specific marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to ancestry-specific genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
   
+## The computational efficiency can be greatly enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
+For SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>, the computational efficiency can be greatly enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects! If PGSs are avilable, we can fit a genotype-independent model asross a genome-wide analysis and then directly use regular score statistics as test statistics, followed by a hybrid test using normal approximation and SPA. With PGSs as covariates, the computational efficiency of our proposed methods can be greatly enhanced since the step of constructing statistics with matrix projection or linear regression using genotype can be omitted. In addition, statistical power of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub> can be further gained through incorporating PGSs as covariates with fixed effects. Recent reports have shown that adjusting for PGSs can account for polygenic effects and increase statistical power.
 
-  
+In our work, we employ the idea to implement a two-stage strategy, denoted as SPAGxE<sub>CCT</sub>-PGS, SPAGxEmix<sub>CCT</sub>-PGS, and SPAGxEmix<sub>CCT-local</sub>-PGS. In stage 1, we conduct the first round of GWAS via GWAS tools (such as SAIGE) and then calculate the PGS based on the summary statistics. Alternatively, we can obtain PGS through summary statistics from other databases. In stage 2, the PGS is included as an additional covariate for a genome-wide GxE analysis via SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, or SPAGxEmix<sub>CCT-local</sub>. Note that if we adopt this strategy (incorporating PGSs as covariates) to test for ancestry-specific GxE effects using SPAGxEmix<sub>CCT-local</sub>, we need to use methods which build better PGS by first disentangling such mosaics through local ancestry inference and then taking inferred local ancestry into PGS construction (such as the method of pPRS).
+
+This strategy can greatly improve computational efficiency and statistical power!
+
 ## UK Biobank data analysis results
 
 In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxE<sub>CCT</sub> in ordinal categorical, binary, and quantitative trait analysis.  
