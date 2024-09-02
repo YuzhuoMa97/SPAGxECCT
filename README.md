@@ -34,12 +34,15 @@ SPAGxE<sub>CCT</sub> relies on an assumption that the genotypes for different in
 ## Introduction of SPAGxEmix<sub>CCT-local</sub>
 SPAGxEmix<sub>CCT-local</sub> is a G×E analysis framework which is applicable to include local ancestry to enhance statistical powers for analyses of multi-way admixed populations. 
 
-SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>, which can efficiently identify ancestry-specific GxE effects by incorporating local ancestry. Moreover, we propose SPAGxEmix<sub>CCT-local-global</sub>, which combines the p values from SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub> and can serve as an optimal unified approach across various cross-ancestry genetic architectures. Similar as SPAGxEmix<sub>CCT-local</sub>, SPAGxEmix<sub>CCT-local</sub> contains two main steps. 
+SPAGxEmix<sub>CCT</sub> can further be extended to SPAGxEmix<sub>CCT-local</sub>, which can efficiently identify ancestry-specific GxE effects by incorporating local ancestry. Moreover, we propose SPAGxEmix<sub>CCT-local-global</sub>, which combines the p values from SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub> and can serve as an optimal unified approach across various cross-ancestry genetic architectures. Similar as SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub> contains two main steps. 
 
-- In step 1, SPAGxEmix<sub>CCT-local</sub> fits a covariates-only model and then calculates model residuals. Details can be found in step 1 of SPAGxE<sub>CCT</sub>.
+- In step 1, SPAGxEmix<sub>CCT-local</sub> fits a genotype-independent (covariates-only) model and then calculates model residuals. Details can be found in step 1 of SPAGxE<sub>CCT</sub>.
   
 - In step 2, SPAGxEmix<sub>CCT-local</sub> identifies genetic variants with marginal G×E effect on the trait of interest. First, SPAGxEmix<sub>CCT</sub> estimates the ancestry-specific allele frequencies of variants being test. Then, SPAGxEmix<sub>CCT-local</sub> tests for ancestry-specific marginal genetic effects via ancestry-specific score statistics. If the ancestry-specific marginal genetic effect is not significant, we use ancestry-specific S<sub>G×E(mix)</sub> as the test statistics to characterize ancestry-specific marginal G×E effect. Otherwise, statistics S<sub>G×E(mix)</sub> is updated to ancestry-specific genotype-adjusted test statistics. The hybrid strategy to balance the computational efficiency and accuracy is the same as in SPAGxE<sub>CCT</sub>.
-  
+
+# Compared with traditional statistical testing methods accounting for local ancestry, SPAGxEmix<sub>CCT-local</sub> is much more computationally efficient.#
+SPAGxEmix<sub>CCT-local</sub> uses local ancestry information to estimate distribution of ancestry-specific genotypes, and thus the null distribution of test statistics. Hence, for most testings (ancestry-specific genetic main effect p values > 0.001) in a genome-wide GxE analysis, SPAGxEmix<sub>CCT-local</sub> used resudials from a genotype-independent model (which only needed to fit once across a genome-wide analysis) to construct test statistics. However, rather than the approximation of genotype distribution, traditional statistical testing methods need to incorporate local ancestry as covariates and fit a specific model for each variant to test, which is of high computational burdern in a genome-wide analysis. 
+
 ## The computational efficiency can be greatly enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
 For SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>, the computational efficiency can be greatly enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects! If PGSs are avilable, we can fit a genotype-independent model asross a genome-wide analysis and then directly use regular score statistics as test statistics, followed by a hybrid test using normal approximation and SPA. With PGSs as covariates, the computational efficiency of our proposed methods can be greatly enhanced since the step of constructing statistics with matrix projection or linear regression using genotype can be omitted. In addition, statistical power of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub> can be further gained through incorporating PGSs as covariates with fixed effects. Recent reports have shown that adjusting for PGSs can account for polygenic effects and increase statistical power.
 
@@ -54,7 +57,7 @@ In the paper **A scalable and accurate framework for large-scale genome-wide gen
 **Summary statistics of time-to-event and binary traits in UK Biobank is available [here](https://zenodo.org/records/11571404).**
 
 ## Reference
-See **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits** (to be updated) for more details about SPAGxE<sub>CCT</sub> and SPAGxEmix<sub>CCT</sub>.
+See **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits** (to be updated) for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>.
 
 
 
