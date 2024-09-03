@@ -106,7 +106,7 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
 #' @param R model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)
-#' @param E a numeric environmental factor with each element as a evnironmental factor value of an individual.
+#' @param E a numeric environmental factor with each element as an environmental factor value of an individual.
 #' @param Phen.mtx phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
 #' @param epsilon a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.
@@ -114,10 +114,10 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
 #'               otherwise, its p value is calculated based on a saddlepoint approximation.
 #' @param impute.method a character string (default: "fixed") to specify the method to impute missing genotypes.
-#'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. 2p where p is MAF).
+#'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e., 2MAF).
 #' @param missing.cutoff a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 #'                       Any variant with missing rate higher than this cutoff will be excluded from the analysis.
-#' @param min.maf a numeric value (default: 0.00001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
+#' @param min.maf a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param G.model model type
 #' @details To run SPAGxECCT, the following two steps are required:
 #' \itemize{
@@ -280,12 +280,12 @@ SPAGxE_CCT = function(traits="survival/binary/quantitative/categorical",
                       R,                     # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
                       E,                     # environmental factor
                       Phen.mtx,              # include surv.time, event
-                      Cova.mtx,              #  other covariates (such as age, gender, and top PCs) excluding E
+                      Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
                       epsilon = 0.001,       # a fixed value
                       Cutoff = 2,
                       impute.method = "fixed",
                       missing.cutoff = 0.15,
-                      min.maf = 0.00001,
+                      min.maf = 0.001,
                       G.model = "Add")
 {
   ## check input
@@ -358,7 +358,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
                               Cutoff = 2,
                               impute.method = "fixed",
                               missing.cutoff = 0.15,
-                              min.maf = 0.00001,
+                              min.maf = 0.001,
                               G.model = "Add")
 
 {
@@ -499,7 +499,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
 #' @param R model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)
-#' @param E a numeric environmental factor with each element as a evnironmental factor value of an individual.
+#' @param E a numeric environmental factor with each element as an environmental factor value of an individual.
 #' @param Phen.mtx phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
 #' @param topPCs a covariate matrix including the SNP-derived principle components (PCs) containing all information of population structure.
@@ -511,7 +511,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e., 2MAF).
 #' @param missing.cutoff a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 #'                       Any variant with missing rate higher than this cutoff will be excluded from the analysis.
-#' @param min.maf a numeric value (default: 0.00001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
+#' @param min.maf a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param G.model model type
 #' @details To run SPAGxEmixCCT, the following two steps are required:
 #' \itemize{
@@ -976,6 +976,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E and local ancestry counts (the number of haplotypes).
 #' @param Cova.haplo.mtx.list a list with each element as a matrix of local ancestry counts (the number of haplotypes) of an ancestry (i.e., haplo.mtx of an ancestry).
 #'                            If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) elements from (K-1) ancestries is enough.
+#'                            Names of all elements of Cova.haplo.mtx.list are needed.
 #' @param epsilon a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.
 #' @param Cutoff a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
 #'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
@@ -984,7 +985,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 #'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. haplo.num * MAF).
 #' @param missing.cutoff a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 #'                       Any variant with missing rate higher than this cutoff will be excluded from the analysis.
-#' @param min.maf a numeric value (default: 0.00001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
+#' @param min.maf a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param G.model model type
 #' @details To run SPAGxEmixCCT_local, the following two steps are required:
 #' \itemize{
@@ -1022,10 +1023,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 #'
 #'# example 1  binary phenotype
 #'# load in phenotype and genotype
-#'library(SPAGxECCT)
-#'library(dplyr)
 #'
-#'data(package = "SPAGxECCT")
 #'data("Pheno.mtx")
 #'data("Geno.mtx")
 #'data("Geno.mtx.ance1")
@@ -1083,9 +1081,9 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 #'                               "Stat.betaG.ance2","Var.betaG.ance2","z.betaG.ance2")
 #'
 #'### merge data frame
-#'
 #'binary.res = merge(binary_res_ance1, binary_res_ance2)
 #'
+#'#'# we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
 #'head(binary.res)
 #'
 #' @export
@@ -1105,7 +1103,7 @@ SPAGxEmixCCT_localance = function(traits="survival/binary/quantitative/categoric
                                   epsilon = 0.001,       # a fixed value
                                   impute.method = "fixed",
                                   missing.cutoff = 0.15,
-                                  min.maf = 0.00001,
+                                  min.maf = 0.0001,
                                   G.model = "Add")
 
 
@@ -1185,13 +1183,14 @@ SPAGxEmixCCT_localance = function(traits="survival/binary/quantitative/categoric
 #'
 #' One-SNP-version SPAGxEmixCCT_localance() function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
 #' @param g a numeric ancestry-specific genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.
+#' @param haplo_numVec a vector of local ancestry counts (the number of haplotypes) of the ancestry to analyze at a genetic variant.
 #' @param others the same as function SPAGxEmixCCT_localance(). NOTE that we do not check subject order in this one-snp-version !!!
 #' @return the same as function SPAGxEmixCCT_localance().
 #' @export
 
 SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/categorical",
                                           g,                     # ancestry-specific genotype vector
-                                          haplo_numVec,
+                                          haplo_numVec,          # a vector of local ancestry counts
                                           R,                     # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
                                           E,                     # environmental factor
                                           Phen.mtx,              # include surv.time, event
@@ -1201,7 +1200,7 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
                                           Cutoff = 2,
                                           impute.method = "fixed",
                                           missing.cutoff = 0.15,
-                                          min.maf = 0.00001,
+                                          min.maf = 0.0001,
                                           G.model = "Add")
 
 {
@@ -1238,25 +1237,25 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
 
   VarS1 = sum(R^2 * g.var.est.Vec)         # estimated variance of S1
 
-  Z1 = (S1 - S1.mean) / sqrt(VarS1)            # standardize S1
-  pval.norm1 = pnorm(-abs(Z1))*2   # p value for ancestry-specific marginal genetic effect from normal approximation
+  Z1 = (S1 - S1.mean) / sqrt(VarS1)        # standardize S1
+  pval.norm1 = pnorm(-abs(Z1))*2           # p value for ancestry-specific marginal genetic effect from normal approximation
 
   print(pval.norm1)
 
   if(pval.norm1 > epsilon){
 
-    S2 = sum(g*E*R)                # ancestry-specific test statistic for ancestry-specific marginal GxE effect
+    S2 = sum(g*E*R)                                                  # ancestry-specific test statistic for ancestry-specific marginal GxE effect
     lambda = sum(haplo_numVec * E * R^2) / sum(haplo_numVec * R^2)   # lambda = Cov/VarS1
-    S_GxE = S2 - lambda * S1       # new test statistic for ancestry-specific marginal GxE effect
-    R.new = (E - lambda) * R       # new residuals
+    S_GxE = S2 - lambda * S1                                         # new test statistic for ancestry-specific marginal GxE effect
+    R.new = (E - lambda) * R                                         # new residuals
 
     ################### SPA
 
     res = SPAmix_localance_one_SNP(g=g, R=R.new, haplo_numVec=haplo_numVec, min.maf=min.maf)  # the third element is p-value from SPA-G, the fourth element is p-value from normal approximation
 
 
-    pval.spaG = res[3]                                # p value from SPA
-    pval.norm = res[4]                                # p value from normal approximation
+    pval.spaG = res[3]                                                                        # p value from SPA
+    pval.norm = res[4]                                                                        # p value from normal approximation
 
     # updated on 2023-12-27
     pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, SPAGxE_normal, and normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
@@ -1272,10 +1271,10 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
 
     # updated on 2023-10-24
 
-    res = SPAmix_localance_one_SNP(g=g, R=R.new0, haplo_numVec=haplo_numVec, min.maf=min.maf)              # the third element is p-value from SPA-G, the fourth element is p-value from normal approximation
+    res = SPAmix_localance_one_SNP(g=g, R=R.new0, haplo_numVec=haplo_numVec, min.maf=min.maf)       # the third element is p-value from SPA-G, the fourth element is p-value from normal approximation
 
-    pval.spaGxE = res[3]                                # p value from SPA-G
-    pval.norm = res[4]                                # p-value from normal approximation
+    pval.spaGxE = res[3]                                                                            # p value from SPA
+    pval.norm = res[4]                                                                              # p-value from normal approximation
 
     # Wald test
 
@@ -1349,49 +1348,6 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
 
   return(output.one.snp)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #### other functions #############################################################################################################################################3

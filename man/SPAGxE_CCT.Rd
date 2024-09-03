@@ -15,7 +15,7 @@ SPAGxE_CCT(
   Cutoff = 2,
   impute.method = "fixed",
   missing.cutoff = 0.15,
-  min.maf = 1e-05,
+  min.maf = 0.001,
   G.model = "Add"
 )
 }
@@ -26,7 +26,7 @@ Missing genotypes should be coded as NA. Both hard-called and imputed genotype d
 
 \item{R}{model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)}
 
-\item{E}{a numeric environmental factor with each element as a evnironmental factor value of an individual.}
+\item{E}{a numeric environmental factor with each element as an environmental factor value of an individual.}
 
 \item{Phen.mtx}{phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.}
 
@@ -39,12 +39,12 @@ If the test statistic lies within the standard deviation cutoff, its p value is 
 otherwise, its p value is calculated based on a saddlepoint approximation.}
 
 \item{impute.method}{a character string (default: "fixed") to specify the method to impute missing genotypes.
-"fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e. 2p where p is MAF).}
+"fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e., 2MAF).}
 
 \item{missing.cutoff}{a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 Any variant with missing rate higher than this cutoff will be excluded from the analysis.}
 
-\item{min.maf}{a numeric value (default: 0.00001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
+\item{min.maf}{a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
 
 \item{G.model}{model type}
 }

@@ -17,7 +17,7 @@ SPAGxEmixCCT_localance(
   epsilon = 0.001,
   impute.method = "fixed",
   missing.cutoff = 0.15,
-  min.maf = 1e-05,
+  min.maf = 1e-04,
   G.model = "Add"
 )
 }
@@ -42,7 +42,8 @@ otherwise, its p value is calculated based on a saddlepoint approximation.}
 \item{Cova.mtx}{a covariate matrix excluding the environmental factor E and local ancestry counts (the number of haplotypes).}
 
 \item{Cova.haplo.mtx.list}{a list with each element as a matrix of local ancestry counts (the number of haplotypes) of an ancestry (i.e., haplo.mtx of an ancestry).
-If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) elements from (K-1) ancestries is enough.}
+If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) elements from (K-1) ancestries is enough.
+Names of all elements of Cova.haplo.mtx.list are needed.}
 
 \item{epsilon}{a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.}
 
@@ -52,7 +53,7 @@ If all samples are from K ancestries, then Cova.haplo.mtx.list with (K-1) elemen
 \item{missing.cutoff}{a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 Any variant with missing rate higher than this cutoff will be excluded from the analysis.}
 
-\item{min.maf}{a numeric value (default: 0.00001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
+\item{min.maf}{a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
 
 \item{G.model}{model type}
 }
@@ -98,10 +99,7 @@ Users are responsible to check the consistency between pIDs and formula, and the
 
 # example 1  binary phenotype
 # load in phenotype and genotype
-library(SPAGxECCT)
-library(dplyr)
 
-data(package = "SPAGxECCT")
 data("Pheno.mtx")
 data("Geno.mtx")
 data("Geno.mtx.ance1")
@@ -159,9 +157,9 @@ colnames(binary_res_ance2) = c("Marker", "MAF.ance2","missing.rate.ance2",
                               "Stat.betaG.ance2","Var.betaG.ance2","z.betaG.ance2")
 
 ### merge data frame
-
 binary.res = merge(binary_res_ance1, binary_res_ance2)
 
+#'# we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
 head(binary.res)
 
 }

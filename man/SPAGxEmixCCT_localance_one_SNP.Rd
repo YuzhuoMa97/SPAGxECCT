@@ -17,12 +17,14 @@ SPAGxEmixCCT_localance_one_SNP(
   Cutoff = 2,
   impute.method = "fixed",
   missing.cutoff = 0.15,
-  min.maf = 1e-05,
+  min.maf = 1e-04,
   G.model = "Add"
 )
 }
 \arguments{
 \item{g}{a numeric ancestry-specific genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.}
+
+\item{haplo_numVec}{a vector of local ancestry counts (the number of haplotypes) of the ancestry to analyze at a genetic variant.}
 
 \item{others}{the same as function SPAGxEmixCCT_localance(). NOTE that we do not check subject order in this one-snp-version !!!}
 }
