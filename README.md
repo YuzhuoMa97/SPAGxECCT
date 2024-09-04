@@ -55,6 +55,10 @@ In the paper **A scalable and accurate framework for large-scale genome-wide gen
 
 **Summary statistics of time-to-event and binary traits in UK Biobank is available [here](https://zenodo.org/records/11571404).**
 
+## Codes for simulation studies
+
+Codes used in simulation studies of SPAGxECCT project can be found in the folder **simulation studies** and will be uploaded to **CodeOcean** as soon as possible!!!
+
 ## Reference
 See **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits** (to be updated) for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>.
 
