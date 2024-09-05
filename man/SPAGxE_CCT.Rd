@@ -73,8 +73,8 @@ To run SPAGxECCT, the following two steps are required:
 
 SPAGxE_CCT() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
-Hence, when the score statistic is close to 0 (i.e. p-values are not small), we use the normal distribution approximation.
-And when the score statistic is far away from 0 (i.e. p-values are small), we use the saddlepoint approximation.
+Hence, when the score statistic is close to 0 (i.e., p-values are not small), we use the normal distribution approximation.
+And when the score statistic is far away from 0 (i.e., p-values are small), we use the saddlepoint approximation.
 Argument 'Cutoff' is to specify the standard deviation cutoff.
 
 To calibrate the score statistics, SPAGxE_CCT() uses martingale residuals which are calculated via R package survival for time-to-event trait analysis, residuals from glm() for binary trait analysis, resuduals from lm() for quantitative trait analysis, and residuals from clm() for ordinal categorical trait analysis via R package ordinal.
@@ -121,9 +121,9 @@ R = SPA_G_Get_Resid("survival",
 
 survival.res = SPAGxE_CCT("survival",
                           Geno.mtx,                     # genotype vector
-                          R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
+                          R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                           E,                            # environmental factor
-                          Phen.mtx,                     # include surv.time, event
+                          Phen.mtx,                     # phenotype dataframe
                           Cova.mtx)
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
@@ -159,9 +159,9 @@ R = SPA_G_Get_Resid("binary",
 
 binary.res = SPAGxE_CCT("binary",
                         Geno.mtx,                     # genotype vector
-                        R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
+                        R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                         E,                            # environmental factor
-                        Phen.mtx,                     # include surv.time, event
+                        Phen.mtx,                     # phenotype dataframe
                         Cova.mtx)
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
@@ -197,8 +197,8 @@ R = SPA_G_Get_Resid("quantitative",
                     gIDs=paste0("IID-",1:N))
 
 quantitative.res = SPAGxE_CCT("quantitative",
-                               Geno.mtx,                     # genotype vector
-                               R,                     # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
+                               Geno.mtx,              # genotype vector
+                               R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                E,                     # environmental factor
                                Phen.mtx,              # include surv.time, event
                                Cova.mtx)

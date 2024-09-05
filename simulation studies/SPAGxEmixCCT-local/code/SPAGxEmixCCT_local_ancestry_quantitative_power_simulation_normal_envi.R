@@ -8,33 +8,39 @@
 
 library(dplyr)
 library(data.table)
+
+#### install and library SPAGxECCT package
+library(remotes)                            # remotes library requires less dependency packages than devtools
+install_github("YuzhuoMa97/SPAGxECCT")      # The INSTALL_opts is required in Windows OS.
 library(SPAGxECCT)
+# ?SPAGxECCT                                # manual of SPAGxECCT package
+# or source("~/capsule/code/R/SPAGxECCT.R")
 
 N = 10000 # sample size
 nSNP = 10 # number of SNPs with marginal GxE effects
 
 prevalence = 0.2 # prevalence in the admixed population
-MAF_ance1 = 0.1  # minor allele frequencies of SNPs with marginal GxE effects in ancestry 1
-MAF_ance2 = 0.05 # minor allele frequencies of SNPs with marginal GxE effects in ancestry 2
+MAF_ance1 = 0.1  # minor allele frequency of SNPs with marginal GxE effects in ancestry 1
+MAF_ance2 = 0.05 # minor allele frequency of SNPs with marginal GxE effects in ancestry 2
 
-Gamma_ance1 = 0.2 # marginal GxE effect size of ancestry 1
+Gamma_ance1 = 0.2   # marginal GxE effect size of ancestry 1
 Gamma_ance2 = 0.5   # marginal GxE effect size of ancestry 2
 
 #### Main function to simulate quantitative phenotype
-data.simu.quantitative= function(N,                # Sample size
+data.simu.quantitative= function(N,                 # Sample size
                                  beta0,             # intercept term
-                                 gamma1,            # Genetic effect
-                                 gamma2,
-                                 g1,
-                                 g2,                # Genotype vector
-                                 bVec = 0,
-                                 seed)         # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
+                                 gamma1,            # Marginal GxE effect size of ancestry 1
+                                 gamma2,            # Marginal GxE effect size of ancestry 2
+                                 g1,                # Ancestry-spefific genotype vector of ancestry 1
+                                 g2,                # Ancestry-spefific genotype vector of ancestry 2
+                                 bVec = 0,          # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
+                                 seed)         
 {
   set.seed(seed)
   Cov1 = rnorm(N)           # Covariate 1
   Cov2 = rbinom(N, 1, 0.5)  # Covariate 2
   
-  E = rnorm(N)            # Environmental factor
+  E = rnorm(N)              # Environmental factor
   
   betas = c(0.5, 0.5, 0.5)     # Coefficient vector of fixed effects
   eta = beta0 + betas[1] * Cov1 + betas[2] * Cov2 + betas[3] * E + gamma1 * g1 * E + gamma2 * g2 * E + bVec
@@ -69,7 +75,7 @@ G1 = lapply(1:N, function(i){
 
 G2 = lapply(1:N, function(i){
   g = rbinom(nSNP, l[i,] , MAFVec2)
-})%>% do.call("rbind",.) %>% as.matrix() # risk allele from ancestry 2
+})%>% do.call("rbind",.) %>% as.matrix()  # risk allele from ancestry 2
 
 rownames(G1) =rownames(G2) = rownames(l) = paste0("IID-",1:N)
 colnames(G1) =colnames(G2) = colnames(l) =  paste0("rs",1:nSNP)
@@ -107,7 +113,8 @@ pheno = data.simu.quantitative(N=N, gamma1 = Gamma_ance1, gamma2 = Gamma_ance2
                                , beta0 = 0, seed = seed) %>% mutate(ID = paste0("IID-",1:N)) %>% select(ID, y, Cov1, Cov2, E) %>% rename(IID=ID)
 
 
-load("/gdata01/user/yuzhuoma/SPA-G/tractor/data/typeIerror_v1/topPCs/top10PCs.RData") # load in top 10 PCs corresponding to the global ancestry alpha
+# load("/gdata01/user/yuzhuoma/SPA-G/tractor/data/typeIerror_v1/topPCs/top10PCs.RData") # load in top 10 PCs corresponding to the global ancestry alpha
+load("~/capsule/code/simulation studies/SPAGxEmixCCT-local/data/top10PCs.RData") # load in top 10 PCs corresponding to the global ancestry alpha
 
 Pheno.mtx = cbind(pheno, top10PCs[,1:4]) %>% rename(PC1="Comp.1", PC2="Comp.2", PC3="Comp.3", PC4="Comp.4") %>% mutate(Y = y)
 Cova.mtx = Pheno.mtx %>% select(PC1, PC2, PC3, PC4, Cov1, Cov2) # a covariate matrix excluding the environmental factor E and local ancestry counts (the number of haplotypes).
@@ -160,5 +167,7 @@ quantitative.res = merge(quantitative_res_ance1, quantitative_res_ance2)
 # we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
 head(quantitative.res)
 
+#### save results
+write.csv(quantitative.res, file = "~/capsule/results/SPAGxEmixCCT_local_ancestry_quantitative_power_simulation_normal_envi_example_results.csv")
 
 

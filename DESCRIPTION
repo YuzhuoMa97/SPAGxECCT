@@ -1,8 +1,8 @@
 Package: SPAGxECCT
 Type: Package
 Title: A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis.
-Version: 0.2.2
-Date: 2024-08-15
+Version: 0.2.3
+Date: 2024-09-05
 Author: Yuzhuo Ma, Wenjian Bi
 Maintainer: Yuzhuo Ma <yuzhuoma@stu.pku.edu.cn>
 Description: A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis of binary traits, quantitative traits, time-to-event traits, and ordinal categorical traits.

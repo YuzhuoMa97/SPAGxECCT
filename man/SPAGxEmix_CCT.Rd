@@ -147,9 +147,9 @@ R = SPA_G_Get_Resid("survival",
 
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                             Geno.mtx = Geno.mtx,                     # genotype vector
-                            R = R,                                   # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
+                            R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                             E = E,                                   # environmental factor
-                            Phen.mtx = Phen.mtx,                     # include surv.time, event
+                            Phen.mtx = Phen.mtx,                     # phenotype dataframe
                             Cova.mtx = Cova.mtx,
                             topPCs = Cova.mtx[,"PC1"])
 

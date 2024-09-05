@@ -73,14 +73,14 @@ GenoMat = t(matrix(rbinom(N*nSNP, 2, MAFVec), nSNP, N))
 rownames(GenoMat) = paste0("IID-",1:N)
 colnames(GenoMat) = paste0("SNP-",1:nSNP)
 
+#### install and library SPAGxECCT package
+library(remotes)                            # remotes library requires less dependency packages than devtools
+install_github("YuzhuoMa97/SPAGxECCT")      # The INSTALL_opts is required in Windows OS.
+library(SPAGxECCT)
+# ?SPAGxECCT                                # manual of SPAGxECCT package
+# or source("~/capsule/code/R/SPAGxECCT.R")
 
 #### calculate p values to evaluate powers of SPAGxECCT
-
-#### install SPAGxECCT package
-# library(devtools)  # author version: 2.4.5
-# install_github("YuzhuoMa97/SPAGxECCT")
-library(SPAGxECCT)
-# ?SPAGxECCT  # manual of SPAGxECCT package
 
 binary_res = c()
 for (i in 1:nSNP) {
@@ -119,5 +119,6 @@ for (i in 1:nSNP) {
 head(binary_res)
 
 
-
+#### save results
+write.csv(binary_res, file = "~/capsule/results/SPAGxECCT_binary_power_simulation_normal_envi_example_results.csv")
 

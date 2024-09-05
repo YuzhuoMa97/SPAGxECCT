@@ -150,11 +150,12 @@ colnames(GenoMat) = paste0("SNP-",1:nSNP)
 
 #### calculate p values to evaluate powers of SPAGxECCT
 
-#### install SPAGxECCT package
-# library(devtools)  # author version: 2.4.5
-# install_github("YuzhuoMa97/SPAGxECCT")
+#### install and library SPAGxECCT package
+library(remotes)                            # remotes library requires less dependency packages than devtools
+install_github("YuzhuoMa97/SPAGxECCT")      # The INSTALL_opts is required in Windows OS.
 library(SPAGxECCT)
-# ?SPAGxECCT  # manual of SPAGxECCT package
+# ?SPAGxECCT                                # manual of SPAGxECCT package
+# or source("~/capsule/code/R/SPAGxECCT.R")
 
 categorical_res = c()
 for (i in 1:nSNP) {
@@ -188,6 +189,8 @@ for (i in 1:nSNP) {
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with ordinal categorical phenotypes
 head(categorical_res)
 
+#### save results
+write.csv(categorical_res, file = "~/capsule/results/SPAGxECCT_categorical_power_simulation_normal_envi_example_results.csv")
 
 
 

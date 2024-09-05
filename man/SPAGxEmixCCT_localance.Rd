@@ -159,7 +159,7 @@ colnames(binary_res_ance2) = c("Marker", "MAF.ance2","missing.rate.ance2",
 ### merge data frame
 binary.res = merge(binary_res_ance1, binary_res_ance2)
 
-#'# we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
+# we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
 head(binary.res)
 
 }

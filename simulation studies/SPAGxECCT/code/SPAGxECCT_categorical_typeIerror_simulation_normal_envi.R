@@ -162,11 +162,12 @@ colnames(GenoMat_0) = paste0("SNP-",1:nSNP_0)
 
 #### evaluate type one error rates using SPAGxECCT
 
-#### install SPAGxECCT package
-# library(devtools)  # author version: 2.4.5
-# install_github("YuzhuoMa97/SPAGxECCT")
+#### install and library SPAGxECCT package
+library(remotes)                            # remotes library requires less dependency packages than devtools
+install_github("YuzhuoMa97/SPAGxECCT")      # The INSTALL_opts is required in Windows OS.
 library(SPAGxECCT)
-# ?SPAGxECCT  # manual of SPAGxECCT package
+# ?SPAGxECCT                                # manual of SPAGxECCT package
+# or source("~/capsule/code/R/SPAGxECCT.R")
 
 
 X1 = Phen.mtx$X1                   # Covariate 1
@@ -201,3 +202,6 @@ categorical_res_1 = SPAGxE_CCT(traits = "categorical",           # categorical t
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with categorical phenotypes
 head(categorical_res_1)
 
+#### save results
+write.csv(categorical_res_0, file = "~/capsule/results/SPAGxECCT_categorical_typeIerror_simulation_normal_envi_example_results_0.csv")
+write.csv(categorical_res_1, file = "~/capsule/results/SPAGxECCT_categorical_typeIerror_simulation_normal_envi_example_results_1.csv")

@@ -67,4 +67,5 @@ GRM_PCA = function(Geno.mtx, N, nSNP)
 
 
 top10PCs = GRM_PCA(Geno.mtx = G_PC, N = N, nSNP = nSNP)
-save(top10PCs, file = "/gdata01/user/yuzhuoma/SPA-G/tractor/data/typeIerror_v1/topPCs/top10PCs.RData")
+# save(top10PCs, file = "/gdata01/user/yuzhuoma/SPA-G/tractor/data/typeIerror_v1/topPCs/top10PCs.RData")
+save(top10PCs, file = "~/capsule/code/simulation studies/SPAGxEmixCCT-local/data/top10PCs.RData")
