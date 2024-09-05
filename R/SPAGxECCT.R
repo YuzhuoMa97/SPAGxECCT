@@ -1238,7 +1238,7 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
   Z1 = (S1 - S1.mean) / sqrt(VarS1)        # standardize S1
   pval.norm1 = pnorm(-abs(Z1))*2           # p value for ancestry-specific marginal genetic effect from normal approximation
 
-  print(pval.norm1)
+  # print(pval.norm1)
 
   if(pval.norm1 > epsilon){
 
