@@ -57,9 +57,9 @@ In the paper **A scalable and accurate framework for large-scale genome-wide gen
 
 ## Codes for simulation studies
 
-Main codes used in simulation studies of SPAGxECCT project can be found in the folder **simulation studies** and have been uploaded to **Code Ocean**.
+The primary codes used in the SPAGxECCT project's simulation studies are available in the **simulation studies** folder and have also been uploaded to **Code Ocean**.
 
-We provided codes for GxE analyses of time-to-event, binary, quantitative, and ordinal categorical traits. For analyses of homogeneous populations, please refer to the **simulation studies/SPAGxECCT** folder. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. For analyses of using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in admixed populations, please refer to the **simulation studies/SPAGxEmixCCT_local** folder. 
+These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits. For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. If you are using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
 
 With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
 
