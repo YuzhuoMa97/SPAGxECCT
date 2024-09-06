@@ -59,7 +59,7 @@ In the paper **A scalable and accurate framework for large-scale genome-wide gen
 
 Main codes used in simulation studies of SPAGxECCT project can be found in the folder **simulation studies** and have been uploaded to **CodeOcean**.
 
-We provided codes for GxE analyses of time-to-event, binary, quantitative, and ordinal categorical traits. For analyses of homogeneous populations, please refer to the **simulation studies/SPAGxECCT** folder. For analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. For analyses of using SPAGxEmixCCT-local to identify ancestry-specific G×E effects by incorporating local ancestry in admixed populations, please refer to the **simulation studies/SPAGxEmixCCT_local** folder.
+We provided codes for GxE analyses of time-to-event, binary, quantitative, and ordinal categorical traits. For analyses of homogeneous populations, please refer to the **simulation studies/SPAGxECCT** folder. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. For analyses of using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in admixed populations, please refer to the **simulation studies/SPAGxEmixCCT_local** folder.
 
 
 ## Reference
