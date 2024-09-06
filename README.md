@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c059b50a-dc6e-4b9b-a7fc-7458eec52b93)# SPAGxE<sub>CCT</sub> 
+# SPAGxE<sub>CCT</sub> 
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
 ## Software dependencies and operating systems
 The package has been tested under linux and windows systems. (The R package will be rewritten with RCPP codes and support genotype data in PLINK format soon!)
