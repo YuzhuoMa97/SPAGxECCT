@@ -1,5 +1,5 @@
 # cd /gdata01/user/yuzhuoma/GxE/code_ocean/
-# sbatch -J surv_admixed --mem=4000M -t 1-0:0 --array=1-1 -o log/%A_%a.log --wrap='Rscript SPAGxEmixCCT_AdmixedPopulationAnalysis_binary_simulation_normal_envi.R $SLURM_ARRAY_TASK_ID'
+# sbatch -J binary_admixed --mem=4000M -t 1-0:0 --array=1-1 -o log/%A_%a.log --wrap='Rscript SPAGxEmixCCT_AdmixedPopulationAnalysis_binary_simulation_normal_envi.R $SLURM_ARRAY_TASK_ID'
 
 # args=commandArgs(TRUE)
 # print(args)
