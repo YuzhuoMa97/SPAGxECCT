@@ -15,7 +15,7 @@ Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any p
 
 ## Introduction of SPAGxE<sub>CCT</sub> 
 
-**SPAGxE<sub>CCT</sub> is a G×E analysis framework designed to handle a wide range of complex traits with intricate structures, including time-to-event, ordinal categorical, binary, quantitative, longitudinal, and other complex traits.** The framework involves two main steps:
+**SPAGxE<sub>CCT</sub> is a G×E analysis framework designed for a wide range of complex traits with intricate structures, including time-to-event, ordinal categorical, binary, quantitative, longitudinal, and other complex traits.** The framework involves two main steps:
 
 - Step 1: SPAGxE<sub>CCT</sub> fits a covariates-only model to calculate model residuals. These covariates include, but are not limited to, confounding factors such as age, gender, SNP-derived principal components (PCs), and environmental factors. The specifics of the model and residuals vary depending on the trait type. Since the covariates-only model is genotype-independent, it only needs to be fitted once across a genome-wide analysis.
 
