@@ -48,7 +48,7 @@ SPAGxEmix<sub>CCT-local</sub> extends SPAGxEmix<sub>CCT</sub> by integrating loc
 
 **Compared to traditional statistical testing methods that account for local ancestry, SPAGxEmix<sub>CCT-local</sub> offers much greater computational efficiency.** SPAGxEmix<sub>CCT-local</sub> leverages local ancestry information to estimate the distribution of ancestry-specific genotypes and the null distribution of test statistics. For most tests (ancestry-specific genetic main effect p-values > 0.001) in a genome-wide G×E analysis, SPAGxEmix<sub>CCT-local</sub> utilizes residuals from a genotype-independent model (fitted only once across the genome-wide analysis) to construct test statistics. In contrast, traditional methods must incorporate local ancestry as covariates and fit a separate model for each variant, which is computationally burdensome for genome-wide analyses.
 
-## The computational efficiency can be greatly enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
+## The computational efficiency and statictical power can be enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
 
 Recent reports have shown that adjusting for PGSs can account for polygenic effects and increase statistical power. For SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>, incorporating polygenic scores (PGSs) as covariates with fixed effects can significantly enhance computational efficiency. When accurate PGSs are available, a genotype-independent model can be fitted across genome-wide analyses, allowing us to use regular score statistics as test statistics, followed by a hybrid test employing normal approximation and SPA. By including PGSs as covariates, we eliminate the need for constructing statistics through matrix projection or linear regression using genotype data, thereby improving computational efficiency. Additionally, incorporating PGSs can further boost the statistical power of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub> by accounting for polygenic effects, as recent studies have demonstrated that adjusting for PGSs enhances statistical power.
 
@@ -60,6 +60,11 @@ In our approach, we implement a two-stage strategy, denoted as SPAGxE<sub>CCT</s
 This is a general strategy, and currently, we do not possess a function that can directly execute this functionality. Polygenic scoring accuracy varies across the genetic ancestry. When applying PGS-adjustment strategy using SPAGxEmix<sub>CCT</sub>, accurate PGSs need to be constructed using methods designed for multi-ancestry (such as PRS<sub>multi</sub> method) or admixed individuals (such as GAUDI method). When applying this strategy to test for ancestry-specific GxE effects with SPAGxEmix<sub>CCT-local</sub>, it is important to use methods that improve PGS construction by first disentangling such mosaics through local ancestry inference and then taking inferred local ancestry into PGS construction, such as the pPRS method.
 
 This strategy improves both computational efficiency and statistical power. In SPAGxE reproducibility, we will display how to construct LOCO-PGSs via the clumping and thresholding (C+T) method based on summary statistics of SPAGRM. We plan to add a function to approximate marginal genetic effects to facilitate PGS construction.
+
+## Rank-based inverse normal transformation to enhance statistical power
+
+Model residuals from fitted null model can be highly unbalanced (especially for longitudinal pjenotypes). In this context, we find that using a rank-based inverse normal transformation (INT) for model residuals can greatly improve empirical power. We propose SPAGxE<sub>CCT(INT)</sub>, SPAGxEmix<sub>CCT(INT)</sub>, or SPAGxEmix<sub>CCT-local(INT)</sub> in which inverse normal transformed model residuals are taken as input, and p values from SPAGxE<sub>CCT(INT)</sub>, SPAGxEmix<sub>CCT(INT)</sub>, or SPAGxEmix<sub>CCT-local(INT)</sub> and SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, or SPAGxEmix<sub>CCT-local</sub> can be combined via Cauchy combination test (CCT).
+
 
 ## UK Biobank data analysis results
 
