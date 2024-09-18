@@ -54,7 +54,9 @@ As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a scalab
 
 SPAGxEmix<sub>CCT</sub>+ involves three main steps:
 
-- Step 0: SPAGxEmix<sub>CCT</sub>+ uses PC-AiR (Conomos et al., 2015, Gen Epi) to calculate SNP-derived ancestry representative principle components (PCs) and uses PC-Relate (Conomos et al., 2016, AJHG) to calculate ancestry-adjusted sparse GRM or kinship coefficient matrix (only containing recent genetic relatedness).
+- Step 0 (a): SPAGxEmix<sub>CCT</sub>+ uses PC-AiR (Conomos et al., 2015, Gen Epi) to calculate SNP-derived ancestry representative principle components (PCs only representing distant genetic relatedness) and
+- Step 0 (b): SPAGxEmix<sub>CCT</sub>+ uses PC-Relate (Conomos et al., 2016, AJHG) to calculate ancestry-adjusted sparse GRM or kinship coefficient matrix (only representing recent genetic relatedness).
+- Step 0 (c): Iterations of Step 0 (a) and Step 0 (b) to improve inference on both population structure (with PC-AiR) and recent genetic relatedness (with PC-Relate).
 
 - Step 1: SPAGxEmix<sub>CCT</sub>+ fits a genotype-independent (covariates-only) model and calculates the model residuals. Detailed information is provided in Step 1 of SPAGxE<sub>CCT</sub>. It is optional, rather than required, to incorporate the random effect into null model fitting to characterize the sample relatedness.
 
