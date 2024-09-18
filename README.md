@@ -136,6 +136,20 @@ SPAGxEmixCCT_AdmixedPopulationAnalysis_survival_simulation_normal_envi.R   # R s
 
 ### 3. For analyses of using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
 
+We simulated a two-way admixed population with sample size n=10000, including ancestry-specific genotypes, local ancestry counts, SNP-derived PCs, and phenotypes.
+
+```
+In simulation studies\SPAGxEmixCCT-local\code\:
+
+SPAGxEmixCCT_local_ancestry_binary_power_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT-local including simulating local ancestry counts, ancestry-specific genotypes, binary phenotypes, and calculating ancestry-specific p-values corresponding to ancestry-specific marginal GxE effects in admixed population analyses.
+
+SPAGxEmixCCT_local_ancestry_quantitative_power_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT-local including simulating local ancestry counts, ancestry-specific genotypes, quantitative phenotypes, and calculating ancestry-specific p-values corresponding to ancestry-specific marginal GxE effects in admixed population analyses.
+
+generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
+
+```
+
+
 With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
 
 # 
