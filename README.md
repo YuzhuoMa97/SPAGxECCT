@@ -40,7 +40,7 @@ Admixed populations are routinely excluded from genomic studies due to concerns 
 ## Introduction of SPAGxEmix<sub>CCT-local</sub>
 SPAGxEmix<sub>CCT-local</sub> is a G×E analysis framework designed to efficiently and accurately identify ancestry-specific G×E effects by incorporating local ancestry in multi-way admixed populations.
 
-SPAGxEmix<sub>CCT-local</sub> extends SPAGxEmix<sub>CCT</sub> by integrating local ancestry information to enhance the precision of ancestry-specific G×E effect detection. Furthermore, we introduce SPAGxEmix<sub>CCT-local-global</sub>, which combines p-values from both SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub>, offering an optimal unified approach for various cross-ancestry genetic architectures. As with SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub> involves two main steps:
+SPAGxEmix<sub>CCT-local</sub> extends SPAGxEmix<sub>CCT</sub> by integrating local ancestry information to enhance the precision of ancestry-specific G×E effect testing and statistical powers. Furthermore, we introduce SPAGxEmix<sub>CCT-local-global</sub>, which combines p-values from both SPAGxEmix<sub>CCT</sub> and SPAGxEmix<sub>CCT-local</sub>, offering an optimal unified approach for various cross-ancestry genetic architectures. As with SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub> involves two main steps:
 
 - In Step 1, SPAGxEmix<sub>CCT-local</sub> fits a genotype-independent (covariates-only) model and calculates the model residuals. Details are described in Step 1 of SPAGxE<sub>CCT</sub>.
   
@@ -50,17 +50,25 @@ SPAGxEmix<sub>CCT-local</sub> extends SPAGxEmix<sub>CCT</sub> by integrating loc
 
 ## Introduction of SPAGxEmix<sub>CCT</sub>+
 
-As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a scalable and accurate G×E analytical framework which is applicable to include individuals from multiple ancestries or multi-way admixed populations and controls for both population structure and family relateness. 
+As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a scalable and accurate G×E analytical framework which is applicable to include individuals from multiple ancestries or multi-way admixed populations and controls for both population structure and family relateness. Admixed individuals can thereby be analyzed using SPAGxEmix<sub>CCT</sub> either in a cohort alone or alongside homogenous groups. 
 
 SPAGxEmix<sub>CCT</sub>+ involves three main steps:
 
-- Step 0 (a): SPAGxEmix<sub>CCT</sub>+ uses PC-AiR (Conomos et al., 2015, Gen Epi) to calculate SNP-derived ancestry representative principle components (PCs only representing distant genetic relatedness) and
-- Step 0 (b): SPAGxEmix<sub>CCT</sub>+ uses PC-Relate (Conomos et al., 2016, AJHG) to calculate ancestry-adjusted sparse GRM or kinship coefficient matrix (only representing recent genetic relatedness).
+- Step 0 (a): SPAGxEmix<sub>CCT</sub>+ uses PC-AiR (Conomos et al., 2015, Gen Epi) to calculate ancestry representative principle components (PCs representing distant genetic relatedness such as population structure)
+  
+- Step 0 (b): SPAGxEmix<sub>CCT</sub>+ uses PC-Relate (Conomos et al., 2016, AJHG) to calculate ancestry-adjusted sparse GRM or sparse kinship coefficient matrix (representing recent genetic relatedness).
+  
 - Step 0 (c): Iterations of Step 0 (a) and Step 0 (b) to improve inference on both population structure (with PC-AiR) and recent genetic relatedness (with PC-Relate).
 
 - Step 1: SPAGxEmix<sub>CCT</sub>+ fits a genotype-independent (covariates-only) model and calculates the model residuals. Detailed information is provided in Step 1 of SPAGxE<sub>CCT</sub>. It is optional, rather than required, to incorporate the random effect into null model fitting to characterize the sample relatedness.
 
-- Step 2: SPAGxEmix<sub>CCT</sub>+ identifies genetic variants with marginal G×E effects on the trait of interest. It first estimates the individual-level allele frequencies of the tested variants using SNP-derived PCs and raw genotypes. Next, SPAGxEmix<sub>CCT</sub>+ evaluates marginal genetic effects using score statistics. If the marginal genetic effect is not significant, S<sub>G×E(mix)</sub>+ is used as the test statistic to characterize the marginal G×E effect. If significant, S<sub>G×E(mix)</sub>+ is updated to genotype-adjusted test statistics. The hybrid strategy to balance computational efficiency and accuracy follows the approach used in SPAGxE<sub>CCT</sub>.
+- Step 2: SPAGxEmix<sub>CCT</sub>+ identifies genetic variants with marginal G×E effects on the trait of interest. It first estimates the individual-level allele frequencies of the tested variants using SNP-derived PCs (calculated with PC-AiR in Step 0) and raw genotypes. Next, SPAGxEmix<sub>CCT</sub>+ evaluates marginal genetic effects using score statistics. If the marginal genetic effect is not significant, S<sub>G×E(mix)</sub>+ is used as the test statistic to characterize the marginal G×E effect. If significant, S<sub>G×E(mix)</sub>+ is updated to genotype-adjusted test statistics. The hybrid strategy to balance computational efficiency and accuracy follows the approach used in SPAGxE<sub>CCT</sub>.
+
+As introduced in PC-Relate paper, empirical genetic relationship matrix (GRM) has been for inference on population structure (distant genetic relatedness) in samples without close relatives, as well as inference on recent kinship and heritability estimation of complex traits in samples derived from a single population. Threshold GRM cannot be made sparse in multi-ancestry or admixed population studies. To obtain PCs ((distant genetic relatedness)) and sparse kinship coefficients (recent genetic relatedness), we employ PC-AiR and PC-Relate with R package GENESIS.
+PC-AiR method has been developed for robust inference on population structure (or distant genetic relatedness) in the presence of recent genetic relatedness, known or cryptic, among sampled individuals. PC-AiR performs a Principal Components Analysis on genome-wide SNP data for the detection of population structure in a sample that may contain known or cryptic relatedness. Unlike standard PCA, PC-AiR accounts for relatedness in the sample to provide accurate ancestry inference that is not confounded by family structure. PC-Relate uses ancestry representative principal components to adjust for population structure/ancestry and accurately estimate measures of recent genetic relatedness.
+
+To analyze individuals from multi-ancestries or multi-way admixed populations with family relateness, SPAGxEmix<sub>CCT</sub>+ uses PC-AiR to obtain PCs representing population structure. Then, SPAGxEmix<sub>CCT</sub>+ uses PC-Relate to regress out the PCs from the genotypes to get ancestry-adjusted genotypes, and calculate kinship to estimate family structure (representing recent genetic relateness. In PC-Relate paper, it has been demonstrated that an iterative procedure alternating between PC-AiR and PC-Relate can potentially provide improved inference on both population structure (with PC-AiR) and recent genetic relatedness (with PC-Relate). Thus, ancestry-adjusted GRM can be ontained. Step 1 and 2 are similar to the other proposed methods. 
+
 
 ## The computational efficiency and statictical power can be enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
 
