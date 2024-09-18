@@ -97,7 +97,7 @@ The primary codes used in the SPAGxECCT project's simulation studies are availab
 
 These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits. With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
 
-### 1. For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. 
+### 1. For G×E analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. 
 
 We simulated a homogeneous population. We simulated binary phenotypes following logistic regression model, quantitative phenotypes following linear regression model, time-to-event phenotypes following Cox PH model, and ordinal categorical phenotypes following proportional odds logistic model.
 
@@ -119,7 +119,7 @@ SPAGxECCT_categorical_power_simulation_normal_envi.R   # R script to evaluate po
 ```
 
 
-### 2. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. 
+### 2. For G×E analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. 
 
 We simulated a two-way admixed population from EUR ancestry and EAS ancestry with sample size n=10000. We assumed the first 5000 individuals were from a EUR-dominant community and the remaining 5000 individuals were from an EAS-dominant community. In our paper, we used the real MAF values from 1000 Genome Projects to mimic the allele frequency diversity between EUR and EAS. We simulated binary phenotypes with ancestry-specific case-control ratios and time-to-event phenotypes with ancestry-specific event rates.
 
@@ -134,7 +134,7 @@ SPAGxEmixCCT_AdmixedPopulationAnalysis_survival_simulation_normal_envi.R   # R s
 ```
 
 
-### 3. For analyses of using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
+### 3. For G×E analyses of using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
 
 We simulated a two-way admixed population with sample size n=10000, including ancestry-specific genotypes, local ancestry counts, SNP-derived PCs, and phenotypes.
 
