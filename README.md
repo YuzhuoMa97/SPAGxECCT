@@ -79,20 +79,38 @@ This strategy improves both computational efficiency and statistical power. In S
 
 Model residuals from fitted null model can be highly unbalanced (especially for longitudinal pjenotypes). In this context, we find that using a rank-based inverse normal transformation (INT) for model residuals can greatly improve empirical power. We propose SPAGxE<sub>CCT(INT)</sub>, SPAGxEmix<sub>CCT(INT)</sub>, or SPAGxEmix<sub>CCT-local(INT)</sub> in which inverse normal transformed model residuals are taken as input, and p values from SPAGxE<sub>CCT(INT)</sub>, SPAGxEmix<sub>CCT(INT)</sub>, or SPAGxEmix<sub>CCT-local(INT)</sub> and SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, or SPAGxEmix<sub>CCT-local</sub> can be combined via Cauchy combination test (CCT).
 
+# Reproducibility
 
-## UK Biobank data analysis results
+Scripts to reproduce the experiments performed for the manuscript:
 
-In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxE<sub>CCT</sub> in ordinal categorical, binary, and quantitative trait analysis.  
+ **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**
+
+## UK Biobank data analysis 
+
+In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub> and SPAGxEmix<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxE<sub>CCT</sub> in ordinal categorical, binary, and quantitative trait analysis.  
 
 **Summary statistics of time-to-event and binary traits in UK Biobank is available [here](https://zenodo.org/records/11571404).**
 
-## Codes for simulation studies
+## Simulation studies
 
 The primary codes used in the SPAGxECCT project's simulation studies are available in the **simulation studies** folder and have also been uploaded to **Code Ocean**.
 
-These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits. For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. If you are using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
+These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits.
+
+For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. 
+
+```
+In simulation studies\SPAGxECCT\code\:
+SPAGxECCT_binary_typeIerror_simulation_normal_envi.R   # R script to evaluate type I error rates of SPAGxECCT including simulating genotypes, binary phenotypes, and calculate p-values.
+```
+
+For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. 
+
+If you are using SPAGxEmix<sub>CCT-local</sub> to identify ancestry-specific G×E effects by incorporating local ancestry in analyses of admixed populations, please refer to the **simulation studies/SPAGxEmixCCT-local** folder. 
 
 With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
+
+# 
 
 
 ## Reference
