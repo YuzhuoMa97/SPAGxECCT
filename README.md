@@ -50,7 +50,7 @@ SPAGxEmix<sub>CCT-local</sub> extends SPAGxEmix<sub>CCT</sub> by integrating loc
 
 ## Introduction of SPAGxEmix<sub>CCT</sub>+
 
-As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a scalable and accurate analytical G×E analysis framework which is applicable to control for both population structure and family relateness in a genime-wide gene-environmental interaction analysis of individuals from multiple ancestries or multi-way admixed populations. 
+As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a scalable and accurate G×E analytical framework which is applicable to include individuals from multiple ancestries or multi-way admixed populations and controls for both population structure and family relateness. 
 
 SPAGxEmix<sub>CCT</sub>+ involves three main steps:
 
