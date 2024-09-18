@@ -95,7 +95,7 @@ In the paper **A scalable and accurate framework for large-scale genome-wide gen
 
 The primary codes used in the SPAGxECCT project's simulation studies are available in the **simulation studies** folder and have also been uploaded to **Code Ocean**.
 
-These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits.
+These codes cover GxE analyses for time-to-event, binary, quantitative, and ordinal categorical traits. With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
 
 ### 1. For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. 
 
@@ -150,7 +150,7 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 ```
 
 
-With the provided codes, users can reproducibly conduct simulation studies of GxE analyses, including generating genotype data, phenotype data, calculating genetic principal components (PCs), and performing p-value calculations using our proposed methods of SPAGxE<sub>CCT</sub> (for testing GxE effects in homogeneous populations), SPAGxEmix<sub>CCT</sub> (for testing GxE effects in heterogeneous or admixed populations), and SPAGxEmix<sub>CCT-local</sub> (for testing ancestry-specific GxE effects by incorporating local ancestry into analyses of admixed populations).
+
 
 # 
 
