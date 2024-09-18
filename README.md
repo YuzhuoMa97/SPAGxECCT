@@ -101,7 +101,18 @@ For analyses of homogeneous populations, please assess the **simulation studies/
 
 ```
 In simulation studies\SPAGxECCT\code\:
-SPAGxECCT_binary_typeIerror_simulation_normal_envi.R   # R script to evaluate type I error rates of SPAGxECCT including simulating genotypes, binary phenotypes, and calculate p-values.
+SPAGxECCT_binary_typeIerror_simulation_normal_envi.R   # R script to evaluate type I error rates of SPAGxECCT including simulating genotypes, binary phenotypes, and calculating p-values.
+
+SPAGxECCT_survival_typeIerror_simulation_normal_envi.R   # R script to evaluate type I error rates of SPAGxECCT including simulating genotypes, time-to-event phenotypes, and calculate p-values.
+
+SPAGxECCT_categorical_typeIerror_simulation_normal_envi.R   # R script to evaluate type I error rates of SPAGxECCT including simulating genotypes, ordinal categorical phenotypes, and calculate p-values.
+
+SPAGxECCT_binary_power_simulation_normal_envi.R   # R script to evaluate powers of SPAGxECCT including simulating genotypes, binary phenotypes, and calculating p-values.
+
+SPAGxECCT_survival_power_simulation_normal_envi.R   # R script to evaluate powers of SPAGxECCT including simulating genotypes, time-to-event phenotypes, and calculate p-values.
+
+SPAGxECCT_categorical_power_simulation_normal_envi.R   # R script to evaluate powers of SPAGxECCT including simulating genotypes, ordinal categorical phenotypes, and calculate p-values.
+
 ```
 
 For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. 
