@@ -54,7 +54,7 @@ As an extension of SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>+ is a G×E a
 
 SPAGxEmix<sub>CCT</sub>+ involves three main steps:
 
-- Step 0: SPAGxEmix<sub>CCT</sub>+ calculate SNP-derived principle components (PCs) using PC-AIR and kinship coefficient using PC-RELATE.
+- Step 0: SPAGxEmix<sub>CCT</sub>+ calculate SNP-derived principle components (PCs) using PC-AIR and ancestry-adjusted sparse GRM or kinship coefficient matrix using PC-RELATE.
 
 - Step 1: SPAGxEmix<sub>CCT</sub>+ fits a genotype-independent (covariates-only) model and calculates the model residuals. Detailed information is provided in Step 1 of SPAGxE<sub>CCT</sub>. It is optional, rather than required, to incorporate the random effect into null model fitting to characterize the sample relatedness.
 
