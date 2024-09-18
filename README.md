@@ -99,6 +99,8 @@ These codes cover GxE analyses for time-to-event, binary, quantitative, and ordi
 
 ### 1. For analyses of homogeneous populations, please assess the **simulation studies/SPAGxECCT** folder. 
 
+We simulated a homogeneous population. We simulated binary phenotypes following logistic regression model, quantitative phenotypes following linear regression model, time-to-event phenotypes following Cox PH model, and ordinal categorical phenotypes following proportional odds logistic model.
+
 ```
 In simulation studies\SPAGxECCT\code\:
 
@@ -119,13 +121,15 @@ SPAGxECCT_categorical_power_simulation_normal_envi.R   # R script to evaluate po
 
 ### 2. For analyses of heterogeneous or admixed populations, please refer to the **simulation studies/SPAGxEmixCCT** folder. 
 
+We simulated a two-way admixed population from EUR ancestry and EAS ancestry with sample size n=10000. We assumed the first 5000 individuals were from a EUR-dominant community and the remaining 5000 individuals were from an EAS-dominant community. In our paper, we used the real MAF values from 1000 Genome Projects to mimic the allele frequency diversity between EUR and EAS. We simulated binary phenotypes with ancestry-specific case-control ratios and time-to-event phenotypes with ancestry-specific event rates.
+
 
 ```
-In simulation studies\SPAGxECCT\code\:
+In simulation studies\SPAGxEmixCCT\code\:
 
-SPAGxEmixCCT_AdmixedPopulationAnalysis_binary_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT including simulating genotypes, binary phenotypes, and calculating p-values in admixed populations.
+SPAGxEmixCCT_AdmixedPopulationAnalysis_binary_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT including simulating genotypes, binary phenotypes, and calculating p-values in admixed population analyses.
 
-SPAGxEmixCCT_AdmixedPopulationAnalysis_survival_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT including simulating genotypes, time-to-event phenotypes, and calculating p-values in admixed populations.
+SPAGxEmixCCT_AdmixedPopulationAnalysis_survival_simulation_normal_envi.R   # R script to evaluate type I error rates or powers of SPAGxEmixCCT including simulating genotypes, time-to-event phenotypes, and calculating p-values in admixed population analyses.
 
 ```
 
