@@ -176,7 +176,7 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 # 
 
 
-## Reference
+# Reference
 See **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits** (to be updated) for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>.
 
 
