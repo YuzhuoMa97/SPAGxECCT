@@ -19,14 +19,14 @@
 #'                       Any variant with missing rate higher than this cutoff will be excluded from the analysis.
 #' @param min.maf a numeric value (default: 0.001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param G.model model type
-#' @details To run SPAGxE_CCT_Plus, the following two steps are required:
+#' @details To run SPAGxE_Plus, the following two steps are required:
 #' \itemize{
 #'   \item Step 1: Use function SPAGxE_Plus_Nullmodel() to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
-#'   \item Step 2: Use function SPAGxE_CCT_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
+#'   \item Step 2: Use function SPAGxE_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
 #' }
 #'
-#' SPAGxE_CCT_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
-#' SPAGxE_CCT_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
+#' SPAGxE_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
+#' SPAGxE_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 #' Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
 #' Hence, when the score statistic is close to 0 (i.e., p-values are not small), we use the normal distribution approximation.
 #' And when the score statistic is far away from 0 (i.e., p-values are small), we use the saddlepoint approximation.
@@ -133,10 +133,10 @@ SPAGxE_Plus = function(Geno.mtx,                                          # geno
 
 #' A scalable and accurate framework to account for familial relatedness for large-scale genome-wide gene-environment interaction (GxE) analysis (One-SNP-version).
 #'
-#' One-SNP-version SPAGxE_CCT_Plus() function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
+#' One-SNP-version SPAGxE_Plus() function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
 #' @param g a numeric genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.
-#' @param others the same as function SPAGxE_CCT_Plus(). NOTE that we do not check subject order in this one-snp-version !!!
-#' @return the same as function SPAGxE_CCT_Plus().
+#' @param others the same as function SPAGxE_Plus(). NOTE that we do not check subject order in this one-snp-version !!!
+#' @return the same as function SPAGxE_Plus().
 #' @export
 
 SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
