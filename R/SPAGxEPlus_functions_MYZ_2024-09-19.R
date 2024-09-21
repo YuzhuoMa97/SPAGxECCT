@@ -4,7 +4,6 @@
 #' @param Geno.mtx a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
-#' @param ResidMat a two-column data frame with the first column as "SubjID" and the second column as model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)
 #' @param E a numeric environmental factor with each element as an environmental factor value of an individual.
 #' @param Phen.mtx phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
