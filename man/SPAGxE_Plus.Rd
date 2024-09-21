@@ -49,17 +49,15 @@ Any variant with missing rate higher than this cutoff will be excluded from the 
 \item{min.maf}{a numeric value (default: 0.001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
 
 \item{G.model}{model type}
-
-\item{ResidMat}{a two-column data frame with the first column as "SubjID" and the second column as model residuals after fitting a genotype-independent model (i.e., a covariate-only model in which marginal genetic effect and GxE effect are 0)}
 }
 \value{
 an R matrix with the following columns
 \item{MAF}{Minor allele frequencies calculated with half of mean value of genotypes}
 \item{missing.rate}{Missing rates}
-\item{p.value.spaGxEmix.plus}{p value from SPAGxE method}
-\item{p.value.spaGxEmix.plus.Wald}{p value from SPAGxE_Wald method}
-\item{p.value.spaGxEmix.plus.CCT.Wald}{p value (recommanded) from SPAGxE_CCT method}
-\item{p.value.normGxEmix.plus}{p value from NormGxE method (based on a normal distribution approximation)}
+\item{p.value.spaGxE.plus}{p value from SPAGxE method}
+\item{p.value.spaGxE.plus.Wald}{p value from SPAGxE_Wald method}
+\item{p.value.spaGxE.plus.CCT.Wald}{p value (recommanded) from SPAGxE_CCT method}
+\item{p.value.normGxE.plus}{p value from NormGxE method (based on a normal distribution approximation)}
 \item{p.value.betaG}{p value of the marginal genetic effect based on a normal distribution approximation}
 \item{Stat.betaG}{score statistics testing for marginal genetic effect}
 \item{Var.betaG}{estimated variances of the score statistics testing for marginal genetic effect}
@@ -69,17 +67,17 @@ an R matrix with the following columns
 A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative traits and binary traits.
 }
 \details{
-To run SPAGxE_CCT_Plus, the following two steps are required:
+To run SPAGxE_Plus, the following two steps are required:
 \itemize{
   \item Step 1: Use function SPAGxE_Plus_Nullmodel() to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
-  \item Step 2: Use function SPAGxE_CCT_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
+  \item Step 2: Use function SPAGxE_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
 }
 
-SPAGxE_CCT_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
-SPAGxE_CCT_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
+SPAGxE_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
+SPAGxE_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
-Hence, when the score statistic is close to 0 (i.e. p-values are not small), we use the normal distribution approximation.
-And when the score statistic is far away from 0 (i.e. p-values are small), we use the saddlepoint approximation.
+Hence, when the score statistic is close to 0 (i.e., p-values are not small), we use the normal distribution approximation.
+And when the score statistic is far away from 0 (i.e., p-values are small), we use the saddlepoint approximation.
 Argument 'Cutoff' is to specify the standard deviation cutoff.
 
 Sometimes, the order of subjects between phenotype data and genotype data are different, which could lead to some errors.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/SPAGxEPlus_functions_MYZ_2024-09-19.R
 \name{SPAGxE_Plus_one_SNP}
 \alias{SPAGxE_Plus_one_SNP}
-\title{A scalable and accurate framework to account for both population structure and familial relatedness for large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations (One-SNP-version).}
+\title{A scalable and accurate framework to account for familial relatedness for large-scale genome-wide gene-environment interaction (GxE) analysis (One-SNP-version).}
 \usage{
 SPAGxE_Plus_one_SNP(
   g,
@@ -22,11 +22,11 @@ SPAGxE_Plus_one_SNP(
 \arguments{
 \item{g}{a numeric genotype vector. Missing genotype should be coded as NA. Both hard-called and imputed genotype data are supported.}
 
-\item{others}{the same as function SPAGxE_CCT_Plus(). NOTE that we do not check subject order in this one-snp-version !!!}
+\item{others}{the same as function SPAGxE_Plus(). NOTE that we do not check subject order in this one-snp-version !!!}
 }
 \value{
-the same as function SPAGxE_CCT_Plus().
+the same as function SPAGxE_Plus().
 }
 \description{
-One-SNP-version SPAGxE_CCT_Plus() function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
+One-SNP-version SPAGxE_Plus() function. This function is to facilitate users that prefer reading and analyzing genotype line-by-line.
 }
