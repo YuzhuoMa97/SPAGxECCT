@@ -82,32 +82,32 @@ SPAGxEmix_CCT_Plus = function(traits="binary/quantitative",
                   missing.cutoff=missing.cutoff,
                   min.maf=min.maf,
                   G.model=G.model)
-  
+
   # check_input1(obj.null, Geno.mtx, par.list)
   print(paste0("Sample size is ",nrow(Geno.mtx),"."))
   print(paste0("Number of variants is ",ncol(Geno.mtx),"."))
-  
+
   ### Prepare the main output data frame
   n.Geno = ncol(Geno.mtx)
   output = matrix(NA, n.Geno, 12)
-  
+
   colnames(output) = c("MAF","missing.rate",
                        "p.value.spaGxEmix.plus","p.value.spaGxEmix.plus.Wald","p.value.spaGxEmix.plus.CCT.Wald","p.value.normGxEmix.plus",
                        "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG",
                        "MAF.est.negative.num" ,"MAC") # updated on 2024-04-16
-  
+
   rownames(output) = colnames(Geno.mtx)
-  
+
   ## Start analysis
   print("Start Analyzing...")
   print(Sys.time())
-  
+
   # Cycle for genotype matrix
   for(i in 1:n.Geno){
     g = Geno.mtx[,i]
-    
+
     print(i)
-    
+
     output.one.SNP = SPAGxEmix_CCT_Plus_one_SNP(traits=traits,
                                                 g,                     # genotype vector
                                                 ResidMat,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
@@ -124,10 +124,10 @@ SPAGxEmix_CCT_Plus = function(traits="binary/quantitative",
                                                 G.model,
                                                 topPCs.pvalue.cutoff,
                                                 MAF.est.negative.ratio.cutoff)
-    
+
     output[i,] = output.one.SNP
   }
-  
+
   print("Analysis Complete.")
   print(Sys.time())
   return(output)
@@ -142,7 +142,7 @@ SPAGxEmix_CCT_Plus = function(traits="binary/quantitative",
 #' @return the same as function SPAGxEmix_CCT_Plus().
 #' @export
 
-SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categorical",
+SPAGxEmix_CCT_Plus_one_SNP = function(traits="binary/quantitative",
                                       g,                     # genotype vector
                                       ResidMat,
                                       E,                     # environmental factor
@@ -164,33 +164,33 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
   N = length(g)
   pos.na = which(is.na(g))
   missing.rate = length(pos.na)/N
-  
+
   if(missing.rate != 0){
     if(impute.method=="fixed")
       g[pos.na] = 2*MAF
   }
-  
+
   if(MAF > 0.5){
     MAF = 1-MAF
     g = 2-g
   }
-  
+
   if(G.model=="Add"){}   # do nothing if G.Model is "Add"
   if(G.model=="Dom") g = ifelse(g>=1,1,0)
   if(G.model=="Rec") g = ifelse(g<=1,0,1)
-  
+
   if(MAF < min.maf)
     return(c(MAF, missing.rate, NA, NA, NA, NA, NA, NA, NA, NA,
              NA, NA))
-  
-  
-  
+
+
+
   N1set = which(g!=0)  # position of non-zero genotypes
   N0 = N-length(N1set)
-  
+
   MAC = MAF*2*N      #  updated on 2022-10-05
-  
-  
+
+
   if(MAC <= 20){
     MAF.est = c(rep(MAF, N))
     MAF.est.negative.num = 0
@@ -198,21 +198,21 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
   }else{
     Fit.lm = lm(g~topPCs)
     MAF.est = Fit.lm$fitted.values/2
-    
+
     topPCs.pvalueVec = summary(Fit.lm)$coefficients[,4][-1]
-    
+
     MAF.est.negative.num = length(MAF.est[which(MAF.est < 0)])
     MAF.est.negative.ratio = MAF.est.negative.num/N
-    
+
     if(MAF.est.negative.ratio > MAF.est.negative.ratio.cutoff){
       if(length(which(topPCs.pvalueVec < topPCs.pvalue.cutoff))==0){
         MAF.est = c(rep(MAF, N)) # MAF.all
       }else{
         selected.PCs = topPCs[,which(topPCs.pvalueVec < topPCs.pvalue.cutoff)]
-        
+
         # updated on 2023-02-13: MAF.est1
         g.tilde = round(g)
-        
+
         # updated on 2023-03-23: some variants sum(g.tilde)==0, thus MAF.est=0, and result in inflated type I error rates
         if(sum(g.tilde)==0 | sum(2-g.tilde)==0){
           MAF.est = c(rep(MAF, N)) # MAF.all
@@ -220,7 +220,7 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
           g.tilde[which(g.tilde != 0)] = 1
           Fit = glm(g.tilde~selected.PCs, family = binomial(link="logit"))
           MAF.est = 1- sqrt(1 - Fit$fitted.values)
-          
+
         }
       }
     }else{
@@ -229,120 +229,120 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
       MAF.est = ifelse(MAF.est >= 1, 1 - MAF0, MAF.est)
     }
   }
-  
-  
-  
+
+
+
   g.var.est = 2 * MAF.est * (1 - MAF.est)
-  
+
   R_sqrtMAF = R * sqrt(g.var.est)  # update on 2024-09-10
-  
+
   ResidMat_new = ResidMat %>% mutate(Resid_new = R_sqrtMAF) # update on 2024-09-16
-  
+
   #### # update on 2024-09-11 ###############################################################
-  
+
   sparseGRM$ID1 = as.character(sparseGRM$ID1); sparseGRM$ID2 = as.character(sparseGRM$ID2)
-  
+
   SubjID.In.Resid = ResidMat$SubjID
   SubjID.In.GRM = unique(c(sparseGRM$ID1, sparseGRM$ID2))
-  
+
   if(any(!SubjID.In.Resid %in% SubjID.In.GRM))
     stop("At least one subject in residual matrix does not have GRM information.")
-  
+
   SubjID = SubjID.In.Resid
   sparseGRM = sparseGRM %>% filter(ID1 %in% SubjID & ID2 %in% SubjID)
-  
+
   GRM1 = sparseGRM
   GRM1$R_sqrtMAF_pos1 = ResidMat_new$Resid_new[match(sparseGRM$ID1, ResidMat_new$SubjID)]
   GRM1$R_sqrtMAF_pos2 = ResidMat_new$Resid_new[match(sparseGRM$ID2, ResidMat_new$SubjID)]
   GRM1 = GRM1 %>% mutate(Cov_R_sqrtMAF = Value * R_sqrtMAF_pos1 * R_sqrtMAF_pos2)         # update on 2024-09-12
-  
+
   ############################################################################################
-  S1 = sum(g * R)  
+  S1 = sum(g * R)
   meanS1 =  2 * sum(R * MAF.est)
   VarS1 = (GRM1 %>% select(Cov_R_sqrtMAF) %>% sum) * 2 - sum(R^2 * g.var.est) # t(R_sqrtMAF) %*% GRM %*% R_sqrtMAF
   Z1 = (S1 - meanS1) / sqrt(VarS1)            # standardize S1
   pval.norm1 = pnorm(-abs(Z1))*2              # p value for marginal genetic effect from normal approximation
 
   if(pval.norm1 > epsilon){
-    
+
     S2 = sum(g*E*R)                                         # test statistic for marginal GxE effect
 
     ####
     RE_sqrtMAF =  R * E * sqrt(g.var.est)  # update on 2024-09-16
-    
+
     ResidMat_new = ResidMat_new %>% mutate(RE_sqrtMAF = RE_sqrtMAF) # update on 2024-09-16
-    
+
     GRM1$RE_sqrtMAF_pos1 = ResidMat_new$RE_sqrtMAF[match(sparseGRM$ID1, ResidMat_new$SubjID)]
     GRM1$RE_sqrtMAF_pos2 = ResidMat_new$RE_sqrtMAF[match(sparseGRM$ID2, ResidMat_new$SubjID)]
     GRM1 = GRM1 %>% mutate(Cov_R_sqrtMAF_RE_sqrtMAF_part1 = Value * R_sqrtMAF_pos1 * RE_sqrtMAF_pos2)         # update on 2024-09-12
     GRM1 = GRM1 %>% mutate(Cov_R_sqrtMAF_RE_sqrtMAF_part2 = Value * R_sqrtMAF_pos2 * RE_sqrtMAF_pos1)         # update on 2024-09-12
     GRM1 = GRM1 %>% mutate(Cov_RE_sqrtMAF = Value * RE_sqrtMAF_pos1 * RE_sqrtMAF_pos2)         # update on 2024-09-12
-    
+
     Cov_S1_S2 = (GRM1 %>% select(Cov_R_sqrtMAF_RE_sqrtMAF_part1) %>% sum) +
-      (GRM1 %>% select(Cov_R_sqrtMAF_RE_sqrtMAF_part2) %>% sum) - 
+      (GRM1 %>% select(Cov_R_sqrtMAF_RE_sqrtMAF_part2) %>% sum) -
       sum(g.var.est * E* R^2)
     # Cov_S1_S2 = t(R_sqrtMAF) %*% GRM %*% RE_sqrtMAF
-    
+
     ####
     lambda = Cov_S1_S2/VarS1   # lambda = Cov/VarS1
-    
+
     S_GxE = S2 - lambda * S1                                # new test statistic for marginal GxE effect
     R.new = (E - lambda) * R                                # new residuals
     R.new_sqrtMAF = R.new * sqrt(g.var.est)  # update on 2024-09-10
     ResidMat_new = ResidMat_new %>% mutate(R.new_sqrtMAF = R.new_sqrtMAF) # update on 2024-09-16
-    
+
     GRM1$R.new_sqrtMAF_pos1 = ResidMat_new$R.new_sqrtMAF[match(sparseGRM$ID1, ResidMat_new$SubjID)]
     GRM1$R.new_sqrtMAF_pos2 = ResidMat_new$R.new_sqrtMAF[match(sparseGRM$ID2, ResidMat_new$SubjID)]
     GRM1 = GRM1 %>% mutate(Cov_R.new_sqrtMAF = Value * R.new_sqrtMAF_pos1 * R.new_sqrtMAF_pos2)         # update on 2024-09-12
-    
+
     S_GxE.mean = 2 * sum(R.new * MAF.est)
     S_GxE.var = (GRM1 %>% select(Cov_R.new_sqrtMAF) %>% sum) * 2 - sum((R.new)^2 * g.var.est)
-    
+
     # S_GxE.var = (GRM1 %>% select(Cov_RE_sqrtMAF) %>% sum) * 2 - sum((R*E)^2 * g.var.est)
     # t(R.new_sqrtMAF) %*% GRM %*% R.new_sqrtMAF
-    
+
     z_GxE = (S_GxE - S_GxE.mean)/sqrt(S_GxE.var)
-    
+
     if(abs(z_GxE) < Cutoff){
       pval.norm = pnorm(abs(z_GxE), lower.tail = FALSE)*2
       pval.output = c(pval.norm, pval.norm, pval.norm, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }else{
-      
+
       # updated on 2024-09-10
       S_GxE.var.SPAGxEmix = sum(R.new^2 * g.var.est)
       Var.ratio = S_GxE.var.SPAGxEmix / S_GxE.var
-      
+
       # updated on 2023-10-24
       pval1 = GetProb_SPA_G_new_adjust(init.t = 0, MAF.est, R.new, max(S_GxE, (2*S_GxE.mean-S_GxE)), Var.ratio, lower.tail = FALSE) # SPA-G p value
       pval2 = GetProb_SPA_G_new_adjust(init.t = 0, MAF.est, R.new, min(S_GxE, (2*S_GxE.mean-S_GxE)), Var.ratio, lower.tail = TRUE)  # SPA-G p value
-      
+
       # updated on 2023-10-24
       if(is.na(pval2)){
         pval2 = pval1
       }
-      
+
       pval3 = pnorm(abs(z_GxE), lower.tail = FALSE) # Normal
       pval4 = pnorm(-abs(z_GxE), lower.tail = TRUE) # Normal
-      
+
       pval.spaG = pval1 + pval2
       pval.norm = pval3 + pval4
-      
+
       pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1)
     } # 5 elements: SPAGxEmix+, SPAGxEmix_Wald+, SPAGxEmixCCT+, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
   }else{
-    
+
     W = cbind(1, g)
-    
+
     # updated on 2023-12-27
     R0 = R - (W)%*%(solve(t(W)%*%W))%*%(t(W)%*%R) # null model residuals adjusting for G
-    
+
     S_GxE0 = sum(g*E*R0)  # test statistic for marginal GxE effect
     R.new0 = E*R0
-    
+
     ####
     R.new0_sqrtMAF =  R.new0 * sqrt(g.var.est)  # update on 2024-09-16
     ResidMat_new = ResidMat_new %>% mutate(R.new0_sqrtMAF = R.new0_sqrtMAF) # update on 2024-09-16
-    
+
     GRM1$R.new0_sqrtMAF_pos1 = ResidMat_new$R.new0_sqrtMAF[match(sparseGRM$ID1, ResidMat_new$SubjID)]
     GRM1$R.new0_sqrtMAF_pos2 = ResidMat_new$R.new0_sqrtMAF[match(sparseGRM$ID2, ResidMat_new$SubjID)]
     GRM1 = GRM1 %>% mutate(Cov_R.new0_sqrtMAF = Value * R.new0_sqrtMAF_pos1 * R.new0_sqrtMAF_pos2)         # update on 2024-09-12
@@ -350,80 +350,80 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
     S_GxE0.mean = 2 * sum(R.new0 * MAF.est)
     S_GxE0.var = (GRM1 %>% select(Cov_R.new0_sqrtMAF) %>% sum) * 2 - sum(R.new0^2 * g.var.est)
     # t(R.new0_sqrtMAF) %*% GRM %*% R.new0_sqrtMAF
-    
+
     z_GxE0 = (S_GxE0 - S_GxE0.mean)/sqrt(S_GxE0.var)
-    
+
     if(abs(z_GxE0) < Cutoff){
       pval.norm = pnorm(abs(z_GxE0), lower.tail = FALSE)*2
       pval.spaGxE = pval.norm
     }else{
-      
+
       S_GxE0.var.SPAGxEmix = sum(R.new0^2 * g.var.est)
       Var.ratio = S_GxE0.var.SPAGxEmix / S_GxE0.var
-      
+
       # update on 2024-09-16
       pval1 = GetProb_SPA_G_new_adjust(init.t = 0, MAF.est, R.new0, max(S_GxE0, (2*S_GxE0.mean-S_GxE0)), Var.ratio, lower.tail = FALSE) # SPA-G p value
       pval2 = GetProb_SPA_G_new_adjust(init.t = 0, MAF.est, R.new0, min(S_GxE0, (2*S_GxE0.mean-S_GxE0)), Var.ratio, lower.tail = TRUE)  # SPA-G p value
-      
+
       # updated on 2023-10-24
       if(is.na(pval2)){
         pval2 = pval1
       }
-      
+
       pval3 = pnorm(abs(z_GxE0), lower.tail = FALSE) # Normal
       pval4 = pnorm(-abs(z_GxE0), lower.tail = TRUE) # Normal
-      
+
       pval.spaGxE = pval1 + pval2
       pval.norm = pval3 + pval4
     }
-    
+
     # Wald test
 
     if(traits=="binary"){
       # Phen.mtx.new = Phen.mtx %>% mutate(ID = rownames(Phen.mtx))
       # data00 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # updated on 2023-12-27
       data0 = glmer(Y ~ as.matrix(Cova.mtx)+E+g+g*E + (1 | IID), family = "binomial", data = Phen.mtx) # updated on 2024-09
-      
+
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
-      
+
       # updated on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
-      
+
       # use CCT to conbine p values from SPAGxE and Wald tests in the case of pval.norm1 < epsilon
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
-      
+
       # updated on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
-    
+
     if(traits=="quantitative"){
-      
+
       # data00 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E) # updated on 2023-12-27
       data0 = lmer(Y ~ as.matrix(Cova.mtx)+E+g+g*E + (1 | IID), data = Phen.mtx) # updated on 2023-12-27
-      
+
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|t|)"]     # Wald test p value for marginal GxE effect
-      
+
       # updated on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
-      
+
       # use CCT to conbine p values from SPAGxE and Wald tests in the case of pval.norm1 < epsilon
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
-      
+
       # updated on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
-    
+
   }
-  
+
   output.one.snp = c(MAF, missing.rate, pval.output, S1, VarS1, Z1,
                      MAF.est.negative.num, MAC)
-  
+
   return(output.one.snp)
 }
 
@@ -434,30 +434,30 @@ SPAGxEmix_CCT_Plus_one_SNP = function(traits="survival/binary/quantitative/categ
 #### other functions
 
 GetProb_SPA_G_new_adjust = function(init.t = 0, MAFVec, R, s, Var.ratio, lower.tail){
-  
+
   # out = uniroot(H1_adj, c(-10,10), extendInt = "upX",
   #               R=R, s=s, MAFVec=MAFVec)
   out = fastgetroot_H1_new(init.t, R = R, s = s, MAFVec = MAFVec)
-  
+
   zeta = out$root
-  
+
   k1 = H_org(zeta, R=R, MAFVec=MAFVec)
   k2 = H2(zeta, R=R, MAFVec=MAFVec)
-  
+
   temp1 = zeta * s - k1
-  
+
   w = sign(zeta) * (2 *temp1)^{1/2}
   v = zeta * (k2)^{1/2}
-  
+
   a = w + 1/w * log(v/w)
-  
+
   # pval = pnorm(w + 1/w * log(v/w), lower.tail = lower.tail)
   pval = pnorm(a * sqrt(Var.ratio), lower.tail = lower.tail)
-  
+
   if(is.na(pval)){
     pval =  0
   }
-  
+
   re = pval
   return(re)
 }
@@ -481,14 +481,14 @@ GetProb_SPA_G_new_adjust = function(init.t = 0, MAFVec, R, s, Var.ratio, lower.t
 #     old.H1 = H1_adj_eval
 #     H1_adj_eval = H1_adj(t, R, s, MAFVec)
 #     H2_eval = H2(t, R, MAFVec)
-#     
+#
 #     diff.t = -1 * H1_adj_eval / H2_eval
-#     
+#
 #     # updated on 2023-10-24
 #     if(is.na(diff.t)){
 #       diff.t =  5
 #     }
-#     
+#
 #     if(is.na(H1_adj_eval) | is.infinite(H1_adj_eval)){
 #       # checked it on 07/05:
 #       # if the solution 't' tends to infinity, 'K2_eval' tends to 0, and 'K1_eval' tends to 0 very slowly.
@@ -508,13 +508,13 @@ GetProb_SPA_G_new_adjust = function(init.t = 0, MAFVec, R, s, Var.ratio, lower.t
 #     if(abs(diff.t) < tol) break;
 #     t = old.t + diff.t
 #   }
-#   
+#
 #   # updated on 2023-10-24
-#   
+#
 #   if(iter == maxiter) {
 #     converge = F
 #     t = NA}
-#   
+#
 #   return(list(root = t,
 #               iter = iter,
 #               converge = converge,

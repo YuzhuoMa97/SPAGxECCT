@@ -5,7 +5,7 @@
 \title{A scalable and accurate framework to account for both population structure and family relatedness for large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations (One-SNP-version).}
 \usage{
 SPAGxEmix_CCT_Plus_one_SNP(
-  traits = "survival/binary/quantitative/categorical",
+  traits = "binary/quantitative",
   g,
   ResidMat,
   E,
