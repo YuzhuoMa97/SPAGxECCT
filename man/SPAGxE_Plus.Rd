@@ -2,7 +2,7 @@
 % Please edit documentation in R/SPAGxEPlus_functions_MYZ_2024-09-19.R
 \name{SPAGxE_Plus}
 \alias{SPAGxE_Plus}
-\title{A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations.}
+\title{A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environment interaction (GxE) analysis.}
 \usage{
 SPAGxE_Plus(
   Geno.mtx,
@@ -32,7 +32,7 @@ Missing genotypes should be coded as NA. Both hard-called and imputed genotype d
 
 \item{sparseGRM}{a three-column sparse GRM file with the first column as "ID1",the second column as "ID2", and the last column as "Value" (i.e., two times of kinship coefficient) without information of distant genetic relatedness (such as population structure).}
 
-\item{obj.SPAGxE_Plus_Nullmodel}{an object from SPAGxE_Plus_Nullmodel()}
+\item{obj.SPAGxE_Plus_Nullmodel}{a null model object from SPAGxE_Plus_Nullmodel()}
 
 \item{epsilon}{a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.}
 
@@ -64,7 +64,7 @@ an R matrix with the following columns
 \item{z.betaG}{z values (using Var1) corresponding to the score statistics testing for marginal genetic effect}
 }
 \description{
-A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative traits and binary traits.
+A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative, binary, time-to-event, ordinal categorical, and longitudinal traits.
 }
 \details{
 To run SPAGxE_Plus, the following two steps are required:

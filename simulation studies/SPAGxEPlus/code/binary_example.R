@@ -148,10 +148,9 @@ binary.res = SPAGxE_Plus(Geno.mtx = GenoMat,
                          sparseGRM = sparseGRM,
                          obj.SPAGxE_Plus_Nullmodel = obj.SPAGxE_Plus_Nullmodel)
 
-                         # R_GRM_R = R_GRM_R,
-                         # R_GRM_RE = R_GRM_RE,
-                         # R.new = R.new,                 # (E - lambda) * R = (E - (R_GRM_RE/R_GRM_R)) * R
-                         # R.new_GRM_R.new = R.new_GRM_R.new)
+
+
+
 
 
 summary(binary.res)

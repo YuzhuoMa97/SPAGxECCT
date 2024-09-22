@@ -1,6 +1,6 @@
-#' A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations.
+#' A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environment interaction (GxE) analysis.
 #'
-#' A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative traits and binary traits.
+#' A scalable and accurate analytical framework to account for familial relatedness in large-scale genome-wide gene-environmental interaction (GxE) analyses of quantitative, binary, time-to-event, ordinal categorical, and longitudinal traits.
 #' @param Geno.mtx a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
@@ -8,7 +8,7 @@
 #' @param Phen.mtx phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
 #' @param sparseGRM a three-column sparse GRM file with the first column as "ID1",the second column as "ID2", and the last column as "Value" (i.e., two times of kinship coefficient) without information of distant genetic relatedness (such as population structure).
-#' @param obj.SPAGxE_Plus_Nullmodel an object from SPAGxE_Plus_Nullmodel()
+#' @param obj.SPAGxE_Plus_Nullmodel a null model object from SPAGxE_Plus_Nullmodel()
 #' @param epsilon a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.
 #' @param Cutoff a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
 #'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
@@ -50,21 +50,15 @@
 #'
 #' @export
 #' @import survival
-#' @import ordinal
 #' @import lme4
 #' @import dplyr
 
 SPAGxE_Plus = function(Geno.mtx,                                          # genotype vector
-                       # ResidMat,                                          # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                        E,                                                 # environmental factor
                        Phen.mtx,                                          # phenotype dataframe
                        Cova.mtx,                                          # other covariates (such as age, gender, and top PCs) excluding E
                        sparseGRM,
                        obj.SPAGxE_Plus_Nullmodel,
-                       # R_GRM_R,
-                       # R_GRM_RE,
-                       # R.new,                                             # (E - lambda) * R = (E - (R_GRM_RE/R_GRM_R)) * R
-                       # R.new_GRM_R.new,                                   #
                        epsilon = 0.001,                                   # a fixed value
                        Cutoff = 2,
                        impute.method = "fixed",
@@ -88,10 +82,10 @@ SPAGxE_Plus = function(Geno.mtx,                                          # geno
 
   ### Prepare the main output data frame
   n.Geno = ncol(Geno.mtx)
-  output = matrix(NA, n.Geno, 10) # updated on 2023-12-27
+  output = matrix(NA, n.Geno, 8) # updated on 2023-12-27
   colnames(output) = c("MAF","missing.rate",
-                       "p.value.spaGxE.plus","p.value.spaGxE.plus.Wald","p.value.spaGxE.plus.CCT.Wald","p.value.normGxE.plus",
-                       "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG") # updated on 2023-12-27
+                       "p.value.spaGxE.plus", "p.value.normGxE.plus",
+                       "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG")
   rownames(output) = colnames(Geno.mtx)
 
 
@@ -106,16 +100,11 @@ SPAGxE_Plus = function(Geno.mtx,                                          # geno
     print(i)
 
     output.one.SNP = SPAGxE_Plus_one_SNP(g,                     # genotype vector
-                                         # ResidMat,              # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                          E,                     # environmental factor
                                          Phen.mtx,              # phenotype dataframe
                                          Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
                                          sparseGRM,
                                          obj.SPAGxE_Plus_Nullmodel,
-                                         # R_GRM_R,
-                                         # R_GRM_RE,
-                                         # R.new,                 # (E - lambda) * R = (E - (R_GRM_RE/R_GRM_R)) * R
-                                         # R.new_GRM_R.new,
                                          epsilon,               # a fixed value
                                          Cutoff,
                                          impute.method,
@@ -140,19 +129,11 @@ SPAGxE_Plus = function(Geno.mtx,                                          # geno
 #' @export
 
 SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
-                               # ResidMat,
                                E,                     # environmental factor
                                Phen.mtx,              # phenotype dataframe
                                Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
                                sparseGRM,
                                obj.SPAGxE_Plus_Nullmodel,
-
-                               # R_GRM_R,
-                               # R_GRM_RE,
-                               # R.new,                 # (E - lambda) * R = (E - (R_GRM_RE/R_GRM_R)) * R
-                               # R.new_GRM_R.new,
-                               # R.new0_GRM_R.new0,
-
                                epsilon = 0.001,       # a fixed value
                                Cutoff = 2,
                                impute.method = "fixed",
@@ -188,7 +169,7 @@ SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
   if(G.model=="Rec") g = ifelse(g<=1,0,1)
 
   if(MAF < min.maf)
-    return(c(MAF, missing.rate, NA, NA, NA, NA, NA, NA, NA, NA))
+    return(c(MAF, missing.rate, NA, NA, NA, NA, NA, NA))
 
   N1set = which(g!=0)  # position of non-zero genotypes
   N0 = N-length(N1set)
@@ -217,7 +198,7 @@ SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
 
     if(abs(z_GxE) < Cutoff){
       pval.norm = pnorm(abs(z_GxE), lower.tail = FALSE)*2
-      pval.output = c(pval.norm, pval.norm, pval.norm, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
+      pval.output = c(pval.norm, pval.norm, pval.norm1) # 3 elements: SPAGxE+, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }else{
 
       S_GxE.var.SPAGxE = sum(R.new^2 * g.var.est)
@@ -238,8 +219,8 @@ SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
       pval.spaG = pval1 + pval2
       pval.norm = pval3 + pval4
 
-      pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1)
-    } # 5 elements: SPAGxE+, SPAGxE_Wald+, SPAGxECCT+, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
+      pval.output = c(pval.spaG, pval.norm, pval.norm1)
+    } # 3 elements: SPAGxE+, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
   }else{
 
     W = cbind(1, g)
@@ -295,15 +276,8 @@ SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
       pval.norm = pval3 + pval4
     }
 
-    # Wald test
-
-    pval.wald = pval.spaGxE
-
-    # use CCT to conbine p values from SPAGxE and Wald tests in the case of pval.norm1 < epsilon
-    pval_SPAGxE_Wald_CCT = pval.spaGxE
-
     # updated on 2023-12-27
-    pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # SPAGxE+
+    pval.output = c(pval.spaGxE, pval.norm, pval.norm1) # SPAGxE+
 
   }
 

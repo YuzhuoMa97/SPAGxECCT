@@ -53,7 +53,6 @@
 #'
 #' @export
 #' @import survival
-#' @import ordinal
 #' @import lme4
 
 SPAGxEmix_CCT_Plus = function(traits="binary/quantitative",

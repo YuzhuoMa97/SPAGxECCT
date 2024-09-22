@@ -44,7 +44,6 @@
 #'                     gIDs=paste0("IID-",1:N))
 #' @export
 #' @import survival
-#' @import ordinal
 
 SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
                            formula=NULL,
@@ -273,7 +272,6 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #'
 #' @export
 #' @import survival
-#' @import ordinal
 
 SPAGxE_CCT = function(traits="survival/binary/quantitative/categorical",
                       Geno.mtx,              # genotype vector
@@ -612,7 +610,6 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #'
 #' @export
 #' @import survival
-#' @import ordinal
 
 SPAGxEmix_CCT = function(traits="survival/binary/quantitative/categorical",
                          Geno.mtx,                                          # genotype vector
@@ -1088,7 +1085,6 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 #'
 #' @export
 #' @import survival
-#' @import ordinal
 
 
 SPAGxEmixCCT_localance = function(traits="survival/binary/quantitative/categorical",
