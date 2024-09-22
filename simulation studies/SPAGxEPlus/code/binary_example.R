@@ -1,14 +1,15 @@
 # cd /gdata01/user/yuzhuoma/GxE/F/GxE/code/binary/typeIerror/4mem/
 
+setwd("/gdata01/user/yuzhuoma/GxE/F/GxE/SPAGxEPlus_test_data/")
 
 library(data.table)
 library(lme4)
 source("/gdata01/user/yuzhuoma/SPAGxEmixPlus/simulation_admix_relateness_test/code/typeIerror/binary/pheno_hetero/4mem/20240916_SPAGxECCT_pcakage.R")
 
 
-prevalence = 0.5
-True.MAF = 0.3
-Pheno.ID = 2
+prevalence = 0.01
+True.MAF = 0.01
+Pheno.ID = 1
 
 #### load genotype data (10000 independent SNPs)
 load(paste0("/gdata01/user/yuzhuoma/GxE/F/GxE/data/binary/typeIerror/4mem/genotype/MAF-", True.MAF, "/GenoMat.Rdata"))

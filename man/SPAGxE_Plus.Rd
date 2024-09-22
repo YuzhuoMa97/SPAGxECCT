@@ -73,7 +73,7 @@ To run SPAGxE_Plus, the following two steps are required:
   \item Step 2: Use function SPAGxE_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
 }
 
-SPAGxE_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
+SPAGxE_Plus() is an extension of SPAGxE() which additionally uses sparse GRM to account for familial relatedness.
 SPAGxE_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
 Hence, when the score statistic is close to 0 (i.e., p-values are not small), we use the normal distribution approximation.
@@ -83,4 +83,42 @@ Argument 'Cutoff' is to specify the standard deviation cutoff.
 Sometimes, the order of subjects between phenotype data and genotype data are different, which could lead to some errors.
 To avoid that, we ask users to specify the IDs of both phenotype data (pIDs) and genotype data (gIDs) when fitting the null model.
 Users are responsible to check the consistency between pIDs and formula, and the consistency between gIDs and Geno.mtx.
+}
+\examples{
+# example 1  binary phenotype
+# load in binary phenotype, genotype, and sparseGRM
+
+data("Phen.mtx.SPAGxEPlus.binary")
+data("sparseGRM.SPAGxEPlus")
+data("GenoMat.SPAGxEPlus")
+
+Phen.mtx = Phen.mtx.SPAGxEPlus.binary
+
+E = Phen.mtx$E        # environmental factor
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")] # Covariate matrix excluding environmental factor
+
+### fit null model for SPAGxEPlus
+
+obj.SPAGxE_Plus_Nullmodel = SPAGxE_Plus_Nullmodel(traits = "binary",
+                                                 Y~Cov1+Cov2+E,family=binomial(link="logit"),
+                                                 data=Phen.mtx,
+                                                 pIDs=Phen.mtx$IID,
+                                                 gIDs=rownames(GenoMat.SPAGxEPlus),
+                                                 sparseGRM = sparseGRM.SPAGxEPlus,
+                                                 E = E)
+
+### calculate p values
+
+binary.res = SPAGxE_Plus(Geno.mtx = GenoMat.SPAGxEPlus,
+                        E = E,
+                        Phen.mtx = Phen.mtx,
+                        Cova.mtx = Cova.mtx,
+                        sparseGRM = sparseGRM.SPAGxEPlus,
+                        obj.SPAGxE_Plus_Nullmodel = obj.SPAGxE_Plus_Nullmodel)
+
+binary.res = as.data.frame(binary.res)
+
+# we recommand using column of 'p.value.spaGxE.plus' as p-values testing for marginal GxE effect
+head(binary.res)
+
 }

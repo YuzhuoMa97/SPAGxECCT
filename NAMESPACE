@@ -3,6 +3,7 @@
 export(SPAGxE_CCT)
 export(SPAGxE_CCT_one_SNP)
 export(SPAGxE_Plus)
+export(SPAGxE_Plus_Nullmodel)
 export(SPAGxE_Plus_one_SNP)
 export(SPAGxEmixCCT_localance)
 export(SPAGxEmixCCT_localance_one_SNP)

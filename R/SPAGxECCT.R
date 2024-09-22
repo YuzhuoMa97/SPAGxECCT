@@ -547,7 +547,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #' \item{MAC}{minor allele counts}
 #' @examples
 #'
-#' # example 1  time-to-event phenotype
+#'# example 1  time-to-event phenotype
 #'# Simulation phenotype and genotype
 #'N = 10000
 #'N.population1 = N/2
@@ -568,7 +568,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #'Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
 #'                                  event=rbinom(N.population2,1,0.5),
 #'                                  surv.time=runif(N.population2),
-#'                                 Cov1=rnorm(N.population2),
+#'                                  Cov1=rnorm(N.population2),
 #'                                  Cov2=rbinom(N.population2,1,0.5),
 #'                                  E = rnorm(N.population2),
 #'                                  PC1 = 0)

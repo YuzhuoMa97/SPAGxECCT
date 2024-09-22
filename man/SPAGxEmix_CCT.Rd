@@ -116,7 +116,7 @@ Phen.mtx.population1 = data.frame(ID = paste0("IID-",1:N.population1),
 Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
                                  event=rbinom(N.population2,1,0.5),
                                  surv.time=runif(N.population2),
-                                Cov1=rnorm(N.population2),
+                                 Cov1=rnorm(N.population2),
                                  Cov2=rbinom(N.population2,1,0.5),
                                  E = rnorm(N.population2),
                                  PC1 = 0)

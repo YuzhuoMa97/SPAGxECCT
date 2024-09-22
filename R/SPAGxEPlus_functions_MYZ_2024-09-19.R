@@ -25,7 +25,7 @@
 #'   \item Step 2: Use function SPAGxE_Plus() to calculate p value for each genetic variant to conduct a GxE analysis.
 #' }
 #'
-#' SPAGxE_Plus() is an extension of SPAGxE_CCT() which additionally uses sparse GRM to account for familial relatedness.
+#' SPAGxE_Plus() is an extension of SPAGxE() which additionally uses sparse GRM to account for familial relatedness.
 #' SPAGxE_Plus() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 #' Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
 #' Hence, when the score statistic is close to 0 (i.e., p-values are not small), we use the normal distribution approximation.
@@ -48,9 +48,45 @@
 #' \item{Var.betaG}{estimated variances of the score statistics testing for marginal genetic effect}
 #' \item{z.betaG}{z values (using Var1) corresponding to the score statistics testing for marginal genetic effect}
 #'
+#' @examples
+#'# example 1  binary phenotype
+#'# load in binary phenotype, genotype, and sparseGRM
+#'
+#'data("Phen.mtx.SPAGxEPlus.binary")
+#'data("sparseGRM.SPAGxEPlus")
+#'data("GenoMat.SPAGxEPlus")
+#'
+#'Phen.mtx = Phen.mtx.SPAGxEPlus.binary
+#'
+#'E = Phen.mtx$E        # environmental factor
+#'Cova.mtx = Phen.mtx[,c("Cov1","Cov2")] # Covariate matrix excluding environmental factor
+#'
+#'### fit null model for SPAGxEPlus
+#'
+#'obj.SPAGxE_Plus_Nullmodel = SPAGxE_Plus_Nullmodel(traits = "binary",
+#'                                                  Y~Cov1+Cov2+E,family=binomial(link="logit"),
+#'                                                  data=Phen.mtx,
+#'                                                  pIDs=Phen.mtx$IID,
+#'                                                  gIDs=rownames(GenoMat.SPAGxEPlus),
+#'                                                  sparseGRM = sparseGRM.SPAGxEPlus,
+#'                                                  E = E)
+#'
+#'### calculate p values
+#'
+#'binary.res = SPAGxE_Plus(Geno.mtx = GenoMat.SPAGxEPlus,
+#'                         E = E,
+#'                         Phen.mtx = Phen.mtx,
+#'                         Cova.mtx = Cova.mtx,
+#'                         sparseGRM = sparseGRM.SPAGxEPlus,
+#'                         obj.SPAGxE_Plus_Nullmodel = obj.SPAGxE_Plus_Nullmodel)
+#'
+#'binary.res = as.data.frame(binary.res)
+#'
+#'# we recommand using column of 'p.value.spaGxE.plus' as p-values testing for marginal GxE effect
+#'head(binary.res)
+#'
 #' @export
 #' @import survival
-#' @import lme4
 #' @import dplyr
 
 SPAGxE_Plus = function(Geno.mtx,                                          # genotype vector
@@ -304,6 +340,7 @@ SPAGxE_Plus_one_SNP = function(g,                     # genotype vector
 #' @param E a numeric environmental factor with each element as an environmental factor value of an individual.
 #' @param ... Other arguments passed to function glm() or coxph(). For more details, please refer to package survival.
 #' @return Residuals after fitting a genotype-independent (covariate-only) model.
+#' @export
 
 SPAGxE_Plus_Nullmodel = function(traits="survival/binary/quantitative",
                                  formula=NULL,
