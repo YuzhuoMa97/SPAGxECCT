@@ -9,7 +9,7 @@ install_github("YuzhuoMa97/SPAGxECCT")
 library(SPAGxECCT)
 ?SPAGxECCT  # manual of SPAGxECCT package
 ```
-Current version is 1.0.0. For older version and version update information, plesase refer to OldVersions.  
+Current version is 1.0.1. For older version and version update information, plesase refer to OldVersions.  
 
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
