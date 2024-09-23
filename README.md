@@ -58,7 +58,9 @@ SPAGxE+ is a scalable and accurate G×E analytical framework that controls for s
 
 SPAGxE+ is a scalable and accurate G×E analytical framework that controls for sample relatedness and case-control imbalance. The sparse GRM is crucial for characterizing familial structure, and SPA is used to calibrate p-values.
 
-Currently, there is still a lack of scalable and accurate gene-environmental interaction analytical frameworks that can control for sample relatedness and be applicable to binary, time-to-event, ordinal categorical, and longitudinal trait analysis. 
+Currently, there is still a lack of scalable and accurate gene-environmental interaction analytical frameworks that can control for sample relatedness and be applicable to binary, time-to-event, ordinal categorical, or longitudinal trait analysis. It is usually challenging to detect gene-environmental interaction effects efficiently and accurately while adjusting for sample relateness in a large-scale genome-wide analysis of binary, time-to-event, ordinal categorical, or longitudinal trait.
+
+
 
 ## Introduction of SPAGxEmix<sub>CCT</sub>+
 
