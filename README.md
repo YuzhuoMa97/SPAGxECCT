@@ -102,7 +102,7 @@ Recent studies have demonstrated that adjusting for polygenic scores (PGSs) can 
 
 
 
-Our approach implements a two-stage strategy, referred to as SPAGxE<sub>CCT</sub>-PGS, SPAGxEmix<sub>CCT</sub>-PGS, and SPAGxEmix<sub>CCT-local</sub>-PGS:
+Our approach implements a two-stage strategy, referred to as SPAGxE<sub>CCT</sub>(PGS), SPAGxE+(PGS), SPAGxEmix<sub>CCT</sub>(PGS), and SPAGxEmix<sub>CCT-local</sub>(PGS):
 
 - Stage 1: Perform an initial genome-wide association study (GWAS) using tools like SAIGE, and calculate the Leave-One-Chromosome-Out (LOCO) PGS based on summary statistics. Alternatively, use PGSs from external databases like the PGS Catalog.
 
