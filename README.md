@@ -127,7 +127,7 @@ Scripts to reproduce the experiments performed for the manuscript:
 
 ## UK Biobank data analysis 
 
-In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub> and SPAGxEmix<sub>CCT</sub> to analyze time-to-event traits in UB Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. As a universal analysis framework, we also evaluated the performance of SPAGxE<sub>CCT</sub> in ordinal categorical, binary, and quantitative trait analysis.  
+In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxE+ to analyze time-to-event and binary traits in UK Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. For the SPAGxE+ analyses, 337,367 WB individuals with sample relatedness were included. As universal analytical frameworks, we evaluated the performance of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local, and SPAGxE+ in ordinal categorical, binary, and quantitative trait analysis.  
 
 **Summary statistics of time-to-event and binary traits in UK Biobank is available [here](https://zenodo.org/records/14249034).**
 
@@ -189,7 +189,7 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 
 ```
 
-
+**Additionally, the example codes in the R package SPAGxECCT can also be used to replicate the results of simulations.**
 
 
 # 
