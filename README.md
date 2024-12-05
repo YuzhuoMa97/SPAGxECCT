@@ -95,6 +95,11 @@ Steps 1 and 2 of the SPAGxEmix<sub>CCT</sub>+ analysis are similar to those in S
 
 **SPAGxEmix<sub>CCT</sub>+ is a scalable and accurate G×E analytical framework designed to control for both population structure and familial relatedness across diverse population and family structures. It is especially suited for cohorts that include individuals from multi-ancestry or multi-way admixed populations, effectively handling ancestry-specific minor allele frequencies (MAFs) and ancestry-specific case-control ratios (or other ancestry-specific phenotypic distribution such as event rates for time-to-event traits).**
 
+## Summary of key features for our proposed efficient G×E analysis methods.
+
+![plot](https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/summary_table_MYZ.png)
+
+
 ## The computational efficiency and statictical power can be enhanced through incorporating polygenic scores (PGSs) as covariates with fixed effects.
 
 Recent studies have demonstrated that adjusting for polygenic scores (PGSs) can account for polygenic effects and enhance statistical power. In SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxEmix<sub>CCT-local</sub>, incorporating PGSs as fixed-effect covariates significantly improves computational efficiency. When accurate PGSs are available, a genotype-independent model can be used for genome-wide analyses, enabling the application of regular score statistics followed by a hybrid test employing normal approximation and SPA. By including PGSs as covariates, we eliminate the need to construct statistics through matrix projection or linear regression with genotype data, further optimizing computational efficiency. Additionally, PGS adjustment boosts statistical power by accounting for polygenic effects, complementing the reduced power typically associated with sparse-GRM methods.
