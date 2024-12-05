@@ -29,7 +29,7 @@ Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any p
 
 As an extension of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub> is a G×E analysis framework which is applicable to individuals from multiple ancestries or multi-way admixed populations. 
 
-SPAGxE<sub>CCT</sub> assumes that genotypes across different individuals follow an identical distribution, a valid assumption in homogeneous populations. However, this assumption may not hold in study cohorts comprising individuals from diverse ancestries. To address this limitation, SPAGxEmix<sub>CCT</sub> modifies the approach to allow for different allele frequencies while maintaining binomial distributions for genotypes. SPAGxEmix<sub>CCT</sub> estimates individual-level allele frequencies using SNP-derived principal components (PCs) and raw genotypes. Similar to SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub> involves two main steps:
+SPAGxEmix<sub>CCT</sub> allows for different allele frequencies for genotypes. SPAGxEmix<sub>CCT</sub> estimates individual-level allele frequencies using SNP-derived principal components (PCs) and raw genotypes. Similar to SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub> involves two main steps:
 
 - Step 1: SPAGxEmix<sub>CCT</sub> fits a genotype-independent (covariates-only) model and calculates the model residuals. Detailed information is provided in Step 1 of SPAGxE<sub>CCT</sub>.
 
