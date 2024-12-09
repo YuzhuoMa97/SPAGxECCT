@@ -100,6 +100,8 @@ SPAGxEmix<sub>CCT</sub>+ comprises three main steps:
 - Step 2: SPAGxEmix<sub>CCT</sub>+ identifies genetic variants with marginal G×E effects on the trait of interest. It first estimates the individual-level allele frequencies of the tested variants using SNP-derived PCs (from Step 0) and raw genotypes. Next, SPAGxEmix<sub>CCT</sub>+ evaluates marginal genetic effects using score statistics. If the marginal genetic effect is not significant, S<sub>G×E(mix)</sub>+ is used as the test statistic to characterize the marginal G×E effect. If significant, S<sub>G×E(mix)</sub>+ is updated with genotype-adjusted test statistics. The hybrid strategy to balance computational efficiency and accuracy follows SPAGxE<sub>CCT</sub>.
 
 
+### Main features of SPAGxEmix<sub>CCT</sub>+
+
 To analyze individuals from multi-ancestry or multi-way admixed populations with familial relatedness, SPAGxEmix<sub>CCT</sub>+ first uses PC-AiR to obtain principal components representing population structure. It then applies PC-Relate to regress out the PCs from the genotypes, yielding ancestry-adjusted genotypes and kinship estimates to assess family structure (i.e., recent genetic relatedness). The PC-Relate paper demonstrates that an iterative process alternating between PC-AiR and PC-Relate can enhance inference for both population structure (via PC-AiR) and recent genetic relatedness (via PC-Relate). Typically, two iterations are sufficient to produce accurate ancestry-adjusted principal components and a sparse GRM.
 
 Steps 1 and 2 of the SPAGxEmix<sub>CCT</sub>+ analysis are similar to those in SPAGxEmix<sub>CCT</sub>. In Step 2, the ancestry-adjusted sparse GRM is crucial for characterizing familial structure, and SPA is used to calibrate p-values.
