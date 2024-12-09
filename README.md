@@ -13,6 +13,8 @@ Current version is 1.0.4. For older version and version update information, ples
 
 Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
+Please check https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html for more details.
+
 ## Introduction of SPAGxE<sub>CCT</sub> 
 
 **SPAGxE<sub>CCT</sub> is a G×E analysis framework designed for a wide range of complex traits with intricate structures, including time-to-event, ordinal categorical, binary, quantitative, longitudinal, and other complex traits.** The framework involves two main steps:
