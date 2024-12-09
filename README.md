@@ -11,9 +11,9 @@ library(SPAGxECCT)
 ```
 Current version is 1.0.4. For older version and version update information, plesase refer to OldVersions.  
 
-Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
+**Please check https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html for more details.**
 
-Please check https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html for more details.
+Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
 ## Introduction of SPAGxE<sub>CCT</sub> 
 
