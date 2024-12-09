@@ -37,13 +37,15 @@ SPAGxEmix<sub>CCT</sub> allows for different allele frequencies for genotypes. S
 
 - Step 2: SPAGxEmix<sub>CCT</sub> identifies genetic variants with marginal G×E effects on the trait of interest. It first estimates the individual-level allele frequencies of the tested variants using SNP-derived PCs and raw genotypes. Next, SPAGxEmix<sub>CCT</sub> evaluates marginal genetic effects using score statistics. If the marginal genetic effect is not significant, S<sub>G×E(mix)</sub> is used as the test statistic to characterize the marginal G×E effect. If significant, S<sub>G×E(mix)</sub> is updated to genotype-adjusted test statistics. The hybrid strategy to balance computational efficiency and accuracy follows SPAGxE<sub>CCT</sub>.
 
+![plot](https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/workflow_SPAGxEmixCCT_MYZ.png)
+
+## Main features of SPAGxEmix<sub>CCT</sub>
+
 Admixed populations are routinely excluded from genomic studies due to concerns over population structure. The admixed population analysis is technically challenging as it requires addressing the complicated patterns of genetic and phenotypic diversities that arise from distinct genetic backgrounds and environmental exposures. As the genetic ancestries are increasingly recognized as continuous rather than discrete, **SPAGxEmix<sub>CCT</sub> estimates individual-level allele frequencies to characterize the individual-level genetic ancestries using information from the SNP-derived PCs and raw genotype data in a model-free approach.**
 
 - SPAGxEmix<sub>CCT</sub> does not necessitate accurate specification of and the availability of appropriate reference population panels for the ancestries contributing to the individual, which might be unknown or not well defined.
 
 - SPAGxEmix<sub>CCT</sub> is not sensitive to model misspecification (e.g. missed or biased confounder-trait associations) and trait-based ascertainment.
-
-![plot](https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/workflow_SPAGxEmixCCT_MYZ.png)
 
 ## Introduction of SPAGxEmix<sub>CCT-local</sub>
 SPAGxEmix<sub>CCT-local</sub> is a scalable and accurate G×E analysis framework that allows tests for ancestry-specific effects by incorporating local ancestry in multi-way admixed populations.
