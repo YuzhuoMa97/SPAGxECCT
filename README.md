@@ -39,7 +39,7 @@ SPAGxEmix<sub>CCT</sub> allows for different allele frequencies for genotypes. S
 
 ![plot](https://github.com/YuzhuoMa97/SPAGxECCT/blob/main/workflow/workflow_SPAGxEmixCCT_MYZ.png)
 
-## Main features of SPAGxEmix<sub>CCT</sub>
+### Main features of SPAGxEmix<sub>CCT</sub>
 
 Admixed populations are routinely excluded from genomic studies due to concerns over population structure. The admixed population analysis is technically challenging as it requires addressing the complicated patterns of genetic and phenotypic diversities that arise from distinct genetic backgrounds and environmental exposures. As the genetic ancestries are increasingly recognized as continuous rather than discrete, **SPAGxEmix<sub>CCT</sub> estimates individual-level allele frequencies to characterize the individual-level genetic ancestries using information from the SNP-derived PCs and raw genotype data in a model-free approach.**
 
