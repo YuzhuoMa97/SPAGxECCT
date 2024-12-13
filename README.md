@@ -81,7 +81,7 @@ Currently, there is still a lack of scalable and accurate gene-environmental int
 
 SPAGxE+ is a scalable and accurate G×E analytical framework that uses saddlepoint approximation to calibrate the null distribution of test statistics while controlling for sample relatedness and case-control imbalance. 
 - Compared to SPAGxE, a sparse genetic relationship matrix (GRM) is used for characterizing familial structure.
-- SPAGxE+ provides accurate p-values even when case-control ratios are extremely unbalanced (e.g. case:control = 1:100).
+- SPAGxE+ provides accurate p-values even when case-control ratios are extremely unbalanced (e.g. case:control = 1:99).
 - SPAGxE+ is applicable to other complex traits including time-to-event, ordinal categorical, and longitudinal traits, and it maintains highly accuracy even when phenotypic distribution is unbalanced.
 
 
