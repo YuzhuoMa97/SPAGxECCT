@@ -1,0 +1,30 @@
+PLINK v1.90b6.24 64-bit (6 Jun 2021)
+Options in effect:
+  --file /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE
+  --make-bed
+  --out /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE
+
+Hostname: io01
+Working directory: /gdata01/user/yuzhuoma
+Start time: Sat Dec 21 18:27:00 2024
+
+Random number seed: 1734776820
+128230 MB RAM detected; reserving 64115 MB for main workspace.
+Scanning .ped file... done.
+Performing single-pass .bed write (100 variants, 10000 people).
+--file: /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE-temporary.bed +
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE-temporary.bim +
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE-temporary.fam written.
+100 variants loaded from .bim file.
+10000 people (10000 males, 0 females) loaded from .fam.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 10000 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is exactly 1.
+100 variants and 10000 people pass filters and QC.
+Note: No phenotypes present.
+--make-bed to /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.bed +
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.bim +
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.fam ... done.
+
+End time: Sat Dec 21 18:27:00 2024

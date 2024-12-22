@@ -6,7 +6,10 @@
 \usage{
 SPAGxE_CCT(
   traits = "survival/binary/quantitative/categorical",
-  Geno.mtx,
+  GenoFile = NULL,
+  GenoFileIndex = NULL,
+  control = list(AllMarkers = TRUE),
+  Geno.mtx = NULL,
   R,
   E,
   Phen.mtx,
@@ -20,6 +23,12 @@ SPAGxE_CCT(
 )
 }
 \arguments{
+\item{GenoFile}{a character of genotype file. Currently, we support two formats of genotype input including PLINK and BGEN. Other formats such as VCF will be added later. Please refer to \code{?GRAB.ReadGeno} for more details.}
+
+\item{GenoFileIndex}{additional index file(s) corresponding to GenoFile. Please refer to \code{?GRAB.ReadGeno} for more details.}
+
+\item{control}{a list of parameters to decide which markers to extract. Please refer to \code{?GRAB.ReadGeno} for more details.}
+
 \item{Geno.mtx}{a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 Column names of genetic variations and row names of subject IDs are required.
 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.}
@@ -34,7 +43,7 @@ Missing genotypes should be coded as NA. Both hard-called and imputed genotype d
 
 \item{epsilon}{a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.}
 
-\item{Cutoff}{a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
+\item{Cutoff}{a numeric value (default: 2) to specify the standard deviation cutoff to be used.
 If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
 otherwise, its p value is calculated based on a saddlepoint approximation.}
 
@@ -44,7 +53,7 @@ otherwise, its p value is calculated based on a saddlepoint approximation.}
 \item{missing.cutoff}{a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 Any variant with missing rate higher than this cutoff will be excluded from the analysis.}
 
-\item{min.maf}{a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
+\item{min.maf}{a numeric value (default: 0.001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.}
 
 \item{G.model}{model type}
 }
@@ -70,6 +79,8 @@ To run SPAGxECCT, the following two steps are required:
   \item Step 1: Use function SPA_G_Null_Model() or other functions to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
   \item Step 2: Use function SPAGxE_CCT() to calculate p value for each genetic variant to conduct a GxE analysis.
 }
+
+
 
 SPAGxE_CCT() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
@@ -119,12 +130,12 @@ R = SPA_G_Get_Resid("survival",
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
-survival.res = SPAGxE_CCT("survival",
-                          Geno.mtx,                     # genotype vector
-                          R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-                          E,                            # environmental factor
-                          Phen.mtx,                     # phenotype dataframe
-                          Cova.mtx)
+survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+                          Geno.mtx = Geno.mtx,                     # genotype matrix
+                          R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+                          E = E,                                   # environmental factor
+                          Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                          Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival.res)
@@ -151,18 +162,18 @@ Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)
 rownames(Geno.mtx) = paste0("IID-",1:N)
 colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 
-R = SPA_G_Get_Resid("binary",
+R = SPA_G_Get_Resid(traits = "binary",
                     glm(formula = Y ~ Cov1+Cov2+E, data = Phen.mtx, family = "binomial"),
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
-binary.res = SPAGxE_CCT("binary",
-                        Geno.mtx,                     # genotype vector
-                        R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-                        E,                            # environmental factor
-                        Phen.mtx,                     # phenotype dataframe
-                        Cova.mtx)
+binary.res = SPAGxE_CCT(traits = "binary",                       # trait type
+                        Geno.mtx = Geno.mtx,                     # genotype matrix
+                        R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+                        E = E,                                   # environmental factor
+                        Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                        Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 head(binary.res)
@@ -196,14 +207,84 @@ R = SPA_G_Get_Resid("quantitative",
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
-quantitative.res = SPAGxE_CCT("quantitative",
-                               Geno.mtx,              # genotype vector
-                               R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-                               E,                     # environmental factor
-                               Phen.mtx,              # include surv.time, event
-                               Cova.mtx)
+quantitative.res = SPAGxE_CCT(traits = "quantitative",          # trait type
+                              Geno.mtx = Geno.mtx,              # genotype matrix
+                              R = R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+                              E = E,                            # environmental factor
+                              Phen.mtx = Phen.mtx,              # include surv.time, event
+                              Cova.mtx = Cova.mtx)              # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 head(quantitative.res)
+
+# example 4  analysis of time-to-event phenotype utilizing genotype data from PLINK file
+# Simulation phenotype and genotype
+N = 10000
+Phen.mtx = data.frame(ID = paste0("IID-",1:N),
+                      event=rbinom(N,1,0.5),
+                      surv.time=runif(N),
+                      Cov1=rnorm(N),
+                      Cov2=rbinom(N,1,0.5),
+                      E = rnorm(N))
+
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+E = Phen.mtx$E
+GenoFile = system.file("", "GenoMat_SPAGxE.bed", package = "SPAGxECCT")
+
+# Attach the survival package so that we can use its function Surv()
+library(survival)
+
+R = SPA_G_Get_Resid("survival",
+                    Surv(surv.time,event)~Cov1+Cov2+E,
+                    data=Phen.mtx,
+                    pIDs=Phen.mtx$ID,
+                    gIDs=paste0("IID-",1:N))
+
+survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+                          GenoFile = GenoFile,                     # a character of genotype file
+                          R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+                          E = E,                                   # environmental factor
+                          Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                          Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
+
+# we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+head(survival.res)
+
+# example 5  analysis of time-to-event phenotype utilizing genotype data from BGEN file
+# Simulation phenotype and genotype
+N = 10000
+Phen.mtx = data.frame(ID = paste0("IID-",1:N),
+                      event=rbinom(N,1,0.5),
+                      surv.time=runif(N),
+                      Cov1=rnorm(N),
+                      Cov2=rbinom(N,1,0.5),
+                      E = rnorm(N))
+
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+E = Phen.mtx$E
+GenoFile = system.file("", "GenoMat_SPAGxE.bgen", package = "SPAGxECCT")
+GenoFileIndex = c(system.file("", "GenoMat_SPAGxE.bgen.bgi", package = "SPAGxECCT"),
+                  system.file("", "GenoMat_SPAGxE.sample", package = "SPAGxECCT"))
+
+
+# Attach the survival package so that we can use its function Surv()
+library(survival)
+
+R = SPA_G_Get_Resid("survival",
+                    Surv(surv.time,event)~Cov1+Cov2+E,
+                    data=Phen.mtx,
+                    pIDs=Phen.mtx$ID,
+                    gIDs=paste0("IID-",1:N))
+
+survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+                          GenoFile = GenoFile,                     # a character of genotype file
+                          GenoFileIndex = GenoFileIndex,           # additional index file(s) corresponding to GenoFile.
+                          R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+                          E = E,                                   # environmental factor
+                          Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                          Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
+
+# we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+head(survival.res)
 
 }

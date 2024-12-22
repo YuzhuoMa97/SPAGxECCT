@@ -1,0 +1,22 @@
+PLINK v2.00a3LM 64-bit Intel (20 Sep 2021)
+Options in effect:
+  --bfile /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE
+  --export bgen-1.2 bits=8 ref-first
+  --out /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE
+
+Hostname: node01
+Working directory: /gdata01/user/yuzhuoma
+Start time: Sun Dec 22 16:05:09 2024
+
+Random number seed: 1734854709
+515145 MiB RAM detected; reserving 257572 MiB for main workspace.
+Using up to 48 threads (change this with --threads).
+10000 samples (0 females, 10000 males; 10000 founders) loaded from
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.fam.
+100 variants loaded from
+/gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.bim.
+Note: No phenotype data present.
+Writing /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.bgen ... done.
+Writing /gdata01/user/yuzhuoma/GxE/package_data/GenoMat_SPAGxE.sample ... done.
+
+End time: Sun Dec 22 16:05:09 2024

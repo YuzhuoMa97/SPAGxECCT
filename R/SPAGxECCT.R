@@ -101,6 +101,9 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #' A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis.
 #'
 #' A scalable and accurate analysis framework for a large-scale genome-wide SPAGxECCT implementation of gene-environmental interaction (GxE) analyses of quantitative traits, binary traits, time-to-event traits, and ordinal categorical traits.
+#' @param GenoFile a character of genotype file. Currently, we support two formats of genotype input including PLINK and BGEN. Other formats such as VCF will be added later. Please refer to \code{?GRAB.ReadGeno} for more details.
+#' @param GenoFileIndex additional index file(s) corresponding to GenoFile. Please refer to \code{?GRAB.ReadGeno} for more details.
+#' @param control a list of parameters to decide which markers to extract. Please refer to \code{?GRAB.ReadGeno} for more details.
 #' @param Geno.mtx a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
@@ -109,20 +112,22 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #' @param Phen.mtx phenotype dataframe at least including three columns of ID, surv.time and event for time-to-event trait analysis, two columns of ID and linear phenotype Y for linear trait analysis, two columns of ID and binary phenotype Y for binary trait analysis, or two columns of ID and ordinal categorical phenotype Y for ordinal categorical trait analysis.
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
 #' @param epsilon a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.
-#' @param Cutoff a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
+#' @param Cutoff a numeric value (default: 2) to specify the standard deviation cutoff to be used.
 #'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
 #'               otherwise, its p value is calculated based on a saddlepoint approximation.
 #' @param impute.method a character string (default: "fixed") to specify the method to impute missing genotypes.
 #'                      "fixed" imputes missing genotypes (NA) by assigning the mean genotype value (i.e., 2MAF).
 #' @param missing.cutoff a numeric value (default: 0.15) to specify the cutoff of the missing rates.
 #'                       Any variant with missing rate higher than this cutoff will be excluded from the analysis.
-#' @param min.maf a numeric value (default: 0.0001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
+#' @param min.maf a numeric value (default: 0.001) to specify the cutoff of the minimal MAF. Any SNP with MAF < cutoff will be excluded from the analysis.
 #' @param G.model model type
 #' @details To run SPAGxECCT, the following two steps are required:
 #' \itemize{
 #'   \item Step 1: Use function SPA_G_Null_Model() or other functions to fit a genotype-independent (covariate-only) model to get residuals under a genotype-independent (covariate-only) model.
 #'   \item Step 2: Use function SPAGxE_CCT() to calculate p value for each genetic variant to conduct a GxE analysis.
 #' }
+#'
+#'
 #'
 #' SPAGxE_CCT() uses a hybrid strategy with both saddlepoint approximation and normal distribution approximation.
 #' Generally speaking, saddlepoint approximation is more accurate than, but a little slower than, the traditional normal distribution approximation.
@@ -183,12 +188,12 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #'                     pIDs=Phen.mtx$ID,
 #'                     gIDs=paste0("IID-",1:N))
 #'
-#' survival.res = SPAGxE_CCT("survival",
-#'                           Geno.mtx,                     # genotype vector
-#'                           R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-#'                           E,                            # environmental factor
-#'                           Phen.mtx,                     # phenotype dataframe
-#'                           Cova.mtx)
+#' survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+#'                           Geno.mtx = Geno.mtx,                     # genotype matrix
+#'                           R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                           E = E,                                   # environmental factor
+#'                           Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                           Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 #'
 #' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 #' head(survival.res)
@@ -215,18 +220,18 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #' rownames(Geno.mtx) = paste0("IID-",1:N)
 #' colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 #'
-#' R = SPA_G_Get_Resid("binary",
+#' R = SPA_G_Get_Resid(traits = "binary",
 #'                     glm(formula = Y ~ Cov1+Cov2+E, data = Phen.mtx, family = "binomial"),
 #'                     data=Phen.mtx,
 #'                     pIDs=Phen.mtx$ID,
 #'                     gIDs=paste0("IID-",1:N))
 #'
-#' binary.res = SPAGxE_CCT("binary",
-#'                         Geno.mtx,                     # genotype vector
-#'                         R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-#'                         E,                            # environmental factor
-#'                         Phen.mtx,                     # phenotype dataframe
-#'                         Cova.mtx)
+#' binary.res = SPAGxE_CCT(traits = "binary",                       # trait type
+#'                         Geno.mtx = Geno.mtx,                     # genotype matrix
+#'                         R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                         E = E,                                   # environmental factor
+#'                         Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                         Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 #'
 #' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 #' head(binary.res)
@@ -260,26 +265,100 @@ SPA_G_Get_Resid = function(traits="survival/binary/quantitative",
 #'                     pIDs=Phen.mtx$ID,
 #'                     gIDs=paste0("IID-",1:N))
 #'
-#' quantitative.res = SPAGxE_CCT("quantitative",
-#'                                Geno.mtx,              # genotype vector
-#'                                R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-#'                                E,                     # environmental factor
-#'                                Phen.mtx,              # include surv.time, event
-#'                                Cova.mtx)
+#' quantitative.res = SPAGxE_CCT(traits = "quantitative",          # trait type
+#'                               Geno.mtx = Geno.mtx,              # genotype matrix
+#'                               R = R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                               E = E,                            # environmental factor
+#'                               Phen.mtx = Phen.mtx,              # include surv.time, event
+#'                               Cova.mtx = Cova.mtx)              # a covariate matrix excluding the environmental factor E
 #'
 #' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 #' head(quantitative.res)
 #'
+#' # example 4  analysis of time-to-event phenotype utilizing genotype data from PLINK file
+#' # Simulation phenotype and genotype
+#' N = 10000
+#' Phen.mtx = data.frame(ID = paste0("IID-",1:N),
+#'                       event=rbinom(N,1,0.5),
+#'                       surv.time=runif(N),
+#'                       Cov1=rnorm(N),
+#'                       Cov2=rbinom(N,1,0.5),
+#'                       E = rnorm(N))
+#'
+#' Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+#' E = Phen.mtx$E
+#' GenoFile = system.file("", "GenoMat_SPAGxE.bed", package = "SPAGxECCT")
+#'
+#' # Attach the survival package so that we can use its function Surv()
+#' library(survival)
+#'
+#' R = SPA_G_Get_Resid("survival",
+#'                     Surv(surv.time,event)~Cov1+Cov2+E,
+#'                     data=Phen.mtx,
+#'                     pIDs=Phen.mtx$ID,
+#'                     gIDs=paste0("IID-",1:N))
+#'
+#' survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+#'                           GenoFile = GenoFile,                     # a character of genotype file
+#'                           R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                           E = E,                                   # environmental factor
+#'                           Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                           Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
+#'
+#' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+#' head(survival.res)
+#'
+#' # example 5  analysis of time-to-event phenotype utilizing genotype data from BGEN file
+#' # Simulation phenotype and genotype
+#' N = 10000
+#' Phen.mtx = data.frame(ID = paste0("IID-",1:N),
+#'                       event=rbinom(N,1,0.5),
+#'                       surv.time=runif(N),
+#'                       Cov1=rnorm(N),
+#'                       Cov2=rbinom(N,1,0.5),
+#'                       E = rnorm(N))
+#'
+#' Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+#' E = Phen.mtx$E
+#' GenoFile = system.file("", "GenoMat_SPAGxE.bgen", package = "SPAGxECCT")
+#' GenoFileIndex = c(system.file("", "GenoMat_SPAGxE.bgen.bgi", package = "SPAGxECCT"),
+#'                   system.file("", "GenoMat_SPAGxE.sample", package = "SPAGxECCT"))
+#'
+#'
+#' # Attach the survival package so that we can use its function Surv()
+#' library(survival)
+#'
+#' R = SPA_G_Get_Resid("survival",
+#'                     Surv(surv.time,event)~Cov1+Cov2+E,
+#'                     data=Phen.mtx,
+#'                     pIDs=Phen.mtx$ID,
+#'                     gIDs=paste0("IID-",1:N))
+#'
+#' survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
+#'                           GenoFile = GenoFile,                     # a character of genotype file
+#'                           GenoFileIndex = GenoFileIndex,           # additional index file(s) corresponding to GenoFile.
+#'                           R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                           E = E,                                   # environmental factor
+#'                           Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                           Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
+#'
+#' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+#' head(survival.res)
+#'
 #' @export
 #' @import survival
+#' @import GRAB
 
 SPAGxE_CCT = function(traits="survival/binary/quantitative/categorical",
-                      Geno.mtx,              # genotype vector
-                      R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
-                      E,                     # environmental factor
-                      Phen.mtx,              # phenotype dataframe
-                      Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
-                      epsilon = 0.001,       # a fixed value
+                      GenoFile = NULL,
+                      GenoFileIndex = NULL,
+                      control = list(AllMarkers = TRUE),
+                      Geno.mtx = NULL,
+                      R,
+                      E,
+                      Phen.mtx,
+                      Cova.mtx,
+                      epsilon = 0.001,
                       Cutoff = 2,
                       impute.method = "fixed",
                       missing.cutoff = 0.15,
@@ -294,17 +373,29 @@ SPAGxE_CCT = function(traits="survival/binary/quantitative/categorical",
                   min.maf=min.maf,
                   G.model=G.model)
 
-  # check_input1(obj.null, Geno.mtx, par.list)
+
+  # update on 2024-12
+  # suppressPackageStartupMessages(library("GRAB",quietly = T))
+
+  if(is.null(Geno.mtx)){
+    Geno.mtx = GRAB::GRAB.ReadGeno(GenoFile = GenoFile,
+                                   GenoFileIndex = GenoFileIndex,
+                                   SampleIDs = Phen.mtx$ID,
+                                   control = control)$GenoMat
+  }
+
+
+
   check_input_Resid(pIDs = Phen.mtx$ID, gIDs = rownames(Geno.mtx), R = R)
   print(paste0("Sample size is ",nrow(Geno.mtx),"."))
   print(paste0("Number of variants is ",ncol(Geno.mtx),"."))
 
   ### Prepare the main output data frame
   n.Geno = ncol(Geno.mtx)
-  output = matrix(NA, n.Geno, 10) # updated on 2023-12-27
+  output = matrix(NA, n.Geno, 10) # update on 2023-12-27
   colnames(output) = c("MAF","missing.rate",
                        "p.value.spaGxE","p.value.spaGxE.Wald","p.value.spaGxE.CCT.Wald","p.value.normGxE",
-                       "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG") # updated on 2023-12-27
+                       "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG") # update on 2023-12-27
   rownames(output) = colnames(Geno.mtx)
 
   ## Start analysis
@@ -314,13 +405,13 @@ SPAGxE_CCT = function(traits="survival/binary/quantitative/categorical",
   # Cycle for genotype matrix
   for(i in 1:n.Geno){
     g = Geno.mtx[,i]
-    # print(i)
+
     output.one.SNP = SPAGxE_CCT_one_SNP(traits=traits,
                                         g,                     # genotype vector
                                         R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                         E,                     # environmental factor
                                         Phen.mtx,              # phenotype dataframe
-                                        Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                        Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                         epsilon,               # a fixed value
                                         Cutoff,
                                         impute.method,
@@ -351,7 +442,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
                               R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                               E,                     # environmental factor
                               Phen.mtx,              # phenotype dataframe
-                              Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                              Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                               epsilon = 0.001,       # a fixed value
                               Cutoff = 2,
                               impute.method = "fixed",
@@ -405,19 +496,19 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
     pval.spaG = res[3]                                # p value from SPA
     pval.norm = res[4]                                # p-value from normal approximation
 
-    # updated on 2023-12-27
+    # update on 2023-12-27
     pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, SPAGxE_normal, normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
   }else{
 
     W = cbind(1, g)
 
-    # updated on 2023-12-27
+    # update on 2023-12-27
     R0 = R - (W)%*%(solve(t(W)%*%W))%*%(t(W)%*%R) # null model residuals adjusting for G
 
     S_GxE0 = sum(g*E*R0)  # test statistic for marginal GxE effect
     R.new0 = E*R0
 
-    # updated on 2023-10-24
+    # update on 2023-10-24
 
     res = SPA_G_one_SNP_homo_new(g=g, R=R.new0, min.maf=min.maf)              # the third element is p-value from SPA-G, the fourth element is p-value from normal approximation
     pval.spaGxE = res[3]                                                      # p value from SPA
@@ -435,13 +526,13 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
     }
 
     if(traits=="binary"){
 
-      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # updated on 2023-12-27
+      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # update on 2023-12-27
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
@@ -449,13 +540,13 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
     }
 
     if(traits=="quantitative"){
 
-      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E) # updated on 2023-12-27
+      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E) # update on 2023-12-27
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|t|)"]     # Wald test p value for marginal GxE effect
 
@@ -463,7 +554,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
     }
 
@@ -478,7 +569,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
                                    pval.wald))
 
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxE, SPAGxE_Wald, SPAGxE_CCT, normal p-value for marginal GxE effect, and normal p value for marginal genetic effect
     }
   }
@@ -493,6 +584,9 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #' A scalable and accurate framework for large-scale genome-wide gene-environment interaction (GxE) analysis in admixed populations.
 #'
 #' A scalable and accurate analysis framework for a large-scale genome-wide SPAGxECCT implementation of gene-environmental interaction (GxE) analyses of quantitative traits, binary traits, time-to-event traits, and ordinal categorical traits.
+#' @param GenoFile a character of genotype file. Currently, we support two formats of genotype input including PLINK and BGEN. Other formats such as VCF will be added later. Please refer to \code{?GRAB.ReadGeno} for more details.
+#' @param GenoFileIndex additional index file(s) corresponding to GenoFile. Please refer to \code{?GRAB.ReadGeno} for more details.
+#' @param control a list of parameters to decide which markers to extract. Please refer to \code{?GRAB.ReadGeno} for more details.
 #' @param Geno.mtx a numeric genotype matrix with each row as an individual and each column as a genetic variant.
 #'                 Column names of genetic variations and row names of subject IDs are required.
 #'                 Missing genotypes should be coded as NA. Both hard-called and imputed genotype data are supported.
@@ -502,7 +596,7 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #' @param Cova.mtx a covariate matrix excluding the environmental factor E.
 #' @param topPCs a covariate matrix including the SNP-derived principle components (PCs) containing all information of population structure.
 #' @param epsilon a numeric value (default: 0.001) to specify the p-value cutoff for betaG estimation. Please see details for more information.
-#' @param Cutoff a numeric value (Default: 2) to specify the standard deviation cutoff to be used.
+#' @param Cutoff a numeric value (default: 2) to specify the standard deviation cutoff to be used.
 #'               If the test statistic lies within the standard deviation cutoff, its p value is calculated based on a normal distribution approximation,
 #'               otherwise, its p value is calculated based on a saddlepoint approximation.
 #' @param impute.method a character string (default: "fixed") to specify the method to impute missing genotypes.
@@ -598,25 +692,134 @@ SPAGxE_CCT_one_SNP = function(traits="survival/binary/quantitative/categorical",
 #'                    gIDs=paste0("IID-",1:N))
 #'
 #'survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
-#'                             Geno.mtx = Geno.mtx,                     # genotype vector
+#'                             Geno.mtx = Geno.mtx,                     # a character of genotype file
 #'                             R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
 #'                             E = E,                                   # environmental factor
 #'                             Phen.mtx = Phen.mtx,                     # phenotype dataframe
-#'                             Cova.mtx = Cova.mtx,
-#'                             topPCs = Cova.mtx[,"PC1"])
+#'                             Cova.mtx = Cova.mtx,                     # a covariate matrix excluding the environmental factor E
+#'                             topPCs = Cova.mtx[,"PC1"])               # PCs
 #'
 #'# we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 #'head(survival.res)
+#'
+#' # example 2  analysis of time-to-event phenotype utilizing genotype data from PLINK file
+#' # Simulate phenotype
+#' N = 10000
+#' N.population1 = N/2
+#' N.population2 = N/2
+#'
+#' Phen.mtx.population1 = data.frame(ID = paste0("IID-",1:N.population1),
+#'                                   event=rbinom(N.population1,1,0.5),
+#'                                   surv.time=runif(N.population1),
+#'                                   Cov1=rnorm(N.population1),
+#'                                   Cov2=rbinom(N.population1,1,0.5),
+#'                                   E = rnorm(N.population1),
+#'                                   PC1 = 1)
+#'
+#' Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
+#'                                   event=rbinom(N.population2,1,0.5),
+#'                                   surv.time=runif(N.population2),
+#'                                   Cov1=rnorm(N.population2),
+#'                                   Cov2=rbinom(N.population2,1,0.5),
+#'                                   E = rnorm(N.population2),
+#'                                   PC1 = 0)
+#'
+#' Phen.mtx = rbind.data.frame(Phen.mtx.population1,
+#'                             Phen.mtx.population2)
+#'
+#' Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]
+#' E = Phen.mtx$E
+#'
+#' # PLINK format
+#' GenoFile = system.file("", "GenoMat_SPAGxEmix.bed", package = "SPAGxECCT")
+#'
+#'
+#' # Attach the survival package so that we can use its function Surv()
+#' library(survival)
+#'
+#' R = SPA_G_Get_Resid("survival",
+#'                     Surv(surv.time,event)~Cov1+Cov2+PC1+E,
+#'                     data=Phen.mtx,
+#'                     pIDs=Phen.mtx$ID,
+#'                     gIDs=paste0("IID-",1:N))
+#'
+#' survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
+#'                              GenoFile = GenoFile,                     # a character of genotype file
+#'                              R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                              E = E,                                   # environmental factor
+#'                              Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                              Cova.mtx = Cova.mtx,                     # a covariate matrix excluding the environmental factor E
+#'                              topPCs = Cova.mtx[,"PC1"])               # PCs
+#'
+#' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+#' head(survival.res)
+#'
+#' # example 3  analysis of time-to-event phenotype utilizing genotype data from BGEN file
+#' # Simulate phenotype
+#' N = 10000
+#' N.population1 = N/2
+#' N.population2 = N/2
+#'
+#' Phen.mtx.population1 = data.frame(ID = paste0("IID-",1:N.population1),
+#'                                   event=rbinom(N.population1,1,0.5),
+#'                                   surv.time=runif(N.population1),
+#'                                   Cov1=rnorm(N.population1),
+#'                                   Cov2=rbinom(N.population1,1,0.5),
+#'                                   E = rnorm(N.population1),
+#'                                   PC1 = 1)
+#'
+#' Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
+#'                                   event=rbinom(N.population2,1,0.5),
+#'                                   surv.time=runif(N.population2),
+#'                                   Cov1=rnorm(N.population2),
+#'                                   Cov2=rbinom(N.population2,1,0.5),
+#'                                   E = rnorm(N.population2),
+#'                                   PC1 = 0)
+#'
+#' Phen.mtx = rbind.data.frame(Phen.mtx.population1,
+#'                             Phen.mtx.population2)
+#'
+#' Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]
+#' E = Phen.mtx$E
+#'
+#' # BGEN format
+#' GenoFile = system.file("", "GenoMat_SPAGxEmix.bgen", package = "SPAGxECCT")
+#' GenoFileIndex = c(system.file("", "GenoMat_SPAGxEmix.bgen.bgi", package = "SPAGxECCT"),
+#'                   system.file("", "GenoMat_SPAGxEmix.sample", package = "SPAGxECCT"))
+#'
+#' # Attach the survival package so that we can use its function Surv()
+#' library(survival)
+#'
+#' R = SPA_G_Get_Resid("survival",
+#'                     Surv(surv.time,event)~Cov1+Cov2+PC1+E,
+#'                     data=Phen.mtx,
+#'                     pIDs=Phen.mtx$ID,
+#'                     gIDs=paste0("IID-",1:N))
+#'
+#' survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
+#'                              GenoFile = GenoFile,                     # genotype file
+#'                              GenoFileIndex = GenoFileIndex,           # additional index file(s) corresponding to GenoFile.
+#'                              R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
+#'                              E = E,                                   # environmental factor
+#'                              Phen.mtx = Phen.mtx,                     # phenotype dataframe
+#'                              Cova.mtx = Cova.mtx,                     # a covariate matrix excluding the environmental factor E
+#'                              topPCs = Cova.mtx[,"PC1"])               # PCs
+#'
+#' # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
+#' head(survival.res)
 #'
 #' @export
 #' @import survival
 
 SPAGxEmix_CCT = function(traits="survival/binary/quantitative/categorical",
-                         Geno.mtx,                                          # genotype vector
+                         GenoFile = NULL,
+                         GenoFileIndex = NULL,
+                         control = list(AllMarkers = TRUE),
+                         Geno.mtx = NULL,
                          R,                                                 # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                          E,                                                 # environmental factor
                          Phen.mtx,                                          # phenotype dataframe
-                         Cova.mtx,                                          # other covariates (such as age, gender, and top PCs) excluding E
+                         Cova.mtx,                                          # other covariates (such as age, sex, and top PCs) excluding E
                          topPCs,                                            # a covariate matrix including the SNP-derived principle components (PCs) containing all information of population structure
                          epsilon = 0.001,                                   # a fixed value
                          Cutoff = 2,
@@ -637,6 +840,16 @@ SPAGxEmix_CCT = function(traits="survival/binary/quantitative/categorical",
                   min.maf=min.maf,
                   G.model=G.model)
 
+  # update on 2024-12
+  # suppressPackageStartupMessages(library("GRAB",quietly = T))
+
+  if(is.null(Geno.mtx)){
+    Geno.mtx = GRAB::GRAB.ReadGeno(GenoFile = GenoFile,
+                                   GenoFileIndex = GenoFileIndex,
+                                   SampleIDs = Phen.mtx$ID,
+                                   control = control)$GenoMat
+  }
+
   # check_input1(obj.null, Geno.mtx, par.list)
   print(paste0("Sample size is ",nrow(Geno.mtx),"."))
   print(paste0("Number of variants is ",ncol(Geno.mtx),"."))
@@ -648,7 +861,7 @@ SPAGxEmix_CCT = function(traits="survival/binary/quantitative/categorical",
   colnames(output) = c("MAF","missing.rate",
                        "p.value.spaGxE","p.value.spaGxE.Wald","p.value.spaGxE.CCT.Wald","p.value.normGxE",
                        "p.value.betaG", "Stat.betaG","Var.betaG","z.betaG",
-                       "MAF.est.negative.num" ,"MAC") # updated on 2024-04-16
+                       "MAF.est.negative.num" ,"MAC") # update on 2024-04-16
 
   rownames(output) = colnames(Geno.mtx)
 
@@ -667,7 +880,7 @@ SPAGxEmix_CCT = function(traits="survival/binary/quantitative/categorical",
                                            R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                            E,                     # environmental factor
                                            Phen.mtx,              # phenotype dataframe
-                                           Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                           Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                            topPCs,                # a covariate matrix including the SNP-derived principle components (PCs) containing all information of population structure
                                            epsilon,               # a fixed value
                                            Cutoff,
@@ -700,7 +913,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
                                  R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                  E,                     # environmental factor
                                  Phen.mtx,              # phenotype dataframe
-                                 Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                 Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                  topPCs,
                                  epsilon = 0.001,       # a fixed value
                                  Cutoff = 2,
@@ -740,7 +953,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
   N1set = which(g!=0)  # position of non-zero genotypes
   N0 = N-length(N1set)
 
-  MAC = MAF*2*N      #  updated on 2022-10-05
+  MAC = MAF*2*N      #  update on 2022-10-05
 
 
   if(MAC <= 20){
@@ -762,10 +975,10 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       }else{
         selected.PCs = topPCs[,which(topPCs.pvalueVec < topPCs.pvalue.cutoff)]
 
-        # updated on 2023-02-13: MAF.est1
+        # update on 2023-02-13: MAF.est1
         g.tilde = round(g)
 
-        # updated on 2023-03-23: some variants sum(g.tilde)==0, thus MAF.est=0, and result in inflated type I error rates
+        # update on 2023-03-23: some variants sum(g.tilde)==0, thus MAF.est=0, and result in inflated type I error rates
         if(sum(g.tilde)==0 | sum(2-g.tilde)==0){
           MAF.est = c(rep(MAF, N)) # MAF.all
         }else{
@@ -776,7 +989,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
         }
       }
     }else{
-      MAF0 = 0          #  updated on 2022-10-28
+      MAF0 = 0          #  update on 2022-10-28
       MAF.est = ifelse(MAF.est <= 0, MAF0, MAF.est)
       MAF.est = ifelse(MAF.est >= 1, 1 - MAF0, MAF.est)
     }
@@ -811,11 +1024,11 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval.output = c(pval.norm, pval.norm, pval.norm, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }else{
 
-      # updated on 2023-10-24
+      # update on 2023-10-24
       pval1 = GetProb_SPA_G_new(init.t = 0, MAF.est, R.new, max(S_GxE, (2*S_GxE.mean-S_GxE)), lower.tail = FALSE) # SPA-G p value
       pval2 = GetProb_SPA_G_new(init.t = 0, MAF.est, R.new, min(S_GxE, (2*S_GxE.mean-S_GxE)), lower.tail = TRUE)  # SPA-G p value
 
-      # updated on 2023-10-24
+      # update on 2023-10-24
       if(is.na(pval2)){
         pval2 = pval1
       }
@@ -827,14 +1040,14 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval.norm = pval3 + pval4
 
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1)
     } # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
   }else{
 
     W = cbind(1, g)
 
-    # updated on 2023-12-27
+    # update on 2023-12-27
     R0 = R - (W)%*%(solve(t(W)%*%W))%*%(t(W)%*%R) # null model residuals adjusting for G
 
     S_GxE0 = sum(g*E*R0)  # test statistic for marginal GxE effect
@@ -851,11 +1064,11 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval.spaGxE = pval.norm
     }else{
 
-      # updated on 2023-10-24
+      # update on 2023-10-24
       pval1 = GetProb_SPA_G_new(init.t = 0, MAF.est, R.new0, max(S_GxE0, (2*S_GxE0.mean-S_GxE0)), lower.tail = FALSE) # SPA-G p value
       pval2 = GetProb_SPA_G_new(init.t = 0, MAF.est, R.new0, min(S_GxE0, (2*S_GxE0.mean-S_GxE0)), lower.tail = TRUE)  # SPA-G p value
 
-      # updated on 2023-10-24
+      # update on 2023-10-24
       if(is.na(pval2)){
         pval2 = pval1
       }
@@ -875,7 +1088,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
-      # updated on 2024-04-21
+      # update on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
@@ -884,17 +1097,17 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
     if(traits=="binary"){
 
-      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # updated on 2023-12-27
+      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # update on 2023-12-27
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
-      # updated on 2024-04-21
+      # update on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
@@ -903,17 +1116,17 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
     if(traits=="quantitative"){
 
-      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E) # updated on 2023-12-27
+      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.mtx)+E+g+g*E) # update on 2023-12-27
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|t|)"]     # Wald test p value for marginal GxE effect
 
-      # updated on 2024-04-21
+      # update on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
@@ -922,7 +1135,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
@@ -932,7 +1145,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
-      # updated on 2024-04-21
+      # update on 2024-04-21
       if(is.na(pval.wald)){
         pval.wald = pval.spaGxE
       }
@@ -942,7 +1155,7 @@ SPAGxEmix_CCT_one_SNP = function(traits="survival/binary/quantitative/categorica
                                    pval.wald))
 
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix, SPAGxEmixCCT_Wald, SPAGxEmixCCT_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
   }
@@ -1094,7 +1307,7 @@ SPAGxEmixCCT_localance = function(traits="survival/binary/quantitative/categoric
                                   Cutoff = 2,
                                   E,                     # environmental factor
                                   Phen.mtx,              # phenotype dataframe
-                                  Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                  Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                   Cova.haplo.mtx.list,
                                   epsilon = 0.001,       # a fixed value
                                   impute.method = "fixed",
@@ -1150,7 +1363,7 @@ SPAGxEmixCCT_localance = function(traits="survival/binary/quantitative/categoric
                                                     R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                                     E,                     # environmental factor
                                                     Phen.mtx,              # phenotype dataframe
-                                                    Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                                    Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                                     Cova.haplo.mtx,        # matrix of local ancestry haplotypes used in Wald test (for two-way admixed populations, only index haplo_numVec is needed instead of haplo.mtx)
                                                     epsilon,               # a fixed value
                                                     Cutoff,
@@ -1188,7 +1401,7 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
                                           R,                     # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                                           E,                     # environmental factor
                                           Phen.mtx,              # phenotype dataframe
-                                          Cova.mtx,              # other covariates (such as age, gender, and top PCs) excluding E
+                                          Cova.mtx,              # other covariates (such as age, sex, and top PCs) excluding E
                                           Cova.haplo.mtx,        # matrix of local ancestry haplotypes used in Wald test (for two-way admixed populations, only index haplo_numVec is needed instead of haplo.mtx)
                                           epsilon = 0.001,       # a fixed value
                                           Cutoff = 2,
@@ -1251,19 +1464,19 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
     pval.spaG = res[3]                                                                        # p value from SPA
     pval.norm = res[4]                                                                        # p value from normal approximation
 
-    # updated on 2023-12-27
+    # update on 2023-12-27
     pval.output = c(pval.spaG, pval.spaG, pval.spaG, pval.norm, pval.norm1) # 5 elements: SPAGxEmix_local, SPAGxEmixCCT_local_Wald, SPAGxEmixCCT_local_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
   }else{
 
     W = cbind(1, g)
 
-    # updated on 2023-12-27
+    # update on 2023-12-27
     R0 = R - (W)%*%(solve(t(W)%*%W))%*%(t(W)%*%R) # null model residuals adjusting for G
 
     S_GxE0 = sum(g*E*R0)  # test statistic for marginal GxE effect
     R.new0 = E*R0
 
-    # updated on 2023-10-24
+    # update on 2023-10-24
 
     res = SPAmix_localance_one_SNP(g=g, R=R.new0, haplo_numVec=haplo_numVec, min.maf=min.maf)       # the third element is p-value from SPA-G, the fourth element is p-value from normal approximation
 
@@ -1274,7 +1487,7 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
 
     if(traits=="survival"){
 
-      data0 = coxph(formula = Surv(Phen.mtx$surv.time, Phen.mtx$event) ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+E+g+g*E, iter.max = 1000) # updated
+      data0 = coxph(formula = Surv(Phen.mtx$surv.time, Phen.mtx$event) ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+E+g+g*E, iter.max = 1000) # update
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
@@ -1282,13 +1495,13 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix_local, SPAGxEmixCCT_local_Wald, SPAGxEmixCCT_local_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
     if(traits=="binary"){
 
-      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # updated
+      data0 = glm(formula = Phen.mtx$Y ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+E+g+g*E, family = "binomial") # update
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
@@ -1296,13 +1509,13 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix_local, SPAGxEmixCCT_local_Wald, SPAGxEmixCCT_local_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
     if(traits=="quantitative"){
 
-      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+haplo_numVec+E+g+g*E) # updated
+      data0 = lm(formula = Phen.mtx$Y ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+haplo_numVec+E+g+g*E) # update
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|t|)"]     # Wald test p value for marginal GxE effect
 
@@ -1310,13 +1523,13 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
       pval_SPAGxE_Wald_CCT = CCT(c(pval.spaGxE,
                                    pval.wald))
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix_local, SPAGxEmixCCT_local_Wald, SPAGxEmixCCT_local_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
 
     if(traits=="categorical"){
 
-      data0 = clm(formula = as.factor(Phen.mtx$Y) ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+haplo_numVec+E+g+g*E) # updated
+      data0 = clm(formula = as.factor(Phen.mtx$Y) ~ as.matrix(Cova.haplo.mtx)+as.matrix(Cova.mtx)+haplo_numVec+E+g+g*E) # update
 
       pval.wald = summary(data0)$coefficients["E:g", "Pr(>|z|)"]     # Wald test p value for marginal GxE effect
 
@@ -1325,7 +1538,7 @@ SPAGxEmixCCT_localance_one_SNP = function(traits="survival/binary/quantitative/c
                                    pval.wald))
 
 
-      # updated on 2023-12-27
+      # update on 2023-12-27
       pval.output = c(pval.spaGxE, pval.wald, pval_SPAGxE_Wald_CCT, pval.norm, pval.norm1) # 5 elements: SPAGxEmix_local, SPAGxEmixCCT_local_Wald, SPAGxEmixCCT_local_CCT, normal approximation p-value for marginal GxE effect, and normal approximation p value for marginal genetic effect
     }
   }
@@ -1501,7 +1714,7 @@ fastgetroot_H1_new = function(init.t,
 
     diff.t = -1 * H1_adj_eval / H2_eval
 
-    # updated on 2023-10-24
+    # update on 2023-10-24
     if(is.na(diff.t)){
       diff.t =  5
     }
@@ -1526,7 +1739,7 @@ fastgetroot_H1_new = function(init.t,
     t = old.t + diff.t
   }
 
-  # updated on 2023-10-24
+  # update on 2023-10-24
 
   if(iter == maxiter) {
     converge = F
@@ -1608,7 +1821,7 @@ SPA_G_one_SNP_homo = function(g,
                               Cutoff = 2,
                               impute.method = "fixed",
                               missing.cutoff = 0.15,
-                              min.maf = 0.00001,       # updated on 2023-12-27
+                              min.maf = 0.00001,       # update on 2023-12-27
                               G.model = "Add")
 {
   ## calculate MAF and update genotype vector
@@ -1682,7 +1895,7 @@ SPA_G_one_SNP_homo_new = function(g,
                                   Cutoff = 2,
                                   impute.method = "fixed",
                                   missing.cutoff = 0.15,
-                                  min.maf = 0.00001,       # updated on 2023-12-27
+                                  min.maf = 0.00001,       # update on 2023-12-27
                                   G.model = "Add")
 {
   ## calculate MAF and update genotype vector
@@ -1722,7 +1935,7 @@ SPA_G_one_SNP_homo_new = function(g,
   g.var.est = 2 * MAF.est * (1 - MAF.est)
   S.var = sum(R^2 * g.var.est)
 
-  # updated on 2023-10-24
+  # update on 2023-10-24
   S.mean = 2 * sum(R * MAF.est)
 
   z = (S - S.mean)/sqrt(S.var)
@@ -1733,11 +1946,11 @@ SPA_G_one_SNP_homo_new = function(g,
     return(c(MAF, missing.rate, pval.norm, pval.norm, S, S.var, z))
   }
 
-  # updated on 2023-10-24
+  # update on 2023-10-24
   pval1 = GetProb_SPA_G_new(init.t = 0, MAF.est, R, max(S, (2*S.mean-S)), lower.tail = FALSE) # SPA-G p value
   pval2 = GetProb_SPA_G_new(init.t = 0, MAF.est, R, min(S, (2*S.mean-S)), lower.tail = TRUE)  # SPA-G p value
 
-  # updated on 2023-10-24
+  # update on 2023-10-24
   if(is.na(pval2)){
     pval2 = pval1
   }
@@ -1916,7 +2129,7 @@ GetProb_SPA_G_local = function(MAFVec, R, haplo_numVec, s, lower.tail){
   return(re)
 }
 
-# updated on 2023-10-24
+# update on 2023-10-24
 fastgetroot_H1_new_local = function(init.t,
                                     R,          # residuals
                                     s,          # observed test statistic
@@ -1938,7 +2151,7 @@ fastgetroot_H1_new_local = function(init.t,
 
     diff.t = -1 * H1_adj_eval / H2_eval
 
-    # updated on 2023-10-24
+    # update on 2023-10-24
     if(is.na(diff.t)){
       diff.t =  5
     }
@@ -1963,7 +2176,7 @@ fastgetroot_H1_new_local = function(init.t,
     t = old.t + diff.t
   }
 
-  # updated on 2023-10-24
+  # update on 2023-10-24
 
   if(iter == maxiter) {
     converge = F
@@ -1976,7 +2189,7 @@ fastgetroot_H1_new_local = function(init.t,
 }
 
 
-# updated on 2023-10-24
+# update on 2023-10-24
 
 GetProb_SPA_G_new_local = function(init.t = 0, MAFVec, R, haplo_numVec, s, lower.tail){
 
@@ -2109,7 +2322,7 @@ SPAmix_localance = function(Geno.mtx,
   n.Geno = ncol(Geno.mtx)
   output = matrix(NA, n.Geno, 9)
   colnames(output) = c("MAF","missing.rate","Pvalue.SPAmix.index.ance","Pvalue.norm.index.ance",
-                       "Stat","Mean","Var","z", "MAC") # updated on 2022-10-05 : MAF.est.negative.num
+                       "Stat","Mean","Var","z", "MAC") # update on 2022-10-05 : MAF.est.negative.num
   rownames(output) = colnames(Geno.mtx)
 
   ## Start analysis
