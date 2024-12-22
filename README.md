@@ -190,7 +190,7 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 
 ```
 
-**Additionally, the example codes in the R package SPAGxECCT can also be used to replicate the results of simulations.**
+**Additionally, the example codes in the R package SPAGxECCT can also be used to replicate the results of simulations.** Please check https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html for more details.
 
 
 # 
