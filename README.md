@@ -1,7 +1,7 @@
 # SPAGxE<sub>CCT</sub> 
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
 ## Software dependencies and operating systems
-The package has been tested under linux and windows systems. Currently, this R package supports three formats of genotype input including R matrix, PLINK and BGEN. The R package  will soon be rewritten using Rcpp code!)
+The package has been thoroughly examined and validated within both the Linux and Windows operating systems. At present, this R package is capable of accommodating three distinct formats for genotype input, namely the R matrix, PLINK, and BGEN formats. In the near future, the R package is slated to undergo a rewrite using Rcpp code to enhance its performance and efficiency. 
 
 ## How to install and load this package
 ```
