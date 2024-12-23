@@ -98,11 +98,14 @@ Users are responsible to check the consistency between pIDs and formula, and the
 }
 \examples{
 
-# example 1  time-to-event phenotype
-# Simulation phenotype and genotype
-N = 10000
-nSNP = 100
-MAF = 0.1
+# example 1  time-to-event phenotype (genotype data input provided in the R matrix format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
+N = 10000   # sample size
+nSNP = 100  # number of SNPs
+MAF = 0.1   # minor allele frequency
+
+# phenotype data
 Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       event=rbinom(N,1,0.5),
                       surv.time=runif(N),
@@ -110,11 +113,10 @@ Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       Cov2=rbinom(N,1,0.5),
                       E = rnorm(N))
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]         # covariates dataframe excluding environmental factor E
+E = Phen.mtx$E                                 # environmental factor E
 
-E = Phen.mtx$E
-
-Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)
+Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP) # genotype matrix
 
 # NOTE: The row and column names of genotype matrix are required.
 rownames(Geno.mtx) = paste0("IID-",1:N)
@@ -124,82 +126,95 @@ colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 # Attach the survival package so that we can use its function Surv()
 library(survival)
 
+# fit a genotype-independent model
+
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+E,
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
+# calculate p values
+
 survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
                           Geno.mtx = Geno.mtx,                     # genotype matrix
                           R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                           E = E,                                   # environmental factor
-                          Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                          Phen.mtx = Phen.mtx,                     # phenotype dataframe including surv.time
                           Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival.res)
 
 
-# example 2  binary phenotype
-# Simulation phenotype and genotype
-N = 10000
-nSNP = 100
-MAF = 0.1
+# example 2  binary phenotype (genotype data input provided in the R matrix format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
+N = 10000   # sample size
+nSNP = 100  # number of SNPs
+MAF = 0.1   # minor allele frequency
+
+# phenotype data
 Phen.mtx = data.frame(ID = paste0("IID-",1:N),
-                      Y=rbinom(N,1,0.5),
-                      Cov1=rnorm(N),
-                      Cov2=rbinom(N,1,0.5),
+                      Y = rbinom(N,1,0.5),
+                      Cov1 = rnorm(N),
+                      Cov2 = rbinom(N,1,0.5),
                       E = rnorm(N))
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]           # covariates dataframe excluding environmental factor E
+E = Phen.mtx$E                                   # environmental factor E
 
-E = Phen.mtx$E
-
-Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)
+Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)   # genotype matrix
 
 # NOTE: The row and column names of genotype matrix are required.
 rownames(Geno.mtx) = paste0("IID-",1:N)
 colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 
+# fit a genotype-independent model
+
 R = SPA_G_Get_Resid(traits = "binary",
                     glm(formula = Y ~ Cov1+Cov2+E, data = Phen.mtx, family = "binomial"),
-                    data=Phen.mtx,
-                    pIDs=Phen.mtx$ID,
-                    gIDs=paste0("IID-",1:N))
+                    data = Phen.mtx,
+                    pIDs = Phen.mtx$ID,
+                    gIDs = paste0("IID-",1:N))
+
+# calculate p values
 
 binary.res = SPAGxE_CCT(traits = "binary",                       # trait type
                         Geno.mtx = Geno.mtx,                     # genotype matrix
                         R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                         E = E,                                   # environmental factor
-                        Phen.mtx = Phen.mtx,                     # phenotype dataframe
+                        Phen.mtx = Phen.mtx,                     # phenotype dataframe including Y
                         Cova.mtx = Cova.mtx)                     # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 head(binary.res)
 
 
-# example 3  quantitative phenotype
-# Simulation phenotype and genotype
-N = 10000
-nSNP = 100
-MAF = 0.1
+# example 3  quantitative phenotype (genotype data input provided in the R matrix format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
+N = 10000   # sample size
+nSNP = 100  # number of SNPs
+MAF = 0.1   # minor allele frequency
+
+# phenotype data
 Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       Y=rnorm(N,1,0.5),
                       Cov1=rnorm(N),
                       Cov2=rbinom(N,1,0.5),
                       E = rnorm(N))
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]            # covariates dataframe excluding environmental factor E
+E = Phen.mtx$E                                    # environmental factor E
 
-E = Phen.mtx$E
-
-Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)
+Geno.mtx = matrix(rbinom(N*nSNP,2,MAF),N,nSNP)    # genotype matrix
 
 # NOTE: The row and column names of genotype matrix are required.
 rownames(Geno.mtx) = paste0("IID-",1:N)
 colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 
+# fit a genotype-independent model
 
 R = SPA_G_Get_Resid("quantitative",
                     lm(formula = Y ~ Cov1+Cov2+E, data = Phen.mtx),
@@ -207,19 +222,24 @@ R = SPA_G_Get_Resid("quantitative",
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
+# calculate p values
+
 quantitative.res = SPAGxE_CCT(traits = "quantitative",          # trait type
                               Geno.mtx = Geno.mtx,              # genotype matrix
                               R = R,                            # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
                               E = E,                            # environmental factor
-                              Phen.mtx = Phen.mtx,              # include surv.time, event
+                              Phen.mtx = Phen.mtx,              # phenotype dataframe including Y
                               Cova.mtx = Cova.mtx)              # a covariate matrix excluding the environmental factor E
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 head(quantitative.res)
 
-# example 4  analysis of time-to-event phenotype utilizing genotype data from PLINK file
-# Simulation phenotype and genotype
-N = 10000
+# example 4  analysis of time-to-event phenotype (genotype data input provided in PLINK file format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
+N = 10000  # sample size
+
+# phenotype data
 Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       event=rbinom(N,1,0.5),
                       surv.time=runif(N),
@@ -227,18 +247,22 @@ Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       Cov2=rbinom(N,1,0.5),
                       E = rnorm(N))
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
-E = Phen.mtx$E
-GenoFile = system.file("", "GenoMat_SPAGxE.bed", package = "SPAGxECCT")
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]                                     # covariates dataframe excluding environmental factor E
+E = Phen.mtx$E                                                             # environmental factor E
+GenoFile = system.file("", "GenoMat_SPAGxE.bed", package = "SPAGxECCT")    # PLINK format for genotype data
 
 # Attach the survival package so that we can use its function Surv()
 library(survival)
+
+# fit a genotype-independent model
 
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+E,
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
+
+# calculate p values
 
 survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
                           GenoFile = GenoFile,                     # a character of genotype file
@@ -250,9 +274,12 @@ survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival.res)
 
-# example 5  analysis of time-to-event phenotype utilizing genotype data from BGEN file
-# Simulation phenotype and genotype
-N = 10000
+# example 5  analysis of time-to-event phenotype (genotype input using BGEN file format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
+N = 10000  # sample size
+
+# phenotype data
 Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       event=rbinom(N,1,0.5),
                       surv.time=runif(N),
@@ -260,8 +287,10 @@ Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       Cov2=rbinom(N,1,0.5),
                       E = rnorm(N))
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]
-E = Phen.mtx$E
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]                                     # covariates dataframe excluding environmental factor E
+E = Phen.mtx$E                                                             # environmental factor E
+
+# BGEN format for genotype data
 GenoFile = system.file("", "GenoMat_SPAGxE.bgen", package = "SPAGxECCT")
 GenoFileIndex = c(system.file("", "GenoMat_SPAGxE.bgen.bgi", package = "SPAGxECCT"),
                   system.file("", "GenoMat_SPAGxE.sample", package = "SPAGxECCT"))
@@ -270,11 +299,15 @@ GenoFileIndex = c(system.file("", "GenoMat_SPAGxE.bgen.bgi", package = "SPAGxECC
 # Attach the survival package so that we can use its function Surv()
 library(survival)
 
+# fit a genotype-independent model
+
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+E,
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
+
+# calculate p values
 
 survival.res = SPAGxE_CCT(traits = "survival",                     # trait type
                           GenoFile = GenoFile,                     # a character of genotype file

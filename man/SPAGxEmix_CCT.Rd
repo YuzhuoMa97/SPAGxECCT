@@ -104,8 +104,9 @@ Users are responsible to check the consistency between pIDs and formula, and the
 }
 \examples{
 
-# example 1  time-to-event phenotype
-# Simulation phenotype and genotype
+# example 1  time-to-event phenotype (genotype input using R matrix format)
+library(SPAGxECCT)
+# Simulate phenotype and genotype
 N = 10000
 N.population1 = N/2
 N.population2 = N/2
@@ -131,11 +132,9 @@ Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
                                  PC1 = 0)
 
 Phen.mtx = rbind.data.frame(Phen.mtx.population1,
-                           Phen.mtx.population2)
-
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]
-
-E = Phen.mtx$E
+                           Phen.mtx.population2)     # phenotype dataframe
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]         # covariate matrix excluding environmental factor
+E = Phen.mtx$E                                        # environmental factor
 
 Geno.mtx.population1 = matrix(rbinom(N.population1*nSNP,2,MAF.population1),N.population1,nSNP)
 Geno.mtx.population2 = matrix(rbinom(N.population2*nSNP,2,MAF.population2),N.population2,nSNP)
@@ -148,11 +147,15 @@ colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 # Attach the survival package so that we can use its function Surv()
 library(survival)
 
+### fit a genotype-independent model for the SPAGxEmix_CCT analysis
+
 R = SPA_G_Get_Resid("survival",
                    Surv(surv.time,event)~Cov1+Cov2+PC1+E,
                    data=Phen.mtx,
                    pIDs=Phen.mtx$ID,
                    gIDs=paste0("IID-",1:N))
+
+### calculate p values
 
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                             Geno.mtx = Geno.mtx,                     # a character of genotype file
@@ -165,7 +168,7 @@ survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait ty
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival.res)
 
-# example 2  analysis of time-to-event phenotype utilizing genotype data from PLINK file
+# example 2  analysis of time-to-event phenotype (genotype input using PLINK file format)
 # Simulate phenotype
 N = 10000
 N.population1 = N/2
@@ -188,10 +191,9 @@ Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
                                   PC1 = 0)
 
 Phen.mtx = rbind.data.frame(Phen.mtx.population1,
-                            Phen.mtx.population2)
-
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]
-E = Phen.mtx$E
+                            Phen.mtx.population2)  # phenotype dataframe
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]      # covariate matrix excluding environmental factor
+E = Phen.mtx$E                                     # environmental factor
 
 # PLINK format
 GenoFile = system.file("", "GenoMat_SPAGxEmix.bed", package = "SPAGxECCT")
@@ -217,35 +219,35 @@ survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait ty
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival.res)
 
-# example 3  analysis of time-to-event phenotype utilizing genotype data from BGEN file
+# example 3  analysis of time-to-event phenotype (genotype input using BGEN file format)
+library(SPAGxECCT)
 # Simulate phenotype
 N = 10000
 N.population1 = N/2
 N.population2 = N/2
 
 Phen.mtx.population1 = data.frame(ID = paste0("IID-",1:N.population1),
-                                  event=rbinom(N.population1,1,0.5),
-                                  surv.time=runif(N.population1),
-                                  Cov1=rnorm(N.population1),
-                                  Cov2=rbinom(N.population1,1,0.5),
+                                  event = rbinom(N.population1,1,0.5),
+                                  surv.time = runif(N.population1),
+                                  Cov1 = rnorm(N.population1),
+                                  Cov2 = rbinom(N.population1,1,0.5),
                                   E = rnorm(N.population1),
                                   PC1 = 1)
 
 Phen.mtx.population2 = data.frame(ID = paste0("IID-",(N.population1+1):N),
-                                  event=rbinom(N.population2,1,0.5),
-                                  surv.time=runif(N.population2),
-                                  Cov1=rnorm(N.population2),
-                                  Cov2=rbinom(N.population2,1,0.5),
+                                  event = rbinom(N.population2,1,0.5),
+                                  surv.time = runif(N.population2),
+                                  Cov1 = rnorm(N.population2),
+                                  Cov2 = rbinom(N.population2,1,0.5),
                                   E = rnorm(N.population2),
                                   PC1 = 0)
 
 Phen.mtx = rbind.data.frame(Phen.mtx.population1,
-                            Phen.mtx.population2)
+                            Phen.mtx.population2)  # phenotype dataframe
+Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]      # covariate matrix excluding environmental factor
+E = Phen.mtx$E                                     # environmental factor
 
-Cova.mtx = Phen.mtx[,c("Cov1","Cov2", "PC1")]
-E = Phen.mtx$E
-
-# BGEN format
+# BGEN format for genotype data
 GenoFile = system.file("", "GenoMat_SPAGxEmix.bgen", package = "SPAGxECCT")
 GenoFileIndex = c(system.file("", "GenoMat_SPAGxEmix.bgen.bgi", package = "SPAGxECCT"),
                   system.file("", "GenoMat_SPAGxEmix.sample", package = "SPAGxECCT"))
@@ -253,11 +255,15 @@ GenoFileIndex = c(system.file("", "GenoMat_SPAGxEmix.bgen.bgi", package = "SPAGx
 # Attach the survival package so that we can use its function Surv()
 library(survival)
 
+# fit a genotype-independent model for the SPAGxEmix_CCT analysis
+
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+PC1+E,
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
+
+# calculate p values
 
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                              GenoFile = GenoFile,                     # genotype file

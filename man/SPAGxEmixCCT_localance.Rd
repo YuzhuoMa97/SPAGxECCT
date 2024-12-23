@@ -98,19 +98,21 @@ Users are responsible to check the consistency between pIDs and formula, and the
 \examples{
 
 # example 1  binary phenotype
+library(SPAGxECCT)
 # load in phenotype and genotype
 
-data("Pheno.mtx")
-data("Geno.mtx")
-data("Geno.mtx.ance1")
-data("Geno.mtx.ance2")
-data("haplo.mtx.ance1")
-data("haplo.mtx.ance2")
+data("Pheno.mtx")           # phenotype data
+data("Geno.mtx")            # genotype data
+data("Geno.mtx.ance1")      # ancestry-specific genotype data for ancestry 1
+data("Geno.mtx.ance2")      # ancestry-specific genotype data for ancestry 2
+data("haplo.mtx.ance1")     # local ancestry counts for ancestry 1
+data("haplo.mtx.ance2")     # local ancestry counts for ancestry 2
 
-Cova.mtx = Pheno.mtx[,c("PC1", "PC2", "PC3", "PC4", "Cov1", "Cov2")]
-E = Pheno.mtx$E
+Cova.mtx = Pheno.mtx[,c("PC1", "PC2", "PC3", "PC4", "Cov1", "Cov2")]    # Covariate matrix excluding environmental factor
+E = Pheno.mtx$E                                                         # environmental factor
 
-### fit null model
+### fit a genotype-independent model for the SPAGxEmix_CCT_local analysis
+
 resid  = SPA_G_Get_Resid(traits = "binary",
                         y ~ Cov1 + Cov2  + E + PC1 + PC2 + PC3 + PC4,family=binomial(link="logit"),
                         data=Pheno.mtx,
