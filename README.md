@@ -9,7 +9,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
   * [Introduction of SPAGxEmix<sub>CCT-local</sub>](#Introduction-of-SPAGxEmixCCT-local)
   * [Introduction of SPAGxE+](#Introduction-of-SPAGxE)
   * [Introduction of SPAGxEmix+](#Introduction-of-SPAGxEmix)
-  * [Reference](#Reference)
+  * [Summary of key features for our proposed scalable methods](#Summary-of-key-features-for-our-proposed-scalable-methods)
 
 
 ## Software dependencies and operating systems
@@ -129,7 +129,7 @@ Steps 1 and 2 of the SPAGxEmix+ analysis are similar to those in SPAGxEmix<sub>C
 
 **SPAGxEmix+ is a scalable and accurate G×E analytical framework designed to control for both population structure and familial relatedness across diverse population and family structures. It is especially suited for cohorts that include individuals from multi-ancestry or multi-way admixed populations, effectively handling ancestry-specific minor allele frequencies (MAFs) and ancestry-specific case-control ratios (or other ancestry-specific phenotypic distribution such as event rates for time-to-event traits).**
 
-## Summary of key features for our proposed efficient G×E analysis methods
+## Summary of key features for our proposed scalable methods
 
 
 
