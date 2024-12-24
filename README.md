@@ -5,7 +5,6 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
   * [Software dependencies and operating systems](#Software-dependencies-and-operating-systems)
   * [How to install and load this package](#How-to-install-and-load-this-package)
   * [Introduction of SPAGxE<sub>CCT</sub>](#Introduction-of-SPAGxECCT)
-       * [SPAGxE<sub>CCT</sub> is a scalable and accurate G×E analytical framework that accounts for unbalanced phenotypic distribution](#SPAGxECCT-is-a-scalable-and-accurate-GE-analytical-framework-that-accounts-for-unbalanced-phenotypic-distribution) 
   * [Introduction of SPAGxEmix<sub>CCT</sub>](#Introduction-of-SPAGxEmixCCT)
   * [Introduction of SPAGxEmix<sub>CCT-local</sub>](#Introduction-of-SPAGxEmixCCT-local)
   * [Introduction of SPAGxE+](#Introduction-of-SPAGxE)
