@@ -20,7 +20,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
 
 - The package has been thoroughly examined and validated on both Linux and Windows operating systems.
 
-- Currently, this R package supports three formats for genotype input: the R matrix (Rdata) format, the **PLINK** format, and the **BGEN** format.
+- Currently, this R package supports three formats for genotype input: the R matrix (Rdata) format, the [**PLINK**](https://www.cog-genomics.org/plink2/) format, and the [**BGEN**](https://www.chg.ox.ac.uk/~gav/bgen_format/index.html) format.
 
 - In the near future, this R package is planned to be rewritten using Rcpp code to improve its performance and efficiency.
 
