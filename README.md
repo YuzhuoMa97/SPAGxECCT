@@ -2,7 +2,7 @@
 A scalable and accurate framework for large-scale genome-wide gene-environment interaction (G×E) analysis.
 
 ## Table of contents
-  * [Software dependencies and operating systems](#Software dependencies and operating systems)
+  * [Software dependencies and operating systems](#Software-dependencies-and-operating-systems)
   * [Reference](#Reference)
 
 
