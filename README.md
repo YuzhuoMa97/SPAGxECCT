@@ -33,7 +33,7 @@ library(SPAGxECCT)
 ```
 - Current version is 1.1.0. For older version and version update information, plesase refer to OldVersions.  
 
-- Please check [SPAGxE documentation](https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html) for more details of conducting GxE analysis using this package.
+- Please check [SPAGxE documentation](https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html) for more details about how to conduct GxE analysis using this package.
 
 - Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
 
