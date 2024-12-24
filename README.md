@@ -6,7 +6,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
   * [How to install and load this package](#How-to-install-and-load-this-package)
   * [Introduction of SPAGxE<sub>CCT</sub>](#Introduction-of-SPAGxECCT)
   * [Introduction of SPAGxEmix<sub>CCT</sub>](#Introduction-of-SPAGxEmixCCT)
-  * [Introduction of SPAGxEmix<sub>CCT-local</sub>](#Introduction-of-SPAGxEmixCCTlocal)
+  * [Introduction of SPAGxEmix<sub>CCT-local</sub>](#Introduction-of-SPAGxEmixCCT-local)
   * [Reference](#Reference)
 
 
