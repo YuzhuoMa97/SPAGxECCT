@@ -63,8 +63,7 @@
 #'E = Phen.mtx$E                           # environmental factor
 #'Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]   # Covariate matrix excluding environmental factor
 #'
-#'### fit a genotype-independent model for the SPAGxE+ analysis
-#'
+#'# fit a genotype-independent model for the SPAGxE+ analysis
 #'obj.SPAGxE_Plus_Nullmodel = SPAGxE_Plus_Nullmodel(traits = "binary",
 #'                                                  Y ~ Cov1+Cov2+E,family=binomial(link="logit"),
 #'                                                  data = Phen.mtx,
@@ -73,8 +72,7 @@
 #'                                                  sparseGRM = sparseGRM.SPAGxEPlus,
 #'                                                  E = E)
 #'
-#'### calculate p values
-#'
+#'# calculate p values
 #'binary.res = SPAGxE_Plus(Geno.mtx = GenoMat.SPAGxEPlus,
 #'                         E = E,
 #'                         Phen.mtx = Phen.mtx,
@@ -96,8 +94,7 @@
 #' Cova.mtx = Phen.mtx[,c("Cov1","Cov2")]                                        # Covariate matrix excluding environmental factor
 #' GenoFile = system.file("", "GenoMat_SPAGxE_Plus.bed", package = "SPAGxECCT")  # PLINK format for genotype data
 #'
-#' ### fit a genotype-independent model for the SPAGxE+ analysis
-#'
+#' # fit a genotype-independent model for the SPAGxE+ analysis
 #' obj.SPAGxE_Plus_Nullmodel = SPAGxE_Plus_Nullmodel(traits = "binary",
 #'                                                   Y ~ Cov1+Cov2+E,family=binomial(link="logit"),
 #'                                                   data = Phen.mtx,
@@ -106,8 +103,7 @@
 #'                                                   sparseGRM = sparseGRM.SPAGxEPlus,
 #'                                                   E = E)
 #'
-#' ### calculate p values
-#'
+#' # calculate p values
 #' binary.res = SPAGxE_Plus(GenoFile = GenoFile,
 #'                          E = E,
 #'                          Phen.mtx = Phen.mtx,
@@ -134,8 +130,7 @@
 #' GenoFileIndex = c(system.file("", "GenoMat_SPAGxE_Plus.bgen.bgi", package = "SPAGxECCT"),
 #'                   system.file("", "GenoMat_SPAGxE_Plus.sample", package = "SPAGxECCT"))
 #'
-#' ### fit a genotype-independent model for the SPAGxE+ analysis
-#'
+#' # fit a genotype-independent model for the SPAGxE+ analysis
 #' obj.SPAGxE_Plus_Nullmodel = SPAGxE_Plus_Nullmodel(traits = "binary",
 #'                                                   Y ~ Cov1+Cov2+E,family=binomial(link="logit"),
 #'                                                   data = Phen.mtx,
@@ -144,8 +139,7 @@
 #'                                                   sparseGRM = sparseGRM.SPAGxEPlus,
 #'                                                   E = E)
 #'
-#' ### calculate p values
-#'
+#' # calculate p values
 #' binary.res = SPAGxE_Plus(GenoFile = GenoFile,
 #'                          GenoFileIndex = GenoFileIndex,
 #'                          E = E,

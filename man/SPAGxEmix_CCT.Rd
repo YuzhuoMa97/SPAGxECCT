@@ -139,24 +139,20 @@ E = Phen.mtx$E                                        # environmental factor
 Geno.mtx.population1 = matrix(rbinom(N.population1*nSNP,2,MAF.population1),N.population1,nSNP)
 Geno.mtx.population2 = matrix(rbinom(N.population2*nSNP,2,MAF.population2),N.population2,nSNP)
 Geno.mtx = rbind(Geno.mtx.population1, Geno.mtx.population2)
-
 # NOTE: The row and column names of genotype matrix are required.
 rownames(Geno.mtx) = paste0("IID-",1:N)
 colnames(Geno.mtx) = paste0("SNP-",1:nSNP)
 
 # Attach the survival package so that we can use its function Surv()
 library(survival)
-
-### fit a genotype-independent model for the SPAGxEmix_CCT analysis
-
+# fit a genotype-independent model for the SPAGxEmix_CCT analysis
 R = SPA_G_Get_Resid("survival",
                    Surv(surv.time,event)~Cov1+Cov2+PC1+E,
                    data=Phen.mtx,
                    pIDs=Phen.mtx$ID,
                    gIDs=paste0("IID-",1:N))
 
-### calculate p values
-
+# calculate p values
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                             Geno.mtx = Geno.mtx,                     # a character of genotype file
                             R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
@@ -198,16 +194,16 @@ E = Phen.mtx$E                                     # environmental factor
 # PLINK format
 GenoFile = system.file("", "GenoMat_SPAGxEmix.bed", package = "SPAGxECCT")
 
-
 # Attach the survival package so that we can use its function Surv()
 library(survival)
-
+# fit a genotype-independent model for the SPAGxEmix_CCT analysis
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+PC1+E,
                     data=Phen.mtx,
                     pIDs=Phen.mtx$ID,
                     gIDs=paste0("IID-",1:N))
 
+# calculate p values
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                              GenoFile = GenoFile,                     # a character of genotype file
                              R = R,                                   # residuals from genotype-independent model (null model in which marginal genetic effect and GxE effect are 0)
@@ -254,9 +250,7 @@ GenoFileIndex = c(system.file("", "GenoMat_SPAGxEmix.bgen.bgi", package = "SPAGx
 
 # Attach the survival package so that we can use its function Surv()
 library(survival)
-
 # fit a genotype-independent model for the SPAGxEmix_CCT analysis
-
 R = SPA_G_Get_Resid("survival",
                     Surv(surv.time,event)~Cov1+Cov2+PC1+E,
                     data=Phen.mtx,
@@ -264,7 +258,6 @@ R = SPA_G_Get_Resid("survival",
                     gIDs=paste0("IID-",1:N))
 
 # calculate p values
-
 survival.res = SPAGxEmix_CCT(traits = "survival",                     # trait type
                              GenoFile = GenoFile,                     # genotype file
                              GenoFileIndex = GenoFileIndex,           # additional index file(s) corresponding to GenoFile.

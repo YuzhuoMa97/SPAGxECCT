@@ -112,7 +112,6 @@ Cova.mtx = Pheno.mtx[,c("PC1", "PC2", "PC3", "PC4", "Cov1", "Cov2")]    # Covari
 E = Pheno.mtx$E                                                         # environmental factor
 
 ### fit a genotype-independent model for the SPAGxEmix_CCT_local analysis
-
 resid  = SPA_G_Get_Resid(traits = "binary",
                         y ~ Cov1 + Cov2  + E + PC1 + PC2 + PC3 + PC4,family=binomial(link="logit"),
                         data=Pheno.mtx,
@@ -120,12 +119,10 @@ resid  = SPA_G_Get_Resid(traits = "binary",
                         gIDs=rownames(Geno.mtx))
 
 ### Cova.haplo.mtx.list
-
 Cova.haplo.mtx.list = list(haplo.mtx.ance1 = haplo.mtx.ance1,
                           haplo.mtx.ance2 = haplo.mtx.ance2)
 
 ### calculate p values for ancestry 1
-
 binary_res_ance1 = SPAGxEmixCCT_localance(traits = "binary",
                                          Geno.mtx = Geno.mtx.ance1,
                                          R = resid,
@@ -135,14 +132,12 @@ binary_res_ance1 = SPAGxEmixCCT_localance(traits = "binary",
                                          Cova.mtx = Cova.mtx,
                                          Cova.haplo.mtx.list = Cova.haplo.mtx.list)
 
-
 colnames(binary_res_ance1) = c("Marker", "MAF.ance1","missing.rate.ance1",
                               "Pvalue.spaGxE.ance1","Pvalue.spaGxE.Wald.ance1", "Pvalue.spaGxE.CCT.Wald.ance1",
                               "Pvalue.normGxE.ance1", "Pvalue.betaG.ance1",
                               "Stat.betaG.ance1","Var.betaG.ance1","z.betaG.ance1")
 
 ### calculate p values for ancestry 2
-
 binary_res_ance2 = SPAGxEmixCCT_localance(traits = "binary",
                                          Geno.mtx = Geno.mtx.ance2,
                                          R = resid,
@@ -151,7 +146,6 @@ binary_res_ance2 = SPAGxEmixCCT_localance(traits = "binary",
                                          Phen.mtx = Pheno.mtx,
                                          Cova.mtx = Cova.mtx,
                                          Cova.haplo.mtx.list = Cova.haplo.mtx.list)
-
 
 colnames(binary_res_ance2) = c("Marker", "MAF.ance2","missing.rate.ance2",
                               "Pvalue.spaGxE.ance2","Pvalue.spaGxE.Wald.ance2", "Pvalue.spaGxE.CCT.Wald.ance2",
