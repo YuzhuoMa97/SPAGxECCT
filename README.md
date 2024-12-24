@@ -3,6 +3,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
 
 ## Table of contents
   * [Software dependencies and operating systems](#Software-dependencies-and-operating-systems)
+  * [How to install and load this package](#How-to-install-and-load-this-package)
   * [Reference](#Reference)
 
 
