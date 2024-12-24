@@ -8,7 +8,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
   * [Introduction of SPAGxEmix<sub>CCT</sub>](#Introduction-of-SPAGxEmixCCT)
   * [Introduction of SPAGxEmix<sub>CCT-local</sub>](#Introduction-of-SPAGxEmixCCT-local)
   * [Introduction of SPAGxE+](#Introduction-of-SPAGxE)
-  * [Summary of key features for our proposed efficient G×E analysis methods](Summary-of-key-features-for-our-proposed-efficient-G×E-analysis-methods)
+  * [Summary of key features for our proposed efficient GxE analysis methods](Summary-of-key-features-for-our-proposed-efficient-GxE-analysis-methods)
   * [Reference](#Reference)
 
 
