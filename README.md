@@ -12,6 +12,7 @@ A scalable and accurate framework for large-scale genome-wide gene-environment i
   * [Summary of key features for our proposed scalable methods](#Summary-of-key-features-for-our-proposed-scalable-methods)
   * [Reproducibility](#Reproducibility)
       * [UK Biobank data analysis](#UK-Biobank-data-analysis)
+      * [Simulation studies](#Simulation-studies)
   * [Reference](#Reference)
 
 
