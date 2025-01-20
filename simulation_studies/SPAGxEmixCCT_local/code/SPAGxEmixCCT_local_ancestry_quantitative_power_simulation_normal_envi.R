@@ -21,14 +21,14 @@ Gamma_ance1 = 0.2 # marginal GxE effect size of ancestry 1
 Gamma_ance2 = 0.5   # marginal GxE effect size of ancestry 2
 
 #### Main function to simulate quantitative phenotype
-data.simu.quantitative= function(N,                # Sample size
+data.simu.quantitative= function(N,                 # Sample size
                                  beta0,             # intercept term
-                                 gamma1,            # Genetic effect
-                                 gamma2,
-                                 g1,
-                                 g2,                # Genotype vector
-                                 bVec = 0,
-                                 seed)         # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
+                                 gamma1,            # Marginal GxE effect size of ancestry 1
+                                 gamma2,            # Marginal GxE effect size of ancestry 2
+                                 g1,                # Ancestry-spefific genotype vector of ancestry 1
+                                 g2,                # Ancestry-spefific genotype vector of ancestry 2
+                                 bVec = 0,          # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
+                                 seed)
 {
   set.seed(seed)
   Cov1 = rnorm(N)           # Covariate 1

@@ -28,7 +28,7 @@ f.binary = function(N,                 # Sample size
                     beta0,             # Intercept
                     gamma1,            # Marginal GxE effect size of ancestry 1
                     gamma2,            # Marginal GxE effect size of ancestry 2
-                    g1,                # Ancestry-spefific genotype vector of ancestry 2
+                    g1,                # Ancestry-spefific genotype vector of ancestry 1
                     g2,                # Ancestry-spefific genotype vector of ancestry 2
                     bVec = 0,          # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
                     seed)
