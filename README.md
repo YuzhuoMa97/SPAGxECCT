@@ -35,7 +35,7 @@ library(SPAGxECCT)
 
 - Please refer to the [SPAGxE documentation](https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html) for more details on how to conduct GxE analysis using this package.
 
-- Please do not hesitate to contact me (yuzhuoma@stu.pku.edu.cn) if you meet any problem. Suggestions or comments are also welcome.
+- Please do not hesitate to contact yuzhuoma@stu.pku.edu.cn or wenjianb@pku.edu.cn if you meet any problem. Suggestions or comments are also welcome.
 
 ## Introduction of SPAGxE<sub>CCT</sub> 
 
