@@ -13,7 +13,7 @@ library(survival)
 
 #### install and library SPAGxECCT package
 # library(remotes)                            # remotes library requires less dependency packages than devtools
-# install_github("YuzhuoMa97/SPAGxECCT")      
+# install_github("YuzhuoMa97/SPAGxECCT")
 library(SPAGxECCT)
 # ?SPAGxECCT                                  # manual of SPAGxECCT package
 # or source("~/capsule/R/SPAGxECCT.R")
@@ -24,7 +24,7 @@ N2 = N/2
 nSNP = 1000   # number of SNPs to test
 
 load("/gdata01/user/yuzhuoma/SPA-G/data/a.population.structure.6.RData") # true ancestry proportion vector
-load("/gdata01/user/yuzhuoma/SPA-G/data/PCdata/top10PCs-1e5SNPs-MAFsumover0.1/top10PCs_MAFsumover0.1.RData") # SNP-derived top 10 PCs corresponding to the above ancestry proportion vector  
+load("/gdata01/user/yuzhuoma/SPA-G/data/PCdata/top10PCs-1e5SNPs-MAFsumover0.1/top10PCs_MAFsumover0.1.RData") # SNP-derived top 10 PCs corresponding to the above ancestry proportion vector
 
 ancestry_Vec = a6 # true ancestry proportion vector
 colnames(ancestry_Vec) = c("AnceProportion_EUR", "AnceProportion_EAS")
@@ -57,7 +57,7 @@ f1 = function(N1,
               gamma,
               g1,
               gamma_GxE,         # Marginal GxE effect
-              bVec = 0)               
+              bVec = 0)
 {
   scale0 = lamda
   shape0 = 2
@@ -65,10 +65,10 @@ f1 = function(N1,
   X21 = rnorm(N1)
   X31 = rbinom(N1, 1, 0.5)
   E1 = rnorm(N1)
-  
+
   cens = rweibull(N1, shape=1, scale=0.15)
   eps <- runif(N1, 0, 1)
-  time = (-log(eps)*exp(-X21*0.5-X31*0.5-E1*0.5-g1*gamma-g1*E1*gamma_GxE-bVec))^(1/shape0)*scale0
+  time = (-log(eps)*exp(-X21*0.1-X31*0.1-E1*0.1-g1*gamma-g1*E1*gamma_GxE-bVec))^(1/shape0)*scale0
   surv.time = pmin(time, cens)
   event = ifelse(time<cens, 1, 0)
   re = mean(event) - event.rate1
@@ -98,10 +98,10 @@ f2 = function(N1,
   X22 = rnorm(N2)
   X32 = rbinom(N2, 1, 0.5)
   E2 = rnorm(N2)
-  
+
   cens = rweibull(N2, shape=1, scale=0.15)
   eps <- runif(N2, 0, 1)
-  time = (-log(eps)*exp(-X12*b-X22*0.5-X32*0.5-E2*0.5-g2*gamma-g2*E2*gamma_GxE-bVec))^(1/shape0)*scale0
+  time = (-log(eps)*exp(-X12*b-X22*0.1-X32*0.1-E2*0.1-g2*gamma-g2*E2*gamma_GxE-bVec))^(1/shape0)*scale0
   surv.time = pmin(time, cens)
   event = ifelse(time<cens, 1, 0)
   re = mean(event) - event.rate2
@@ -117,30 +117,30 @@ data.simu.surv.admix = function(N,
                                 event.rate2,
                                 gamma,
                                 gamma_GxE,
-                                g,               
+                                g,
                                 g1,
                                 g2,
                                 # seed1,
                                 # seed2,
-                                bVec = 0,                  
+                                bVec = 0,
                                 a)           # ancestry proportion vector
 {
   scale0 = uniroot(f1, c(-100,100), N1 = N1, event.rate1 = event.rate1, gamma = gamma, g1 = g1, gamma_GxE = gamma_GxE, bVec = bVec)
   scale0 = scale0$root
   shape0 = 2
-  b = uniroot(f2, c(-100,100), N1 = N1, N2 = N2, event.rate1 = event.rate1, 
+  b = uniroot(f2, c(-100,100), N1 = N1, N2 = N2, event.rate1 = event.rate1,
               event.rate2 = event.rate2, gamma = gamma, g1 = g1, g2 = g2, gamma_GxE = gamma_GxE, bVec = bVec)
   b = b$root
-  
+
   X1 = c(rep(0, N1), rep(1, N2))
   X2 = rnorm(N)
   X3 = rbinom(N, 1, 0.5)
   E = rnorm(N)                    # environmental factor
-  
+
   # set.seed(1)
-  cens = rweibull(N, shape=1, scale=0.15) 
+  cens = rweibull(N, shape=1, scale=0.15)
   eps <- runif(N, 0, 1)
-  time = (-log(eps)*exp(-a[,2]*b-X2*0.5-X3*0.5-E*0.5-g*gamma-g*E*gamma_GxE))^(1/shape0)*scale0
+  time = (-log(eps)*exp(-a[,2]*b-X2*0.1-X3*0.1-E*0.1-g*gamma-g*E*gamma_GxE))^(1/shape0)*scale0
   surv.time = pmin(time, cens)
   event = ifelse(time<cens, 1, 0)
   out = data.frame(surv.time, event, cens, a[,2], X2, X3, E)
@@ -150,7 +150,7 @@ data.simu.surv.admix = function(N,
 
 #### simulate time-to-event phenotype in the admixed population
 
-data = data.simu.surv.admix(N, N1, N2, event.rate1 = ER_EUR, event.rate2 = ER_EAS, 
+data = data.simu.surv.admix(N, N1, N2, event.rate1 = ER_EUR, event.rate2 = ER_EAS,
                             gamma = 0, gamma_GxE = 0, g = 0, g1 = 0, g2 = 0, a = ancestry_Vec)
 
 Phen.mat = data.frame(ER = paste0("ER in EUR = ", ER_EUR, sep=", ", "ER in EAS = ", ER_EAS),
@@ -184,9 +184,9 @@ survival_admixed_res = SPAGxEmix_CCT(traits = "survival",
                                      Geno.mtx = GenoMat_admixed,
                                      R = R,
                                      E = Phen.mat$E,                    # environmental factor
-                                     Phen.mtx =  Phen.mat,     # include surv.time, event 
+                                     Phen.mtx =  Phen.mat,     # include surv.time, event
                                      Cova.mtx = Cova.mtx,      # other covariates (such as age, gender, and top PCs) excluding E
-                                     topPCs = top4PCs)  
+                                     topPCs = top4PCs)
 
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes

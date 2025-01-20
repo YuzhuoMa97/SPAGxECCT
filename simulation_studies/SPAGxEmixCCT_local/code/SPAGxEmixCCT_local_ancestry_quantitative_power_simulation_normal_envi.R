@@ -33,10 +33,10 @@ data.simu.quantitative= function(N,                # Sample size
   set.seed(seed)
   Cov1 = rnorm(N)           # Covariate 1
   Cov2 = rbinom(N, 1, 0.5)  # Covariate 2
-  
+
   E = rnorm(N)            # Environmental factor
-  
-  betas = c(0.5, 0.5, 0.5)     # Coefficient vector of fixed effects
+
+  betas = c(0.1, 0.1, 0.1)     # Coefficient vector of fixed effects
   eta = beta0 + betas[1] * Cov1 + betas[2] * Cov2 + betas[3] * E + gamma1 * g1 * E + gamma2 * g2 * E + bVec
   epsilon = rnorm(N)
   y = eta + epsilon
@@ -48,8 +48,8 @@ data.simu.quantitative= function(N,                # Sample size
 
 #### generate global ancestry
 
-theta = 0.5                                 # expected proportion of ancestry 
-sigma = 0.125                               # sd 
+theta = 0.5                                 # expected proportion of ancestry
+sigma = 0.125                               # sd
 MAFVec1 = runif(nSNP, MAF_ance1, MAF_ance1) # MAF vector of ancestry 1
 MAFVec2 = runif(nSNP, MAF_ance2, MAF_ance2) # MAF vector of ancestry 2
 
@@ -60,7 +60,7 @@ alpha = pmin(1, pmax(alpha, 0)) # forced to be in [0,1]
 
 # For each individual, draw a local ancestry count of ancestry 2
 l = lapply(1:N, function(i){
-  rbinom(nSNP, 2, alpha[i]) 
+  rbinom(nSNP, 2, alpha[i])
 }) %>% do.call("rbind",.) %>% as.matrix()
 
 G1 = lapply(1:N, function(i){
@@ -76,7 +76,7 @@ colnames(G1) =colnames(G2) = colnames(l) =  paste0("rs",1:nSNP)
 G = G1 + G2
 
 # combine genotypes
-combG1 = apply(t(G1)-2 * MAFVec1, 2, sum) 
+combG1 = apply(t(G1)-2 * MAFVec1, 2, sum)
 combG2 = apply(t(G2)-2 * MAFVec2, 2, sum)
 
 

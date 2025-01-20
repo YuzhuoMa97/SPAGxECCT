@@ -12,7 +12,7 @@ library(data.table)
 
 #### install and library SPAGxECCT package
 # library(remotes)                            # remotes library requires less dependency packages than devtools
-# install_github("YuzhuoMa97/SPAGxECCT")      
+# install_github("YuzhuoMa97/SPAGxECCT")
 library(SPAGxECCT)
 # ?SPAGxECCT                                  # manual of SPAGxECCT package
 # or source("~/capsule/R/SPAGxECCT.R")
@@ -23,7 +23,7 @@ N2 = N/2
 nSNP = 1000   # number of SNPs to test
 
 load("/gdata01/user/yuzhuoma/SPA-G/data/a.population.structure.6.RData") # true ancestry proportion vector
-load("/gdata01/user/yuzhuoma/SPA-G/data/PCdata/top10PCs-1e5SNPs-MAFsumover0.1/top10PCs_MAFsumover0.1.RData") # SNP-derived top 10 PCs corresponding to the above ancestry proportion vector  
+load("/gdata01/user/yuzhuoma/SPA-G/data/PCdata/top10PCs-1e5SNPs-MAFsumover0.1/top10PCs_MAFsumover0.1.RData") # SNP-derived top 10 PCs corresponding to the above ancestry proportion vector
 
 ancestry_Vec = a6 # true ancestry proportion vector
 colnames(ancestry_Vec) = c("AnceProportion_EUR", "AnceProportion_EAS") # AnceProportion_EUR + AnceProportion_EAS = 1
@@ -50,7 +50,7 @@ top4PCs = top10PCs[,1:4] # top 4 PCs (used in SPAGxEmixCCT)
 
 #### lower function to estimate beta0 given a prevalence. Will be used in data.simu.binary().
 f1.binary = function(N1,                # Sample size
-                     prevalence1,       # Prevalence 
+                     prevalence1,       # Prevalence
                      beta0,             # Intercept
                      gamma,             # Genetic effect
                      g1,                # Genotype vector
@@ -61,7 +61,7 @@ f1.binary = function(N1,                # Sample size
   X21 = rnorm(N)           # Covariate vector 1
   X31 = rbinom(N, 1, 0.5)  # Covariate vector 2
   E1 = rnorm(N1)
-  eta = beta0 + 0.5 * X21 + 0.5 * X31 + 0.5 * E1 + gamma * g1 + gamma_GxE * g1 * E1 + bVec
+  eta = beta0 + 0.1 * X21 + 0.1 * X31 + 0.1 * E1 + gamma * g1 + gamma_GxE * g1 * E1 + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
   re = sum(Y) - N * prevalence1
@@ -90,8 +90,8 @@ f2.binary = function(N1,
   X22 = rnorm(N2)
   X32 = rbinom(N2, 1, 0.5)
   E2 = rnorm(N2)
-  
-  eta = beta0 + beta1 * X12 + 0.5 * X22 + 0.5 * X32 + 0.5 * E2 + gamma * g2 + gamma_GxE * g2 * E2 + bVec
+
+  eta = beta0 + beta1 * X12 + 0.1 * X22 + 0.1 * X32 + 0.1 * E2 + gamma * g2 + gamma_GxE * g2 * E2 + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
   re = sum(Y) - N * prevalence2
@@ -111,23 +111,23 @@ data.simu.binary.admix = function(N,
                                   g2,
                                   # seed1,
                                   # seed2,
-                                  bVec = 0,                  
-                                  ance.data)       # ancestry proportion vector 
+                                  bVec = 0,
+                                  ance.data)       # ancestry proportion vector
 {
   beta0 = uniroot(f1.binary, c(-100,100), N1 = N1, prevalence1 = prevalence1, gamma = gamma, g1 = g1, gamma_GxE = gamma_GxE, bVec = bVec)
   beta0 = beta0$root
-  
-  beta1 =  uniroot(f2.binary, c(-100,100), N1 = N1, N2 = N2, prevalence1 = prevalence1, 
+
+  beta1 =  uniroot(f2.binary, c(-100,100), N1 = N1, N2 = N2, prevalence1 = prevalence1,
                    prevalence2 = prevalence2, gamma = gamma, g1 = g1, g2 = g2, gamma_GxE = gamma_GxE, bVec = bVec)
   beta1 = beta1$root
-  
+
   X1 = c(rep(0, N1), rep(1, N2))
   X2 = rnorm(N)
   X3 = rbinom(N, 1, 0.5)
   E = rnorm(N)              # environmental factor
-  
+
   # betas = c(0.5, 0.5)     # Coefficient vector of fixed effects
-  eta = beta0 + ance.data[,2]*beta1 + X2*0.5 + X3*0.5 + E*0.5 + gamma * g + gamma_GxE * g * E + bVec
+  eta = beta0 + ance.data[,2]*beta1 + X2*0.1 + X3*0.1 + E*0.1 + gamma * g + gamma_GxE * g * E + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
   out = data.frame(Y, ance.data[,2], X2, X3, E)
@@ -137,7 +137,7 @@ data.simu.binary.admix = function(N,
 
 #### simulate binary phenotype in the admixed population
 
-data = data.simu.binary.admix(N, N1, N2, prevalence1 = prevalence_EUR, prevalence2 = prevalence_EAS, 
+data = data.simu.binary.admix(N, N1, N2, prevalence1 = prevalence_EUR, prevalence2 = prevalence_EAS,
                               gamma = 0, gamma_GxE = 0, g = 0, g1 = 0, g2 = 0, ance.data = ancestry_Vec)
 
 Phen.mat = data.frame(Prevalence = paste0("Prevalence in EUR = ", prevalence_EUR, sep=", ", "Prevalence in EAS = ", prevalence_EAS),
@@ -170,9 +170,9 @@ binary_admixed_res = SPAGxEmix_CCT(traits = "binary",
                                    Geno.mtx = GenoMat_admixed,
                                    R = R,
                                    E = Phen.mat$E,           # environmental factor
-                                   Phen.mtx =  Phen.mat,     # include Y 
+                                   Phen.mtx =  Phen.mat,     # include Y
                                    Cova.mtx = Cova.mtx,      # other covariates (such as age, gender, and top PCs) excluding E
-                                   topPCs = top4PCs)  
+                                   topPCs = top4PCs)
 
 
 # we recommand using column of 'p.value.spaGxE.CCT.Wald.index.ance' to associate genotype with phenotypes
