@@ -34,14 +34,13 @@ f.binary = function(N,                 # Sample size
                     seed)
 {
   set.seed(seed)
-  X1 = rnorm(N)           # Covariate vector 1
-  X2 = rbinom(N, 1, 0.5)  # Covariate vector 2
-  E = rnorm(N)            # Environmental factor
-
-  betas = c(0.1, 0.1, 0.1)     # Coefficient vector of fixed effects
+  X1 = rnorm(N)                    # Covariate vector 1
+  X2 = rbinom(N, 1, 0.5)           # Covariate vector 2
+  E = rnorm(N)                     # Environmental factor
+  betas = c(0.1, 0.1, 0.1)         # Coefficient vector of fixed effects
   eta = beta0 + betas[1] * X1 + betas[2] * X2 + betas[3] * E + gamma1 * g1 * E + gamma2 * g2 * E + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
-  Y = rbinom(N, 1, mu)    # Case-control status
+  Y = rbinom(N, 1, mu)             # Case-control status
   re = sum(Y) - N * prevalence
   return(re)
 }
@@ -96,7 +95,7 @@ G1 = lapply(1:N, function(i){
 
 G2 = lapply(1:N, function(i){
   g = rbinom(nSNP, l[i,] , MAFVec2)
-})%>% do.call("rbind",.) %>% as.matrix() # risk allele from ancestry 2
+})%>% do.call("rbind",.) %>% as.matrix()  # risk allele from ancestry 2
 
 rownames(G1) =rownames(G2) = rownames(l) = paste0("IID-",1:N)
 colnames(G1) =colnames(G2) = colnames(l) =  paste0("rs",1:nSNP)
