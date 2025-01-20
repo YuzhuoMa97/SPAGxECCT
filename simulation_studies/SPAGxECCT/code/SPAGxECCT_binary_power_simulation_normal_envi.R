@@ -9,7 +9,7 @@
 N = 10000  # sample size
 nSNP = 10  # number of SNPs with marginal GxE effects
 
-prevalenceVec = c(0.5) 
+prevalenceVec = c(0.5)
 MAFVec = c(0.05)
 GammaVec = seq(0, 2, 0.2)
 
@@ -28,17 +28,17 @@ f = function(N,
              seed,
              bVec = 0)
 {
-  
+
   set.seed(seed)
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  
-  eta = beta0 + X1*0.5 + X2*0.5 + E*0.5 + g*E*gamma + bVec
+
+  eta = beta0 + X1*0.1 + X2*0.1 + E*0.1 + g*E*gamma + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
   re = sum(Y) - N * prevalence
-  
+
   return(re)
 }
 
@@ -57,7 +57,7 @@ data.simu.binary = function(N,
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  eta = beta0 + X1*0.5 + X2*0.5 + E*0.5 + g*E*gamma + bVec
+  eta = beta0 + X1*0.1 + X2*0.1 + E*0.1 + g*E*gamma + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)             # Case-control status
   out = data.frame(Y, X1, X2, E, bVec)
@@ -86,16 +86,16 @@ binary_res = c()
 for (i in 1:nSNP) {
   print(i)
   G = GenoMat[,i]  # genotype to test
-  
+
   data = data.simu.binary(N = N, prevalence = prevalence, gamma = Gamma, g = G) # simulate binary phenotype
-  
+
   ### phenotype matrix
   Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                         Y = data$Y,
                         X1 = data$X1,
                         X2 = data$X2,
                         E = data$E)
-  
+
   ### fit genotype-independent (covariate-only) model
   ### null model residuals
   R = SPA_G_Get_Resid("binary",
@@ -103,15 +103,15 @@ for (i in 1:nSNP) {
                       data=Phen.mtx,
                       pIDs=Phen.mtx$ID,
                       gIDs=Phen.mtx$ID)
-  
-  #### calculate p values for SNPs with marginal GxE effect 
+
+  #### calculate p values for SNPs with marginal GxE effect
   binary_res_oneSNP = SPAGxE_CCT(traits = "binary",                  # binary trait analysis
                                  Geno.mtx = as.matrix(G),            # genotype vector
                                  R = R,                              # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
                                  E = Phen.mtx$E,                     # environmental factor
                                  Phen.mtx = Phen.mtx,                # include surv.time, event
                                  Cova.mtx = Phen.mtx[,c("X1","X2")]) # covariate matrix excluding the environmental factor E
-  
+
   binary_res = rbind(binary_res, binary_res_oneSNP)
 }
 

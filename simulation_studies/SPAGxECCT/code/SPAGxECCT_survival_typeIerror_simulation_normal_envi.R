@@ -37,7 +37,7 @@ f.surv.new = function(N,                  # Sample size
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  betas = c(0.5, 0.5, 0.5)
+  betas = c(0.1, 0.1, 0.1)
   cens = rweibull(N, shape = 1, scale = 0.15)
   eps <- runif(N, 0, 1)
   time = (-log(eps) * exp(- betas[1]*X1 - betas[2]*X2 - betas[3]*E - GMat%*%gamma - bVec)) ^ (1/shape0) * scale0
@@ -54,9 +54,9 @@ data.simu.surv.new = function(N,              # Sample size
                               # gamma,        # Genetic effect
                               GMat,           # Genotype matrix
                               bVec = 0)       # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
-{ 
+{
   scale0 = 0
-  
+
   while (scale0 == 0) {
     seed = sample(1e9, 1);
     cat("random number seed is", seed)
@@ -64,15 +64,15 @@ data.simu.surv.new = function(N,              # Sample size
                      event.rate = event.rate, GMat = GMat, seed = seed, bVec = bVec)
     scale0 = scale0$root
   }
-  
+
   shape0 = 2
   set.seed(seed)
   gamma = runif(nSNP, -0.4, 0.4) # Genetic effect vector
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  betas = c(0.5, 0.5, 0.5)
-  cens = rweibull(N, shape = 1, scale = 0.15) 
+  betas = c(0.1, 0.1, 0.1)
+  cens = rweibull(N, shape = 1, scale = 0.15)
   eps <- runif(N, 0, 1)
   time = (-log(eps) * exp(- betas[1]*X1 - betas[2]*X2 - betas[3]*E - GMat%*%gamma - bVec)) ^ (1/shape0) * scale0
   surv.time = pmin(time, cens)
@@ -91,13 +91,13 @@ Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                       X1 = data$X1,
                       X2 = data$X2,
                       E = data$E)
-  
+
 
 
 #### simulate genotypes of 10000 SNPs without genetic main effects
 nSNP_0 = 10000                                                         # number of SNPs without genetic main effects
 MAF_0 = 0.01                                                           # minor allele frequencies of SNPs without genetic main effects
-MAFVec_0 = runif(nSNP_0, MAF_0, MAF_0)                                   
+MAFVec_0 = runif(nSNP_0, MAF_0, MAF_0)
 GenoMat_0 = t(matrix(rbinom(N*nSNP_0, 2, MAFVec_0), nSNP_0, N))        # Genotype matrix of SNPs without genetic main effects
 rownames(GenoMat_0) = paste0("IID-",1:N)
 colnames(GenoMat_0) = paste0("SNP-",1:nSNP_0)
@@ -126,7 +126,7 @@ R = SPA_G_Get_Resid("survival",
                     pIDs=Phen.mtx$ID,
                     gIDs=Phen.mtx$ID)
 
-#### calculate p values for SNPs without marginal genetic effect 
+#### calculate p values for SNPs without marginal genetic effect
 survival_res_0 = SPAGxE_CCT(traits = "survival",              # time-to-event trait analysis
                             Geno.mtx = GenoMat_0,             # genotype vector
                             R = R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
@@ -137,7 +137,7 @@ survival_res_0 = SPAGxE_CCT(traits = "survival",              # time-to-event tr
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with time-to-event phenotypes
 head(survival_res_0)
 
-#### calculate p values for SNPs with marginal genetic effect 
+#### calculate p values for SNPs with marginal genetic effect
 survival_res_1 = SPAGxE_CCT(traits = "survival",              # time-to-event trait analysis
                             Geno.mtx = GenoMat_1,             # genotype vector
                             R = R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)

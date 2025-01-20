@@ -32,8 +32,8 @@ f.binary.new = function(N,                  # Sample size
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  betas = c(0.5, 0.5, 0.5)
-  
+  betas = c(0.1, 0.1, 0.1)
+
   eta = beta0 + betas[1]*X1 + betas[2]*X2 + betas[3]*E + GMat%*%gamma + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
@@ -48,9 +48,9 @@ data.simu.binary.new = function(N,              # Sample size
                                 # gamma,        # Genetic effect
                                 GMat,           # Genotype matrix
                                 bVec = 0)       # Additional effect, could be random effect. If bVec = 0 (default), then no additional effect is included.
-{ 
+{
   beta0 = 0
-  
+
   while (beta0 == 0) {
     seed = sample(1e9, 1);
     cat("random number seed is", seed)
@@ -58,14 +58,14 @@ data.simu.binary.new = function(N,              # Sample size
                     prevalence = prevalence, GMat = GMat, seed = seed, bVec = bVec)
     beta0 = beta0$root
   }
-  
+
   set.seed(seed)
   gamma = runif(nSNP, -0.4, 0.4) # Genetic effect vector
   X1 = rnorm(N)
   X2 = rbinom(N, 1, 0.5)
   E = rnorm(N)
-  betas = c(0.5, 0.5, 0.5)
-  
+  betas = c(0.1, 0.1, 0.1)
+
   eta = beta0 + betas[1]*X1 + betas[2]*X2 + betas[3]*E + GMat%*%gamma + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
   Y = rbinom(N, 1, mu)    # Case-control status
@@ -88,7 +88,7 @@ Phen.mtx = data.frame(ID = paste0("IID-",1:N),
 #### simulate genotypes of 10000 SNPs without genetic main effects
 nSNP_0 = 10000                                                         # number of SNPs without genetic main effects
 MAF_0 = 0.01                                                           # minor allele frequencies of SNPs without genetic main effects
-MAFVec_0 = runif(nSNP_0, MAF_0, MAF_0)                                   
+MAFVec_0 = runif(nSNP_0, MAF_0, MAF_0)
 GenoMat_0 = t(matrix(rbinom(N*nSNP_0, 2, MAFVec_0), nSNP_0, N))        # Genotype matrix of SNPs without genetic main effects
 rownames(GenoMat_0) = paste0("IID-",1:N)
 colnames(GenoMat_0) = paste0("SNP-",1:nSNP_0)
@@ -117,7 +117,7 @@ R = SPA_G_Get_Resid("binary",
                     pIDs=Phen.mtx$ID,
                     gIDs=Phen.mtx$ID)
 
-#### calculate p values for SNPs without marginal genetic effect 
+#### calculate p values for SNPs without marginal genetic effect
 binary_res_0 = SPAGxE_CCT(traits = "binary",                # binary trait analysis
                           Geno.mtx = GenoMat_0,             # genotype vector
                           R = R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
@@ -128,7 +128,7 @@ binary_res_0 = SPAGxE_CCT(traits = "binary",                # binary trait analy
 # we recommand using column of 'p.value.spaGxE.CCT.Wald' to associate genotype with binary phenotypes
 head(binary_res_0)
 
-#### calculate p values for SNPs with marginal genetic effect 
+#### calculate p values for SNPs with marginal genetic effect
 binary_res_1 = SPAGxE_CCT(traits = "binary",                # binary trait analysis
                           Geno.mtx = GenoMat_1,             # genotype vector
                           R = R,                            # null model residuals (null model in which marginal genetic effect and GxE effect are 0)

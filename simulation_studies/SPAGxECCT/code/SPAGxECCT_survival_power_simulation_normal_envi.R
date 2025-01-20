@@ -37,7 +37,7 @@ f = function(N,
   E = rnorm(N)
   cens = rweibull(N, shape=1, scale=0.15)
   eps <- runif(N, 0, 1)
-  time = (-log(eps)*exp(- X1*0.5 - X2*0.5 - E*0.5 - g*E*gamma - bVec))^(1/shape0)*scale0
+  time = (-log(eps)*exp(- X1*0.1 - X2*0.1 - E*0.1 - g*E*gamma - bVec))^(1/shape0)*scale0
   surv.time = pmin(time, cens)
   event = ifelse(time<cens, 1, 0)
   re = mean(event) - event.rate
@@ -62,7 +62,7 @@ data.simu.surv = function(N,
   E = rnorm(N)
   cens = rweibull(N, shape=1, scale=0.15)
   eps <- runif(N, 0, 1)
-  time = (-log(eps)*exp(- X1*0.5 - X2*0.5 - E*0.5 - g*E*gamma - bVec))^(1/shape0)*scale0
+  time = (-log(eps)*exp(- X1*0.1 - X2*0.1 - E*0.1 - g*E*gamma - bVec))^(1/shape0)*scale0
   surv.time = pmin(time, cens)
   event = ifelse(time<cens, 1, 0)
   out = data.frame(surv.time, event, X1, X2, E, bVec)
@@ -91,9 +91,9 @@ survival_res = c()
 for (i in 1:nSNP) {
   print(i)
   G = GenoMat[,i]  # genotype to test
-  
+
   data = data.simu.surv(N = N, event.rate = ER, gamma = Gamma, g = G) # simulate time-to-event phenotype
-  
+
   ### phenotype matrix
   Phen.mtx = data.frame(ID = paste0("IID-",1:N),
                         event = data$event,
@@ -101,7 +101,7 @@ for (i in 1:nSNP) {
                         X1 = data$X1,
                         X2 = data$X2,
                         E = data$E)
-  
+
   ### fit genotype-independent (covariate-only) model
   ### null model residuals
   R = SPA_G_Get_Resid("survival",
@@ -109,15 +109,15 @@ for (i in 1:nSNP) {
                       data=Phen.mtx,
                       pIDs=Phen.mtx$ID,
                       gIDs=Phen.mtx$ID)
-  
-  #### calculate p values for SNPs with marginal GxE effect 
+
+  #### calculate p values for SNPs with marginal GxE effect
   survival_res_oneSNP = SPAGxE_CCT(traits = "survival",                # time-to-event trait analysis
                                    Geno.mtx = as.matrix(G),            # genotype vector
                                    R = R,                              # null model residuals (null model in which marginal genetic effect and GxE effect are 0)
                                    E = Phen.mtx$E,                     # environmental factor
                                    Phen.mtx = Phen.mtx,                # include surv.time, event
                                    Cova.mtx = Phen.mtx[,c("X1","X2")]) # covariate matrix excluding the environmental factor E
-  
+
   survival_res = rbind(survival_res, survival_res_oneSNP)
 }
 
