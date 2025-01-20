@@ -60,9 +60,7 @@ data.simu.binary = function(N,                # Sample size
   set.seed(seed)
   Cov1 = rnorm(N)           # Covariate 1
   Cov2 = rbinom(N, 1, 0.5)  # Covariate 2
-
   E = rnorm(N)              # Environmental factor
-
   betas = c(0.1, 0.1, 0.1)  # Coefficient vector of fixed effects
   eta = beta0 + betas[1] * Cov1 + betas[2] * Cov2 + betas[3] * E + gamma1 * g1 * E + gamma2 * g2 * E + bVec
   mu = exp(eta) / (1 + exp(eta))   # The probability being a case given the covariates, genotypes, and addition effect
