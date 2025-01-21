@@ -7,7 +7,7 @@
 # n.cpu=as.numeric(args)
 
 N = 10000  # sample size
-nSNP = 10  # number of SNPs with marginal GxE effects
+nSNP = 100  # number of SNPs with marginal GxE effects
 
 prevalenceVec = c(0.5)
 MAFVec = c(0.05)
