@@ -226,7 +226,7 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 
 
 # Reference
-See **Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks** (to be updated) for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub>, and SPAGxE+.
+See [**Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks**](https://www.nature.com/articles/s41467-025-57887-3)  for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub>, and SPAGxE+.
 
 
 
