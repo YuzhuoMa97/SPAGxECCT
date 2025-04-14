@@ -10,7 +10,8 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports: survival, lme4, dplyr, GRAB
-LinkingTo: survival, lme4, dplyr, GRAB
+LinkingTo: lme4, GRAB
+Remotes: GeneticAnalysisinBiobanks/GRAB
 RoxygenNote: 7.3.1
 Depends: 
     R (>= 3.5.0)
