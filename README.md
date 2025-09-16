@@ -153,11 +153,11 @@ Steps 1 and 2 of the SPAGxEmix+ analysis are similar to those in SPAGxEmix<sub>C
 
 Scripts to reproduce the experiments performed for the manuscript:
 
- **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**
+ **Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks**
 
 ## UK Biobank data analysis 
 
-In the paper **A scalable and accurate framework for large-scale genome-wide gene-environment interaction analysis and its application to time-to-event and ordinal categorical traits (to be updated)**, we have applied SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxE+ to analyze time-to-event and binary traits in UK Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. For the SPAGxE+ analyses, 337,367 WB individuals with sample relatedness were included. As universal analytical frameworks, we evaluated the performance of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub>, and SPAGxE+ in ordinal categorical, binary, and quantitative trait analysis.  
+In the paper **Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks**, we have applied SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, and SPAGxE+ to analyze time-to-event and binary traits in UK Biobank. For the SPAGxE<sub>CCT</sub> analyses, 281,299 White British individuals were included. For the SPAGxEmix<sub>CCT</sub> analyses, 338,044 individuals from all ancestries were included. For the SPAGxE+ analyses, 337,367 WB individuals with sample relatedness were included. As universal analytical frameworks, we evaluated the performance of SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub>, and SPAGxE+ in ordinal categorical, binary, and quantitative trait analysis.  
 
 **Summary statistics of time-to-event and binary traits in UK Biobank is available [here](https://zenodo.org/records/14249034).**
 
