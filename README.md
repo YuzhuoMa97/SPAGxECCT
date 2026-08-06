@@ -233,14 +233,21 @@ See [**Efficient and accurate framework for genome-wide gene-environment interac
 
 **Copyright © 2025 Yuzhuo Ma and collaborators. All rights reserved.**
 
-No license is granted. The software, code, documentation, and materials in this 
-repository related to **SPAGxE** (including SPAGxE, SPAGxE+, SPAGxEmix+, etc.) .
+**No license is granted.** The software, code, documentation, and materials in this 
+repository related to **SPAGxE** (including SPAGxE, SPAGxE+, SPAGxEmix+, etc.) 
+and **WtGxE** are provided for **viewing only**.
+
+**IMPORTANT: Unauthorized integration into other packages is strictly prohibited.**  
+This repository is not authorized to be included, in whole or in part, into any 
+open-source or proprietary software package, library, or tool without explicit 
+written permission from the copyright holder. Any such inclusion without prior 
+consent constitutes copyright infringement.
 
 You are **NOT permitted** to:
 - Reproduce, copy, or partially copy any part of this code;
 - Modify, adapt, translate, or create derivative works from this code;
 - Distribute, redistribute, publish, or make this code available to third parties;
-- Incorporate this code, in whole or in part, into any other software package, library, or tool;
+- **Incorporate this code, in whole or in part, into any other software package, library, or tool (whether open-source or proprietary);**
 - Use this code for any commercial or non-commercial purpose without prior written permission.
 
 The retrospective-SPA framework applied to G×E studies was originally proposed by 
@@ -248,7 +255,7 @@ Yuzhuo Ma in his master's thesis (2022, DOI:10.27272/d.cnki.gshdu.2022.002946) a
 formalized in Ma et al., *Nature Communications* (2025, DOI:10.1038/s41467-025-57887-3). 
 Any implementation of this methodological idea must properly cite the original work.
 
-To request permission for any use, please contact: **yuzhuoma@amss.ac.cn**
+To request permission for any use, contact: **yuzhuoma@amss.ac.cn**
 
 
 
