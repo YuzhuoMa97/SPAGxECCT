@@ -248,7 +248,7 @@ Yuzhuo Ma in his master's thesis (2022, DOI:10.27272/d.cnki.gshdu.2022.002946) a
 formalized in Ma et al., *Nature Communications* (2025, DOI:10.1038/s41467-025-57887-3). 
 Any implementation of this methodological idea must properly cite the original work.
 
-To request permission for any use, contact: **yuzhuoma@amss.ac.cn**
+To request permission for any use, please contact: **yuzhuoma@amss.ac.cn**
 
 
 
