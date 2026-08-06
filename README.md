@@ -245,8 +245,7 @@ consent constitutes copyright infringement and **may subject the infringer to
 legal liabilities**, including but not limited to:
 - DMCA takedown actions and removal of the infringing repository/package from GitHub;
 - Civil liabilities for copyright infringement (including damages and injunctive relief);
-- Potential criminal liabilities under applicable copyright laws (e.g., the Criminal 
-  Law of the People's Republic of China, Article 217) when infringement is committed 
+- Potential criminal liabilities under applicable copyright laws when infringement is committed 
   for profit-making purposes with serious circumstances;
 - Academic misconduct proceedings against individuals or institutions involved.
 
