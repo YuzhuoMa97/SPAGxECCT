@@ -245,7 +245,7 @@ This repository (including code, documentation, and materials related to SPAGxE,
 - Share your feedback or suggestions via issues or discussions.
 
 ### Please do NOT:
-- **Integrate this code (or any modified version) into another software package, library, or tool** – whether open‑source or proprietary – without my explicit written permission.
+- **Publicly integrate this code (or any modified version) into another software package, library, or tool** – whether open‑source or proprietary – without my explicit written permission.
 - Redistribute the code publicly, either verbatim or with changes.
 - Use it for commercial purposes.
 - Remove or alter this copyright notice.
