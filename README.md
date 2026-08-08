@@ -229,39 +229,39 @@ generate_PCs_forLocalanceAnalysis.R    # R script to generate SNP-derived PCs
 See [**Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks**](https://www.nature.com/articles/s41467-025-57887-3)  for more details about SPAGxE<sub>CCT</sub>, SPAGxEmix<sub>CCT</sub>, SPAGxEmix<sub>CCT-local</sub>, and SPAGxE+.
 
 
-# Copyright Notice — All Rights Reserved
+
+
+
+
+## License & Copyright
 
 **Copyright © 2025 Yuzhuo Ma and collaborators. All rights reserved.**
 
-**No license is granted.** The software, code, documentation, and materials in this 
-repository related to **SPAGxE** (including SPAGxE, SPAGxE+, SPAGxEmix+, etc.) 
-and **WtGxE** are provided for **viewing only**.
+This repository (including code, documentation, and materials related to SPAGxE, SPAGxE+, SPAGxEmix+, WtGxE, and SPAGxE‑GENE) is shared for **learning and research purposes**.
 
-**⚠️ IMPORTANT: Unauthorized integration into other packages is strictly prohibited.**  
-This repository is not authorized to be included, in whole or in part, into any 
-open-source or proprietary software package, library, or tool without explicit 
-written permission from the copyright holder. Any such inclusion without prior 
-consent constitutes copyright infringement and **may subject the infringer to 
-legal liabilities**, including but not limited to:
-- DMCA takedown actions and removal of the infringing repository/package from GitHub;
-- Civil liabilities for copyright infringement (including damages and injunctive relief);
-- Potential criminal liabilities under applicable copyright laws when infringement is committed 
-  for profit-making purposes with serious circumstances;
-- Academic misconduct proceedings against individuals or institutions involved.
+### You are welcome to:
+- Download and read the code.
+- Modify it **privately** for your own non‑commercial research or personal study.
+- Share your feedback or suggestions via issues or discussions.
 
-You are **NOT permitted** to:
-- Reproduce, copy, or partially copy any part of this code;
-- Modify, adapt, translate, or create derivative works from this code;
-- Distribute, redistribute, publish, or make this code available to third parties;
-- **Incorporate this code or algorithm, in whole or in part, into any other software package, library, or tool (whether open-source or proprietary);**
-- Use this code for any commercial or non-commercial purpose without prior written permission.
+### Please do NOT:
+- **Integrate this code (or any modified version) into another software package, library, or tool** – whether open‑source or proprietary – without my explicit written permission.
+- Redistribute the code publicly, either verbatim or with changes.
+- Use it for commercial purposes.
+- Remove or alter this copyright notice.
 
-The retrospective-SPA framework applied to G×E studies was originally proposed by 
-Yuzhuo Ma in his master's thesis (2022, DOI:10.27272/d.cnki.gshdu.2022.002946) and 
-formalized in Ma et al., *Nature Communications* (2025, DOI:10.1038/s41467-025-57887-3). 
-Any implementation of this methodological idea must properly cite the original work.
+### Attribution
+If you use or adapt the **methodological ideas** (especially the retrospective‑SPA framework for G×E studies), please cite:
+- Master's thesis (2022): DOI:10.27272/d.cnki.gshdu.2022.002946
+- Ma et al., *Nature Communications* (2025): DOI:10.1038/s41467‑025‑57887‑3
 
-**To request permission for any use, please contact: yuzhuoma@amss.ac.cn**
+### Get in touch
+If you'd like to use the code in a collaborative project, just drop me an email.
+
+**Contact:** yuzhuoma@amss.ac.cn
+
+---
+
 
 
 
