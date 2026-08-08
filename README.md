@@ -35,7 +35,7 @@ library(SPAGxECCT)
 
 - Please refer to the [SPAGxE documentation](https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/approach_GxE.html) for more details on how to conduct GxE analysis using this package.
 
-- Please do not hesitate to contact yuzhuoma@stu.pku.edu.cn or wenjianb@pku.edu.cn if you meet any problem. Suggestions or comments are also welcome.
+- Please do not hesitate to contact yuzhuoma@stu.pku.edu.cn or yuzhuoma@amss.ac.cn if you meet any problem. Suggestions or comments are also welcome.
 
 ## Introduction of SPAGxE<sub>CCT</sub> 
 
@@ -256,9 +256,8 @@ If you use or adapt the **methodological ideas** (especially the retrospective�
 - Ma et al., *Nature Communications* (2025): DOI:10.1038/s41467‑025‑57887‑3
 
 ### Get in touch
-If you'd like to use the code in a collaborative project, just drop me an email.
+For any questions or collaborative projects, please contact yuzhuoma@amss.ac.cn.
 
-**Contact:** yuzhuoma@amss.ac.cn
 
 ---
 
