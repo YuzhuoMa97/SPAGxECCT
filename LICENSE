@@ -10,7 +10,7 @@ This repository (including code, documentation, and materials related to SPAGxE,
 - Run the modified code locally for your own analyses.
 
 ## You are NOT permitted to (without explicit written permission):
-1. **Integrate this code, in whole or in part, into any other software package, library, or tool** – whether open‑source or proprietary. This includes:
+1. **Publicly integrate this code, in whole or in part, into any other software package, library, or tool** – whether open‑source or proprietary. This includes:
    - Bundling the code into an R/Python/Julia package;
    - Including it as a dependency in another project;
    - Distributing a modified or "polished" version as a separate package;
