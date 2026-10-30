@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite the SPAGxE paper and the version of this software used."
+title: SPAGxE
+version: 1.2.0
+date-released: 2026-10-29
+type: software
+authors:
+    Yuzhuo Ma
+    email: yuzhuoma@amss.ac.cn
+preferred-citation:
+  type: article
+  title: Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks
+  journal: Nature Communications
+  year: 2025
+  volume: 16
+  start: 3064
+  doi: 10.1038/s41467-025-57887-3
+

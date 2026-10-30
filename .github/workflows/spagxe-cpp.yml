@@ -1,0 +1,234 @@
+name: C++ build and regression checks
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'cpp/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'README_CPP.md'
+      - 'CHANGELOG_CPP.md'
+      - 'CITATION_CPP.cff'
+      - 'OWNERSHIP.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - '.github/workflows/spagxe-cpp.yml'
+  pull_request:
+    paths:
+      - 'cpp/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'README_CPP.md'
+      - 'CHANGELOG_CPP.md'
+      - 'CITATION_CPP.cff'
+      - 'OWNERSHIP.md'
+      - 'THIRD_PARTY_NOTICES.md'
+      - '.github/workflows/spagxe-cpp.yml'
+permissions:
+  contents: read
+jobs:
+  unix:
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build and numerical unit checks
+        working-directory: cpp
+        run: |
+          set -euo pipefail
+          mkdir -p tmp results
+          export TMPDIR="$PWD/tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          make -j2 2>&1 | tee results/ci_build.log
+          make -j2 test 2>&1 | tee results/ci_unit.log
+          build/bin/SPAGxE --version
+      - name: Fixture and reader regressions
+        working-directory: cpp
+        run: |
+          set -euo pipefail
+          export TMPDIR="$PWD/tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          python3 -B tests/cli_validation.py --binary build/bin/SPAGxE --output results/ci_cli.json
+          python3 -B tests/verify_single_implementation.py build/bin/SPAGxE results/ci_release_policy
+          python3 -B tests/verify_release_scope.py build/bin/SPAGxE results/ci_scope
+          python3 -B tests/verify_af_convergence.py build/bin/SPAGxE results/ci_af_convergence
+          python3 tests/verify_af_utility.py build/bin/SPAGxE results/ci_af_utility
+          python3 tests/verify_observed_mac.py build/bin/SPAGxE results/ci_observed_mac
+          python3 -B tests/run_integration.py --binary build/bin/SPAGxE --out-dir results/ci_integration
+          python3 tests/verify_local_oracle.py build/bin/SPAGxE results/ci_local_oracle
+          python3 tests/verify_local.py build/bin/SPAGxE results/ci_local_io
+          python3 -B tests/verify_local_bgen.py build/bin/SPAGxE results/ci_local_bgen
+          python3 -B tests/verify_local_absolute.py build/bin/SPAGxE results/ci_local_absolute
+          python3 -B tests/verify_local_pack.py build/bin/SPAGxE results/ci_local_pack
+          python3 -B tests/verify_local_unicode.py build/bin/SPAGxE results/ci_local_unicode
+          python3 tests/verify_cct.py --binary build/bin/SPAGxE --out-dir results/ci_cct
+      - name: Source tutorials and complete candidate bundle
+        working-directory: cpp
+        run: |
+          set -euo pipefail
+          export TMPDIR="$PWD/tmp"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          bash examples/tutorials/run_all.sh 2>&1 | tee results/ci_source_tutorials.log
+          make dist DIST_STRIP=0 2>&1 | tee results/ci_dist.log
+          archives=(dist/SPAGxE-*.tar.gz)
+          test "${#archives[@]}" -eq 1
+          test -f "${archives[0]}"
+          mkdir results/ci_bundle_extract
+          tar -xzf "${archives[0]}" -C results/ci_bundle_extract
+          bundles=(results/ci_bundle_extract/SPAGxE-*)
+          test "${#bundles[@]}" -eq 1
+          test -f "${bundles[0]}/run_examples.sh"
+          (cd "${bundles[0]}" && bash run_examples.sh) 2>&1 | tee results/ci_bundle_tutorials.log
+          python3 - "${bundles[0]}/cpp/results/tutorials" <<'PY'
+          from pathlib import Path
+          import sys
+          source = Path('results/tutorials')
+          extracted = Path(sys.argv[1])
+          a = {p.name: p.read_bytes() for p in source.iterdir() if p.is_file() and p.suffix != '.log'}
+          b = {p.name: p.read_bytes() for p in extracted.iterdir() if p.is_file() and p.suffix != '.log'}
+          assert len(a) == 45 and a == b, 'Source and extracted-bundle tutorial results differ'
+          print('All 45 source and extracted-bundle tutorial outputs match.')
+          PY
+          printf '%s\n' "$GITHUB_SHA" > results/ci_candidate_commit.txt
+          (cd dist && sha256sum SPAGxE-*.tar.gz) > results/ci_candidate_sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: candidate-SPAGxE-${{ matrix.os }}-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            cpp/dist/SPAGxE-*.tar.gz
+            cpp/results/ci_candidate_commit.txt
+            cpp/results/ci_candidate_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-${{ matrix.os }}
+          path: |
+            cpp/results/ci_*
+            !cpp/results/ci_bundle_extract/**
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            make
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-python
+            mingw-w64-x86_64-libsystre
+            mingw-w64-x86_64-libtre
+            mingw-w64-x86_64-gettext-runtime
+            mingw-w64-x86_64-libiconv
+      - name: Build and numerical unit checks
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          cd cpp
+          mkdir -p tmp results
+          export TMPDIR="$(cygpath -w "$PWD/tmp")"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          make -j2 STATIC_LIBS=-static 2>&1 | tee results/ci_build.log
+          make -j2 STATIC_LIBS=-static test 2>&1 | tee results/ci_unit.log
+          build/bin/SPAGxE.exe --version
+      - name: CLI, single policy, formats and local regressions
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          cd cpp
+          export TMPDIR="$(cygpath -w "$PWD/tmp")"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          python -B tests/cli_validation.py --binary build/bin/SPAGxE.exe --output results/ci_cli.json
+          python -B tests/verify_single_implementation.py build/bin/SPAGxE.exe results/ci_release_policy
+          python -B tests/verify_release_scope.py build/bin/SPAGxE.exe results/ci_scope
+          python -B tests/verify_af_convergence.py build/bin/SPAGxE.exe results/ci_af_convergence
+          python3 tests/verify_af_utility.py build/bin/SPAGxE.exe results/ci_af_utility
+          python3 tests/verify_observed_mac.py build/bin/SPAGxE.exe results/ci_observed_mac
+          python -B tests/run_integration.py --binary build/bin/SPAGxE.exe --out-dir results/ci_integration
+          python -B tests/verify_local_oracle.py build/bin/SPAGxE.exe results/ci_local_oracle
+          python -B tests/verify_local.py build/bin/SPAGxE.exe results/ci_local_io
+          python -B tests/verify_local_bgen.py build/bin/SPAGxE.exe results/ci_local_bgen
+          python -B tests/verify_local_absolute.py build/bin/SPAGxE.exe results/ci_local_absolute
+          python -B tests/verify_local_pack.py build/bin/SPAGxE.exe results/ci_local_pack
+          python -B tests/verify_local_unicode.py build/bin/SPAGxE.exe results/ci_local_unicode
+          python -B tests/verify_cct.py --binary build/bin/SPAGxE.exe --out-dir results/ci_cct
+      - name: Prepare complete Windows candidate archive
+        shell: msys2 {0}
+        run: |
+          set -euo pipefail
+          cd cpp
+          export TMPDIR="$(cygpath -w "$PWD/tmp")"
+          export TMP="$TMPDIR" TEMP="$TMPDIR"
+          make dist STATIC_LIBS=-static DIST_STRIP=0 2>&1 | tee results/ci_dist.log
+          archives=(dist/SPAGxE-*.tar.gz)
+          test "${#archives[@]}" -eq 1
+          test -f "${archives[0]}"
+          mkdir results/ci_bundle_extract
+          tar -xzf "${archives[0]}" -C results/ci_bundle_extract
+          printf '%s\n' "$GITHUB_SHA" > results/ci_candidate_commit.txt
+          (cd dist && sha256sum SPAGxE-*.tar.gz) > results/ci_candidate_sha256.txt
+      - name: Native Windows source and extracted-bundle tutorials
+        shell: pwsh
+        working-directory: cpp
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot"
+          & $env:ComSpec /d /c 'examples\tutorials\run_all.cmd' *> results/ci_source_tutorials.log
+          if ($LASTEXITCODE -ne 0) {
+            Get-Content -LiteralPath results/ci_source_tutorials.log
+            throw 'Source tutorials failed.'
+          }
+          $packages = @(Get-ChildItem -LiteralPath results/ci_bundle_extract -Directory -Filter 'SPAGxE-*')
+          if ($packages.Count -ne 1) { throw 'Expected exactly one extracted candidate bundle.' }
+          $bundle = $packages[0].FullName
+          if (-not (Test-Path -LiteralPath (Join-Path $bundle 'run_examples.cmd'))) {
+            throw 'The complete Windows bundle launcher is missing.'
+          }
+          $bundleLog = Join-Path (Get-Location).Path 'results/ci_bundle_tutorials.log'
+          Push-Location -LiteralPath $bundle
+          try {
+            & $env:ComSpec /d /c run_examples.cmd *> $bundleLog
+            $bundleExit = $LASTEXITCODE
+          } finally {
+            Pop-Location
+          }
+          if ($bundleExit -ne 0) {
+            Get-Content -LiteralPath $bundleLog
+            throw 'Extracted-bundle tutorials failed.'
+          }
+          $source = @(Get-ChildItem -LiteralPath results/tutorials -File | Where-Object Extension -ne '.log')
+          $extracted = @(Get-ChildItem -LiteralPath (Join-Path $bundle 'cpp/results/tutorials') -File | Where-Object Extension -ne '.log')
+          if ($source.Count -ne 45 -or $extracted.Count -ne 45) { throw 'Expected 45 tutorial result files.' }
+          foreach ($file in $source) {
+            $target = Join-Path $bundle ('cpp/results/tutorials/' + $file.Name)
+            if (-not (Test-Path -LiteralPath $target) -or
+                (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash -ne
+                (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash) {
+              throw "Source and extracted-bundle results differ: $($file.Name)"
+            }
+          }
+          Write-Output 'All 45 source and extracted-bundle tutorial outputs match.'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: candidate-SPAGxE-windows-x86_64-${{ github.sha }}
+          if-no-files-found: error
+          path: |
+            cpp/dist/SPAGxE-*.tar.gz
+            cpp/results/ci_candidate_commit.txt
+            cpp/results/ci_candidate_sha256.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-windows-x86_64
+          path: |
+            cpp/results/ci_*
+            !cpp/results/ci_bundle_extract/**

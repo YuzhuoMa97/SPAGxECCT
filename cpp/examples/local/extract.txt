@@ -1,0 +1,3 @@
+main_effect
+high_AF
+G_missing

@@ -1,0 +1,9 @@
+build/
+tmp/
+dist/
+*.o
+*.d
+examples_output/
+results/
+__pycache__/
+*.pyc

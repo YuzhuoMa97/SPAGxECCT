@@ -1,0 +1,3808 @@
+{
+  "generator": "SPAGxE tests/make_local_bgen_fixtures.py",
+  "seed": 20261025,
+  "samples": 160,
+  "variants": 10,
+  "ancestries": [
+    "Ancestry1",
+    "Ancestry2",
+    "Ancestry3"
+  ],
+  "recipes": [
+    {
+      "stem": "bits1_raw",
+      "bits": 1,
+      "codec": "raw",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1225,
+            "chromosome": 1257,
+            "position": 1258,
+            "block": 1274,
+            "raw_probability": 1278,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1460,
+            "chromosome": 1484,
+            "position": 1485,
+            "block": 1501,
+            "raw_probability": 1505,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1688,
+            "chromosome": 1716,
+            "position": 1717,
+            "block": 1733,
+            "raw_probability": 1737,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1921,
+            "chromosome": 1943,
+            "position": 1944,
+            "block": 1960,
+            "raw_probability": 1964,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2134,
+            "chromosome": 2168,
+            "position": 2169,
+            "block": 2185,
+            "raw_probability": 2189,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 2399,
+            "chromosome": 2433,
+            "position": 2434,
+            "block": 2450,
+            "raw_probability": 2454,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2638,
+            "chromosome": 2656,
+            "position": 2657,
+            "block": 2673,
+            "raw_probability": 2677,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2861,
+            "chromosome": 2893,
+            "position": 2894,
+            "block": 2910,
+            "raw_probability": 2914,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 3097,
+            "chromosome": 3133,
+            "position": 3134,
+            "block": 3150,
+            "raw_probability": 3154,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1224,
+            "chromosome": 1256,
+            "position": 1257,
+            "block": 1273,
+            "raw_probability": 1277,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1461,
+            "chromosome": 1485,
+            "position": 1486,
+            "block": 1502,
+            "raw_probability": 1506,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1690,
+            "chromosome": 1718,
+            "position": 1719,
+            "block": 1735,
+            "raw_probability": 1739,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1921,
+            "chromosome": 1943,
+            "position": 1944,
+            "block": 1960,
+            "raw_probability": 1964,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2134,
+            "chromosome": 2168,
+            "position": 2169,
+            "block": 2185,
+            "raw_probability": 2189,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2359,
+            "chromosome": 2393,
+            "position": 2394,
+            "block": 2410,
+            "raw_probability": 2414,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 2596,
+            "chromosome": 2614,
+            "position": 2615,
+            "block": 2631,
+            "raw_probability": 2635,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 2818,
+            "chromosome": 2850,
+            "position": 2851,
+            "block": 2867,
+            "raw_probability": 2871,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 3055,
+            "chromosome": 3091,
+            "position": 3092,
+            "block": 3108,
+            "raw_probability": 3112,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1225,
+            "chromosome": 1257,
+            "position": 1258,
+            "block": 1274,
+            "raw_probability": 1278,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1463,
+            "chromosome": 1487,
+            "position": 1488,
+            "block": 1504,
+            "raw_probability": 1508,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1693,
+            "chromosome": 1721,
+            "position": 1722,
+            "block": 1738,
+            "raw_probability": 1742,
+            "decoded_bytes": 186
+          },
+          {
+            "identification": 1928,
+            "chromosome": 1950,
+            "position": 1951,
+            "block": 1967,
+            "raw_probability": 1971,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 2181,
+            "chromosome": 2215,
+            "position": 2216,
+            "block": 2232,
+            "raw_probability": 2236,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2406,
+            "chromosome": 2440,
+            "position": 2441,
+            "block": 2457,
+            "raw_probability": 2461,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 2646,
+            "chromosome": 2664,
+            "position": 2665,
+            "block": 2681,
+            "raw_probability": 2685,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2869,
+            "chromosome": 2901,
+            "position": 2902,
+            "block": 2918,
+            "raw_probability": 2922,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 3106,
+            "chromosome": 3142,
+            "position": 3143,
+            "block": 3159,
+            "raw_probability": 3163,
+            "decoded_bytes": 185
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits1_zlib",
+      "bits": 1,
+      "codec": "zlib",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1142,
+            "chromosome": 1174,
+            "position": 1175,
+            "block": 1191,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1291,
+            "chromosome": 1315,
+            "position": 1316,
+            "block": 1332,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1417,
+            "chromosome": 1445,
+            "position": 1446,
+            "block": 1462,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1571,
+            "chromosome": 1593,
+            "position": 1594,
+            "block": 1610,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1636,
+            "chromosome": 1670,
+            "position": 1671,
+            "block": 1687,
+            "raw_probability": null,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 1717,
+            "chromosome": 1751,
+            "position": 1752,
+            "block": 1768,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1877,
+            "chromosome": 1895,
+            "position": 1896,
+            "block": 1912,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2016,
+            "chromosome": 2048,
+            "position": 2049,
+            "block": 2065,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 2163,
+            "chromosome": 2199,
+            "position": 2200,
+            "block": 2216,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1140,
+            "chromosome": 1172,
+            "position": 1173,
+            "block": 1189,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1301,
+            "chromosome": 1325,
+            "position": 1326,
+            "block": 1342,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1429,
+            "chromosome": 1457,
+            "position": 1458,
+            "block": 1474,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1575,
+            "chromosome": 1597,
+            "position": 1598,
+            "block": 1614,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1640,
+            "chromosome": 1674,
+            "position": 1675,
+            "block": 1691,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1717,
+            "chromosome": 1751,
+            "position": 1752,
+            "block": 1768,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1871,
+            "chromosome": 1889,
+            "position": 1890,
+            "block": 1906,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 2005,
+            "chromosome": 2037,
+            "position": 2038,
+            "block": 2054,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2161,
+            "chromosome": 2197,
+            "position": 2198,
+            "block": 2214,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1142,
+            "chromosome": 1174,
+            "position": 1175,
+            "block": 1191,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1301,
+            "chromosome": 1325,
+            "position": 1326,
+            "block": 1342,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1428,
+            "chromosome": 1456,
+            "position": 1457,
+            "block": 1473,
+            "raw_probability": null,
+            "decoded_bytes": 186
+          },
+          {
+            "identification": 1584,
+            "chromosome": 1606,
+            "position": 1607,
+            "block": 1623,
+            "raw_probability": null,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 1653,
+            "chromosome": 1687,
+            "position": 1688,
+            "block": 1704,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1730,
+            "chromosome": 1764,
+            "position": 1765,
+            "block": 1781,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1888,
+            "chromosome": 1906,
+            "position": 1907,
+            "block": 1923,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2029,
+            "chromosome": 2061,
+            "position": 2062,
+            "block": 2078,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2185,
+            "chromosome": 2221,
+            "position": 2222,
+            "block": 2238,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits1_zstd",
+      "bits": 1,
+      "codec": "zstd",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1241,
+            "chromosome": 1273,
+            "position": 1274,
+            "block": 1290,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1492,
+            "chromosome": 1516,
+            "position": 1517,
+            "block": 1533,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1736,
+            "chromosome": 1764,
+            "position": 1765,
+            "block": 1781,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1985,
+            "chromosome": 2007,
+            "position": 2008,
+            "block": 2024,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2214,
+            "chromosome": 2248,
+            "position": 2249,
+            "block": 2265,
+            "raw_probability": null,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 2495,
+            "chromosome": 2529,
+            "position": 2530,
+            "block": 2546,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2750,
+            "chromosome": 2768,
+            "position": 2769,
+            "block": 2785,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2989,
+            "chromosome": 3021,
+            "position": 3022,
+            "block": 3038,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 3241,
+            "chromosome": 3277,
+            "position": 3278,
+            "block": 3294,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 1240,
+            "chromosome": 1272,
+            "position": 1273,
+            "block": 1289,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1493,
+            "chromosome": 1517,
+            "position": 1518,
+            "block": 1534,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1738,
+            "chromosome": 1766,
+            "position": 1767,
+            "block": 1783,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 1985,
+            "chromosome": 2007,
+            "position": 2008,
+            "block": 2024,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2214,
+            "chromosome": 2248,
+            "position": 2249,
+            "block": 2265,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2455,
+            "chromosome": 2489,
+            "position": 2490,
+            "block": 2506,
+            "raw_probability": null,
+            "decoded_bytes": 182
+          },
+          {
+            "identification": 2708,
+            "chromosome": 2726,
+            "position": 2727,
+            "block": 2743,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          },
+          {
+            "identification": 2946,
+            "chromosome": 2978,
+            "position": 2979,
+            "block": 2995,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 3199,
+            "chromosome": 3235,
+            "position": 3236,
+            "block": 3252,
+            "raw_probability": null,
+            "decoded_bytes": 183
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 1241,
+            "chromosome": 1273,
+            "position": 1274,
+            "block": 1290,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1495,
+            "chromosome": 1519,
+            "position": 1520,
+            "block": 1536,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 1741,
+            "chromosome": 1769,
+            "position": 1770,
+            "block": 1786,
+            "raw_probability": null,
+            "decoded_bytes": 186
+          },
+          {
+            "identification": 1992,
+            "chromosome": 2014,
+            "position": 2015,
+            "block": 2031,
+            "raw_probability": null,
+            "decoded_bytes": 210
+          },
+          {
+            "identification": 2261,
+            "chromosome": 2295,
+            "position": 2296,
+            "block": 2312,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2502,
+            "chromosome": 2536,
+            "position": 2537,
+            "block": 2553,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          },
+          {
+            "identification": 2758,
+            "chromosome": 2776,
+            "position": 2777,
+            "block": 2793,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 2997,
+            "chromosome": 3029,
+            "position": 3030,
+            "block": 3046,
+            "raw_probability": null,
+            "decoded_bytes": 184
+          },
+          {
+            "identification": 3250,
+            "chromosome": 3286,
+            "position": 3287,
+            "block": 3303,
+            "raw_probability": null,
+            "decoded_bytes": 185
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits8_raw",
+      "bits": 8,
+      "codec": "raw",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 276
+          },
+          {
+            "identification": 1317,
+            "chromosome": 1349,
+            "position": 1350,
+            "block": 1366,
+            "raw_probability": 1370,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 1635,
+            "chromosome": 1659,
+            "position": 1660,
+            "block": 1676,
+            "raw_probability": 1680,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 1952,
+            "chromosome": 1980,
+            "position": 1981,
+            "block": 1997,
+            "raw_probability": 2001,
+            "decoded_bytes": 279
+          },
+          {
+            "identification": 2280,
+            "chromosome": 2302,
+            "position": 2303,
+            "block": 2319,
+            "raw_probability": 2323,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2493,
+            "chromosome": 2527,
+            "position": 2528,
+            "block": 2544,
+            "raw_probability": 2548,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 3038,
+            "chromosome": 3072,
+            "position": 3073,
+            "block": 3089,
+            "raw_probability": 3093,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 3374,
+            "chromosome": 3392,
+            "position": 3393,
+            "block": 3409,
+            "raw_probability": 3413,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 3695,
+            "chromosome": 3727,
+            "position": 3728,
+            "block": 3744,
+            "raw_probability": 3748,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 4020,
+            "chromosome": 4056,
+            "position": 4057,
+            "block": 4073,
+            "raw_probability": 4077,
+            "decoded_bytes": 274
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 1313,
+            "chromosome": 1345,
+            "position": 1346,
+            "block": 1362,
+            "raw_probability": 1366,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 1647,
+            "chromosome": 1671,
+            "position": 1672,
+            "block": 1688,
+            "raw_probability": 1692,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 1967,
+            "chromosome": 1995,
+            "position": 1996,
+            "block": 2012,
+            "raw_probability": 2016,
+            "decoded_bytes": 259
+          },
+          {
+            "identification": 2275,
+            "chromosome": 2297,
+            "position": 2298,
+            "block": 2314,
+            "raw_probability": 2318,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2488,
+            "chromosome": 2522,
+            "position": 2523,
+            "block": 2539,
+            "raw_probability": 2543,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2713,
+            "chromosome": 2747,
+            "position": 2748,
+            "block": 2764,
+            "raw_probability": 2768,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 3033,
+            "chromosome": 3051,
+            "position": 3052,
+            "block": 3068,
+            "raw_probability": 3072,
+            "decoded_bytes": 273
+          },
+          {
+            "identification": 3345,
+            "chromosome": 3377,
+            "position": 3378,
+            "block": 3394,
+            "raw_probability": 3398,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 3679,
+            "chromosome": 3715,
+            "position": 3716,
+            "block": 3732,
+            "raw_probability": 3736,
+            "decoded_bytes": 273
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 1323,
+            "chromosome": 1355,
+            "position": 1356,
+            "block": 1372,
+            "raw_probability": 1376,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 1660,
+            "chromosome": 1684,
+            "position": 1685,
+            "block": 1701,
+            "raw_probability": 1705,
+            "decoded_bytes": 283
+          },
+          {
+            "identification": 1988,
+            "chromosome": 2016,
+            "position": 2017,
+            "block": 2033,
+            "raw_probability": 2037,
+            "decoded_bytes": 292
+          },
+          {
+            "identification": 2329,
+            "chromosome": 2351,
+            "position": 2352,
+            "block": 2368,
+            "raw_probability": 2372,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 2862,
+            "chromosome": 2896,
+            "position": 2897,
+            "block": 2913,
+            "raw_probability": 2917,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3087,
+            "chromosome": 3121,
+            "position": 3122,
+            "block": 3138,
+            "raw_probability": 3142,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 3426,
+            "chromosome": 3444,
+            "position": 3445,
+            "block": 3461,
+            "raw_probability": 3465,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 3740,
+            "chromosome": 3772,
+            "position": 3773,
+            "block": 3789,
+            "raw_probability": 3793,
+            "decoded_bytes": 277
+          },
+          {
+            "identification": 4070,
+            "chromosome": 4106,
+            "position": 4107,
+            "block": 4123,
+            "raw_probability": 4127,
+            "decoded_bytes": 283
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits8_zlib",
+      "bits": 8,
+      "codec": "zlib",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 276
+          },
+          {
+            "identification": 1217,
+            "chromosome": 1249,
+            "position": 1250,
+            "block": 1266,
+            "raw_probability": null,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 1368,
+            "chromosome": 1392,
+            "position": 1393,
+            "block": 1409,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 1519,
+            "chromosome": 1547,
+            "position": 1548,
+            "block": 1564,
+            "raw_probability": null,
+            "decoded_bytes": 279
+          },
+          {
+            "identification": 1757,
+            "chromosome": 1779,
+            "position": 1780,
+            "block": 1796,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1822,
+            "chromosome": 1856,
+            "position": 1857,
+            "block": 1873,
+            "raw_probability": null,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 1906,
+            "chromosome": 1940,
+            "position": 1941,
+            "block": 1957,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 2066,
+            "chromosome": 2084,
+            "position": 2085,
+            "block": 2101,
+            "raw_probability": null,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 2215,
+            "chromosome": 2247,
+            "position": 2248,
+            "block": 2264,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 2433,
+            "chromosome": 2469,
+            "position": 2470,
+            "block": 2486,
+            "raw_probability": null,
+            "decoded_bytes": 274
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 1213,
+            "chromosome": 1245,
+            "position": 1246,
+            "block": 1262,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 1373,
+            "chromosome": 1397,
+            "position": 1398,
+            "block": 1414,
+            "raw_probability": null,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 1528,
+            "chromosome": 1556,
+            "position": 1557,
+            "block": 1573,
+            "raw_probability": null,
+            "decoded_bytes": 259
+          },
+          {
+            "identification": 1740,
+            "chromosome": 1762,
+            "position": 1763,
+            "block": 1779,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1805,
+            "chromosome": 1839,
+            "position": 1840,
+            "block": 1856,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 1882,
+            "chromosome": 1916,
+            "position": 1917,
+            "block": 1933,
+            "raw_probability": null,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 2038,
+            "chromosome": 2056,
+            "position": 2057,
+            "block": 2073,
+            "raw_probability": null,
+            "decoded_bytes": 273
+          },
+          {
+            "identification": 2179,
+            "chromosome": 2211,
+            "position": 2212,
+            "block": 2228,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 2413,
+            "chromosome": 2449,
+            "position": 2450,
+            "block": 2466,
+            "raw_probability": null,
+            "decoded_bytes": 273
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 1215,
+            "chromosome": 1247,
+            "position": 1248,
+            "block": 1264,
+            "raw_probability": null,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 1375,
+            "chromosome": 1399,
+            "position": 1400,
+            "block": 1416,
+            "raw_probability": null,
+            "decoded_bytes": 283
+          },
+          {
+            "identification": 1530,
+            "chromosome": 1558,
+            "position": 1559,
+            "block": 1575,
+            "raw_probability": null,
+            "decoded_bytes": 292
+          },
+          {
+            "identification": 1765,
+            "chromosome": 1787,
+            "position": 1788,
+            "block": 1804,
+            "raw_probability": null,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 1954,
+            "chromosome": 1988,
+            "position": 1989,
+            "block": 2005,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2031,
+            "chromosome": 2065,
+            "position": 2066,
+            "block": 2082,
+            "raw_probability": null,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 2193,
+            "chromosome": 2211,
+            "position": 2212,
+            "block": 2228,
+            "raw_probability": null,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 2341,
+            "chromosome": 2373,
+            "position": 2374,
+            "block": 2390,
+            "raw_probability": null,
+            "decoded_bytes": 277
+          },
+          {
+            "identification": 2567,
+            "chromosome": 2603,
+            "position": 2604,
+            "block": 2620,
+            "raw_probability": null,
+            "decoded_bytes": 283
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits8_zstd",
+      "bits": 8,
+      "codec": "zstd",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 276
+          },
+          {
+            "identification": 1333,
+            "chromosome": 1365,
+            "position": 1366,
+            "block": 1382,
+            "raw_probability": null,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 1667,
+            "chromosome": 1691,
+            "position": 1692,
+            "block": 1708,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 2000,
+            "chromosome": 2028,
+            "position": 2029,
+            "block": 2045,
+            "raw_probability": null,
+            "decoded_bytes": 279
+          },
+          {
+            "identification": 2344,
+            "chromosome": 2366,
+            "position": 2367,
+            "block": 2383,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2573,
+            "chromosome": 2607,
+            "position": 2608,
+            "block": 2624,
+            "raw_probability": null,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 3134,
+            "chromosome": 3168,
+            "position": 3169,
+            "block": 3185,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 3486,
+            "chromosome": 3504,
+            "position": 3505,
+            "block": 3521,
+            "raw_probability": null,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 3823,
+            "chromosome": 3855,
+            "position": 3856,
+            "block": 3872,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 4164,
+            "chromosome": 4200,
+            "position": 4201,
+            "block": 4217,
+            "raw_probability": null,
+            "decoded_bytes": 274
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 272
+          },
+          {
+            "identification": 1329,
+            "chromosome": 1361,
+            "position": 1362,
+            "block": 1378,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 1679,
+            "chromosome": 1703,
+            "position": 1704,
+            "block": 1720,
+            "raw_probability": null,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 2015,
+            "chromosome": 2043,
+            "position": 2044,
+            "block": 2060,
+            "raw_probability": null,
+            "decoded_bytes": 259
+          },
+          {
+            "identification": 2339,
+            "chromosome": 2361,
+            "position": 2362,
+            "block": 2378,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2568,
+            "chromosome": 2602,
+            "position": 2603,
+            "block": 2619,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2809,
+            "chromosome": 2843,
+            "position": 2844,
+            "block": 2860,
+            "raw_probability": null,
+            "decoded_bytes": 265
+          },
+          {
+            "identification": 3145,
+            "chromosome": 3163,
+            "position": 3164,
+            "block": 3180,
+            "raw_probability": null,
+            "decoded_bytes": 273
+          },
+          {
+            "identification": 3473,
+            "chromosome": 3505,
+            "position": 3506,
+            "block": 3522,
+            "raw_probability": null,
+            "decoded_bytes": 281
+          },
+          {
+            "identification": 3823,
+            "chromosome": 3859,
+            "position": 3860,
+            "block": 3876,
+            "raw_probability": null,
+            "decoded_bytes": 273
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 282
+          },
+          {
+            "identification": 1339,
+            "chromosome": 1371,
+            "position": 1372,
+            "block": 1388,
+            "raw_probability": null,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 1692,
+            "chromosome": 1716,
+            "position": 1717,
+            "block": 1733,
+            "raw_probability": null,
+            "decoded_bytes": 283
+          },
+          {
+            "identification": 2036,
+            "chromosome": 2064,
+            "position": 2065,
+            "block": 2081,
+            "raw_probability": null,
+            "decoded_bytes": 292
+          },
+          {
+            "identification": 2393,
+            "chromosome": 2415,
+            "position": 2416,
+            "block": 2432,
+            "raw_probability": null,
+            "decoded_bytes": 490
+          },
+          {
+            "identification": 2942,
+            "chromosome": 2976,
+            "position": 2977,
+            "block": 2993,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3183,
+            "chromosome": 3217,
+            "position": 3218,
+            "block": 3234,
+            "raw_probability": null,
+            "decoded_bytes": 284
+          },
+          {
+            "identification": 3538,
+            "chromosome": 3556,
+            "position": 3557,
+            "block": 3573,
+            "raw_probability": null,
+            "decoded_bytes": 275
+          },
+          {
+            "identification": 3868,
+            "chromosome": 3900,
+            "position": 3901,
+            "block": 3917,
+            "raw_probability": null,
+            "decoded_bytes": 277
+          },
+          {
+            "identification": 4214,
+            "chromosome": 4250,
+            "position": 4251,
+            "block": 4267,
+            "raw_probability": null,
+            "decoded_bytes": 283
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits16_raw",
+      "bits": 16,
+      "codec": "raw",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 382
+          },
+          {
+            "identification": 1423,
+            "chromosome": 1455,
+            "position": 1456,
+            "block": 1472,
+            "raw_probability": 1476,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 1836,
+            "chromosome": 1860,
+            "position": 1861,
+            "block": 1877,
+            "raw_probability": 1881,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 2255,
+            "chromosome": 2283,
+            "position": 2284,
+            "block": 2300,
+            "raw_probability": 2304,
+            "decoded_bytes": 388
+          },
+          {
+            "identification": 2692,
+            "chromosome": 2714,
+            "position": 2715,
+            "block": 2731,
+            "raw_probability": 2735,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2905,
+            "chromosome": 2939,
+            "position": 2940,
+            "block": 2956,
+            "raw_probability": 2960,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 3770,
+            "chromosome": 3804,
+            "position": 3805,
+            "block": 3821,
+            "raw_probability": 3825,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 4217,
+            "chromosome": 4235,
+            "position": 4236,
+            "block": 4252,
+            "raw_probability": 4256,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 4650,
+            "chromosome": 4682,
+            "position": 4683,
+            "block": 4699,
+            "raw_probability": 4703,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 5077,
+            "chromosome": 5113,
+            "position": 5114,
+            "block": 5130,
+            "raw_probability": 5134,
+            "decoded_bytes": 378
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 1415,
+            "chromosome": 1447,
+            "position": 1448,
+            "block": 1464,
+            "raw_probability": 1468,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 1860,
+            "chromosome": 1884,
+            "position": 1885,
+            "block": 1901,
+            "raw_probability": 1905,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 2285,
+            "chromosome": 2313,
+            "position": 2314,
+            "block": 2330,
+            "raw_probability": 2334,
+            "decoded_bytes": 348
+          },
+          {
+            "identification": 2682,
+            "chromosome": 2704,
+            "position": 2705,
+            "block": 2721,
+            "raw_probability": 2725,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2895,
+            "chromosome": 2929,
+            "position": 2930,
+            "block": 2946,
+            "raw_probability": 2950,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3120,
+            "chromosome": 3154,
+            "position": 3155,
+            "block": 3171,
+            "raw_probability": 3175,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 3535,
+            "chromosome": 3553,
+            "position": 3554,
+            "block": 3570,
+            "raw_probability": 3574,
+            "decoded_bytes": 376
+          },
+          {
+            "identification": 3950,
+            "chromosome": 3982,
+            "position": 3983,
+            "block": 3999,
+            "raw_probability": 4003,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 4395,
+            "chromosome": 4431,
+            "position": 4432,
+            "block": 4448,
+            "raw_probability": 4452,
+            "decoded_bytes": 376
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 1435,
+            "chromosome": 1467,
+            "position": 1468,
+            "block": 1484,
+            "raw_probability": 1488,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 1886,
+            "chromosome": 1910,
+            "position": 1911,
+            "block": 1927,
+            "raw_probability": 1931,
+            "decoded_bytes": 396
+          },
+          {
+            "identification": 2327,
+            "chromosome": 2355,
+            "position": 2356,
+            "block": 2372,
+            "raw_probability": 2376,
+            "decoded_bytes": 414
+          },
+          {
+            "identification": 2790,
+            "chromosome": 2812,
+            "position": 2813,
+            "block": 2829,
+            "raw_probability": 2833,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 3643,
+            "chromosome": 3677,
+            "position": 3678,
+            "block": 3694,
+            "raw_probability": 3698,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3868,
+            "chromosome": 3902,
+            "position": 3903,
+            "block": 3919,
+            "raw_probability": 3923,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 4321,
+            "chromosome": 4339,
+            "position": 4340,
+            "block": 4356,
+            "raw_probability": 4360,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 4740,
+            "chromosome": 4772,
+            "position": 4773,
+            "block": 4789,
+            "raw_probability": 4793,
+            "decoded_bytes": 384
+          },
+          {
+            "identification": 5177,
+            "chromosome": 5213,
+            "position": 5214,
+            "block": 5230,
+            "raw_probability": 5234,
+            "decoded_bytes": 396
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits16_zlib",
+      "bits": 16,
+      "codec": "zlib",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 382
+          },
+          {
+            "identification": 1359,
+            "chromosome": 1391,
+            "position": 1392,
+            "block": 1408,
+            "raw_probability": null,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 1520,
+            "chromosome": 1544,
+            "position": 1545,
+            "block": 1561,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 1684,
+            "chromosome": 1712,
+            "position": 1713,
+            "block": 1729,
+            "raw_probability": null,
+            "decoded_bytes": 388
+          },
+          {
+            "identification": 2069,
+            "chromosome": 2091,
+            "position": 2092,
+            "block": 2108,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2134,
+            "chromosome": 2168,
+            "position": 2169,
+            "block": 2185,
+            "raw_probability": null,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 2223,
+            "chromosome": 2257,
+            "position": 2258,
+            "block": 2274,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 2395,
+            "chromosome": 2413,
+            "position": 2414,
+            "block": 2430,
+            "raw_probability": null,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 2558,
+            "chromosome": 2590,
+            "position": 2591,
+            "block": 2607,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 2918,
+            "chromosome": 2954,
+            "position": 2955,
+            "block": 2971,
+            "raw_probability": null,
+            "decoded_bytes": 378
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 1351,
+            "chromosome": 1383,
+            "position": 1384,
+            "block": 1400,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 1525,
+            "chromosome": 1549,
+            "position": 1550,
+            "block": 1566,
+            "raw_probability": null,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 1695,
+            "chromosome": 1723,
+            "position": 1724,
+            "block": 1740,
+            "raw_probability": null,
+            "decoded_bytes": 348
+          },
+          {
+            "identification": 2023,
+            "chromosome": 2045,
+            "position": 2046,
+            "block": 2062,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2088,
+            "chromosome": 2122,
+            "position": 2123,
+            "block": 2139,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2165,
+            "chromosome": 2199,
+            "position": 2200,
+            "block": 2216,
+            "raw_probability": null,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 2328,
+            "chromosome": 2346,
+            "position": 2347,
+            "block": 2363,
+            "raw_probability": null,
+            "decoded_bytes": 376
+          },
+          {
+            "identification": 2484,
+            "chromosome": 2516,
+            "position": 2517,
+            "block": 2533,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 2868,
+            "chromosome": 2904,
+            "position": 2905,
+            "block": 2921,
+            "raw_probability": null,
+            "decoded_bytes": 376
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 1372,
+            "chromosome": 1404,
+            "position": 1405,
+            "block": 1421,
+            "raw_probability": null,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 1547,
+            "chromosome": 1571,
+            "position": 1572,
+            "block": 1588,
+            "raw_probability": null,
+            "decoded_bytes": 396
+          },
+          {
+            "identification": 1714,
+            "chromosome": 1742,
+            "position": 1743,
+            "block": 1759,
+            "raw_probability": null,
+            "decoded_bytes": 414
+          },
+          {
+            "identification": 2114,
+            "chromosome": 2136,
+            "position": 2137,
+            "block": 2153,
+            "raw_probability": null,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 2809,
+            "chromosome": 2843,
+            "position": 2844,
+            "block": 2860,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2886,
+            "chromosome": 2920,
+            "position": 2921,
+            "block": 2937,
+            "raw_probability": null,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 3057,
+            "chromosome": 3075,
+            "position": 3076,
+            "block": 3092,
+            "raw_probability": null,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 3216,
+            "chromosome": 3248,
+            "position": 3249,
+            "block": 3265,
+            "raw_probability": null,
+            "decoded_bytes": 384
+          },
+          {
+            "identification": 3590,
+            "chromosome": 3626,
+            "position": 3627,
+            "block": 3643,
+            "raw_probability": null,
+            "decoded_bytes": 396
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits16_zstd",
+      "bits": 16,
+      "codec": "zstd",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 382
+          },
+          {
+            "identification": 1439,
+            "chromosome": 1471,
+            "position": 1472,
+            "block": 1488,
+            "raw_probability": null,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 1868,
+            "chromosome": 1892,
+            "position": 1893,
+            "block": 1909,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 2303,
+            "chromosome": 2331,
+            "position": 2332,
+            "block": 2348,
+            "raw_probability": null,
+            "decoded_bytes": 388
+          },
+          {
+            "identification": 2756,
+            "chromosome": 2778,
+            "position": 2779,
+            "block": 2795,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2985,
+            "chromosome": 3019,
+            "position": 3020,
+            "block": 3036,
+            "raw_probability": null,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 3866,
+            "chromosome": 3900,
+            "position": 3901,
+            "block": 3917,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 4329,
+            "chromosome": 4347,
+            "position": 4348,
+            "block": 4364,
+            "raw_probability": null,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 4778,
+            "chromosome": 4810,
+            "position": 4811,
+            "block": 4827,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 5221,
+            "chromosome": 5257,
+            "position": 5258,
+            "block": 5274,
+            "raw_probability": null,
+            "decoded_bytes": 378
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 374
+          },
+          {
+            "identification": 1431,
+            "chromosome": 1463,
+            "position": 1464,
+            "block": 1480,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 1892,
+            "chromosome": 1916,
+            "position": 1917,
+            "block": 1933,
+            "raw_probability": null,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 2333,
+            "chromosome": 2361,
+            "position": 2362,
+            "block": 2378,
+            "raw_probability": null,
+            "decoded_bytes": 348
+          },
+          {
+            "identification": 2746,
+            "chromosome": 2768,
+            "position": 2769,
+            "block": 2785,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2975,
+            "chromosome": 3009,
+            "position": 3010,
+            "block": 3026,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3216,
+            "chromosome": 3250,
+            "position": 3251,
+            "block": 3267,
+            "raw_probability": null,
+            "decoded_bytes": 360
+          },
+          {
+            "identification": 3647,
+            "chromosome": 3665,
+            "position": 3666,
+            "block": 3682,
+            "raw_probability": null,
+            "decoded_bytes": 376
+          },
+          {
+            "identification": 4078,
+            "chromosome": 4110,
+            "position": 4111,
+            "block": 4127,
+            "raw_probability": null,
+            "decoded_bytes": 392
+          },
+          {
+            "identification": 4539,
+            "chromosome": 4575,
+            "position": 4576,
+            "block": 4592,
+            "raw_probability": null,
+            "decoded_bytes": 376
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 394
+          },
+          {
+            "identification": 1451,
+            "chromosome": 1483,
+            "position": 1484,
+            "block": 1500,
+            "raw_probability": null,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 1918,
+            "chromosome": 1942,
+            "position": 1943,
+            "block": 1959,
+            "raw_probability": null,
+            "decoded_bytes": 396
+          },
+          {
+            "identification": 2375,
+            "chromosome": 2403,
+            "position": 2404,
+            "block": 2420,
+            "raw_probability": null,
+            "decoded_bytes": 414
+          },
+          {
+            "identification": 2854,
+            "chromosome": 2876,
+            "position": 2877,
+            "block": 2893,
+            "raw_probability": null,
+            "decoded_bytes": 810
+          },
+          {
+            "identification": 3723,
+            "chromosome": 3757,
+            "position": 3758,
+            "block": 3774,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3964,
+            "chromosome": 3998,
+            "position": 3999,
+            "block": 4015,
+            "raw_probability": null,
+            "decoded_bytes": 398
+          },
+          {
+            "identification": 4433,
+            "chromosome": 4451,
+            "position": 4452,
+            "block": 4468,
+            "raw_probability": null,
+            "decoded_bytes": 380
+          },
+          {
+            "identification": 4868,
+            "chromosome": 4900,
+            "position": 4901,
+            "block": 4917,
+            "raw_probability": null,
+            "decoded_bytes": 384
+          },
+          {
+            "identification": 5321,
+            "chromosome": 5357,
+            "position": 5358,
+            "block": 5374,
+            "raw_probability": null,
+            "decoded_bytes": 396
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits24_raw",
+      "bits": 24,
+      "codec": "raw",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 488
+          },
+          {
+            "identification": 1529,
+            "chromosome": 1561,
+            "position": 1562,
+            "block": 1578,
+            "raw_probability": 1582,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 2037,
+            "chromosome": 2061,
+            "position": 2062,
+            "block": 2078,
+            "raw_probability": 2082,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 2558,
+            "chromosome": 2586,
+            "position": 2587,
+            "block": 2603,
+            "raw_probability": 2607,
+            "decoded_bytes": 497
+          },
+          {
+            "identification": 3104,
+            "chromosome": 3126,
+            "position": 3127,
+            "block": 3143,
+            "raw_probability": 3147,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3317,
+            "chromosome": 3351,
+            "position": 3352,
+            "block": 3368,
+            "raw_probability": 3372,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 4502,
+            "chromosome": 4536,
+            "position": 4537,
+            "block": 4553,
+            "raw_probability": 4557,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 5060,
+            "chromosome": 5078,
+            "position": 5079,
+            "block": 5095,
+            "raw_probability": 5099,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 5605,
+            "chromosome": 5637,
+            "position": 5638,
+            "block": 5654,
+            "raw_probability": 5658,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 6134,
+            "chromosome": 6170,
+            "position": 6171,
+            "block": 6187,
+            "raw_probability": 6191,
+            "decoded_bytes": 482
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 1517,
+            "chromosome": 1549,
+            "position": 1550,
+            "block": 1566,
+            "raw_probability": 1570,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 2073,
+            "chromosome": 2097,
+            "position": 2098,
+            "block": 2114,
+            "raw_probability": 2118,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 2603,
+            "chromosome": 2631,
+            "position": 2632,
+            "block": 2648,
+            "raw_probability": 2652,
+            "decoded_bytes": 437
+          },
+          {
+            "identification": 3089,
+            "chromosome": 3111,
+            "position": 3112,
+            "block": 3128,
+            "raw_probability": 3132,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3302,
+            "chromosome": 3336,
+            "position": 3337,
+            "block": 3353,
+            "raw_probability": 3357,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3527,
+            "chromosome": 3561,
+            "position": 3562,
+            "block": 3578,
+            "raw_probability": 3582,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 4037,
+            "chromosome": 4055,
+            "position": 4056,
+            "block": 4072,
+            "raw_probability": 4076,
+            "decoded_bytes": 479
+          },
+          {
+            "identification": 4555,
+            "chromosome": 4587,
+            "position": 4588,
+            "block": 4604,
+            "raw_probability": 4608,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 5111,
+            "chromosome": 5147,
+            "position": 5148,
+            "block": 5164,
+            "raw_probability": 5168,
+            "decoded_bytes": 479
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 1547,
+            "chromosome": 1579,
+            "position": 1580,
+            "block": 1596,
+            "raw_probability": 1600,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 2112,
+            "chromosome": 2136,
+            "position": 2137,
+            "block": 2153,
+            "raw_probability": 2157,
+            "decoded_bytes": 509
+          },
+          {
+            "identification": 2666,
+            "chromosome": 2694,
+            "position": 2695,
+            "block": 2711,
+            "raw_probability": 2715,
+            "decoded_bytes": 536
+          },
+          {
+            "identification": 3251,
+            "chromosome": 3273,
+            "position": 3274,
+            "block": 3290,
+            "raw_probability": 3294,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 4424,
+            "chromosome": 4458,
+            "position": 4459,
+            "block": 4475,
+            "raw_probability": 4479,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 4649,
+            "chromosome": 4683,
+            "position": 4684,
+            "block": 4700,
+            "raw_probability": 4704,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 5216,
+            "chromosome": 5234,
+            "position": 5235,
+            "block": 5251,
+            "raw_probability": 5255,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 5740,
+            "chromosome": 5772,
+            "position": 5773,
+            "block": 5789,
+            "raw_probability": 5793,
+            "decoded_bytes": 491
+          },
+          {
+            "identification": 6284,
+            "chromosome": 6320,
+            "position": 6321,
+            "block": 6337,
+            "raw_probability": 6341,
+            "decoded_bytes": 509
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits24_zlib",
+      "bits": 24,
+      "codec": "zlib",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 488
+          },
+          {
+            "identification": 1471,
+            "chromosome": 1503,
+            "position": 1504,
+            "block": 1520,
+            "raw_probability": null,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 1639,
+            "chromosome": 1663,
+            "position": 1664,
+            "block": 1680,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 1817,
+            "chromosome": 1845,
+            "position": 1846,
+            "block": 1862,
+            "raw_probability": null,
+            "decoded_bytes": 497
+          },
+          {
+            "identification": 2315,
+            "chromosome": 2337,
+            "position": 2338,
+            "block": 2354,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2380,
+            "chromosome": 2414,
+            "position": 2415,
+            "block": 2431,
+            "raw_probability": null,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 2474,
+            "chromosome": 2508,
+            "position": 2509,
+            "block": 2525,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 2651,
+            "chromosome": 2669,
+            "position": 2670,
+            "block": 2686,
+            "raw_probability": null,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 2826,
+            "chromosome": 2858,
+            "position": 2859,
+            "block": 2875,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 3293,
+            "chromosome": 3329,
+            "position": 3330,
+            "block": 3346,
+            "raw_probability": null,
+            "decoded_bytes": 482
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 1458,
+            "chromosome": 1490,
+            "position": 1491,
+            "block": 1507,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 1640,
+            "chromosome": 1664,
+            "position": 1665,
+            "block": 1681,
+            "raw_probability": null,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 1823,
+            "chromosome": 1851,
+            "position": 1852,
+            "block": 1868,
+            "raw_probability": null,
+            "decoded_bytes": 437
+          },
+          {
+            "identification": 2241,
+            "chromosome": 2263,
+            "position": 2264,
+            "block": 2280,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2306,
+            "chromosome": 2340,
+            "position": 2341,
+            "block": 2357,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2383,
+            "chromosome": 2417,
+            "position": 2418,
+            "block": 2434,
+            "raw_probability": null,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 2552,
+            "chromosome": 2570,
+            "position": 2571,
+            "block": 2587,
+            "raw_probability": null,
+            "decoded_bytes": 479
+          },
+          {
+            "identification": 2720,
+            "chromosome": 2752,
+            "position": 2753,
+            "block": 2769,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 3221,
+            "chromosome": 3257,
+            "position": 3258,
+            "block": 3274,
+            "raw_probability": null,
+            "decoded_bytes": 479
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 1489,
+            "chromosome": 1521,
+            "position": 1522,
+            "block": 1538,
+            "raw_probability": null,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 1671,
+            "chromosome": 1695,
+            "position": 1696,
+            "block": 1712,
+            "raw_probability": null,
+            "decoded_bytes": 509
+          },
+          {
+            "identification": 1853,
+            "chromosome": 1881,
+            "position": 1882,
+            "block": 1898,
+            "raw_probability": null,
+            "decoded_bytes": 536
+          },
+          {
+            "identification": 2377,
+            "chromosome": 2399,
+            "position": 2400,
+            "block": 2416,
+            "raw_probability": null,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 3413,
+            "chromosome": 3447,
+            "position": 3448,
+            "block": 3464,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3490,
+            "chromosome": 3524,
+            "position": 3525,
+            "block": 3541,
+            "raw_probability": null,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 3667,
+            "chromosome": 3685,
+            "position": 3686,
+            "block": 3702,
+            "raw_probability": null,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 3839,
+            "chromosome": 3871,
+            "position": 3872,
+            "block": 3888,
+            "raw_probability": null,
+            "decoded_bytes": 491
+          },
+          {
+            "identification": 4326,
+            "chromosome": 4362,
+            "position": 4363,
+            "block": 4379,
+            "raw_probability": null,
+            "decoded_bytes": 509
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits24_zstd",
+      "bits": 24,
+      "codec": "zstd",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 488
+          },
+          {
+            "identification": 1545,
+            "chromosome": 1577,
+            "position": 1578,
+            "block": 1594,
+            "raw_probability": null,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 2069,
+            "chromosome": 2093,
+            "position": 2094,
+            "block": 2110,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 2606,
+            "chromosome": 2634,
+            "position": 2635,
+            "block": 2651,
+            "raw_probability": null,
+            "decoded_bytes": 497
+          },
+          {
+            "identification": 3168,
+            "chromosome": 3190,
+            "position": 3191,
+            "block": 3207,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3397,
+            "chromosome": 3431,
+            "position": 3432,
+            "block": 3448,
+            "raw_probability": null,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 4598,
+            "chromosome": 4632,
+            "position": 4633,
+            "block": 4649,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 5172,
+            "chromosome": 5190,
+            "position": 5191,
+            "block": 5207,
+            "raw_probability": null,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 5733,
+            "chromosome": 5765,
+            "position": 5766,
+            "block": 5782,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 6278,
+            "chromosome": 6314,
+            "position": 6315,
+            "block": 6331,
+            "raw_probability": null,
+            "decoded_bytes": 482
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 476
+          },
+          {
+            "identification": 1533,
+            "chromosome": 1565,
+            "position": 1566,
+            "block": 1582,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 2105,
+            "chromosome": 2129,
+            "position": 2130,
+            "block": 2146,
+            "raw_probability": null,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 2651,
+            "chromosome": 2679,
+            "position": 2680,
+            "block": 2696,
+            "raw_probability": null,
+            "decoded_bytes": 437
+          },
+          {
+            "identification": 3153,
+            "chromosome": 3175,
+            "position": 3176,
+            "block": 3192,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3382,
+            "chromosome": 3416,
+            "position": 3417,
+            "block": 3433,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3623,
+            "chromosome": 3657,
+            "position": 3658,
+            "block": 3674,
+            "raw_probability": null,
+            "decoded_bytes": 455
+          },
+          {
+            "identification": 4149,
+            "chromosome": 4167,
+            "position": 4168,
+            "block": 4184,
+            "raw_probability": null,
+            "decoded_bytes": 479
+          },
+          {
+            "identification": 4683,
+            "chromosome": 4715,
+            "position": 4716,
+            "block": 4732,
+            "raw_probability": null,
+            "decoded_bytes": 503
+          },
+          {
+            "identification": 5255,
+            "chromosome": 5291,
+            "position": 5292,
+            "block": 5308,
+            "raw_probability": null,
+            "decoded_bytes": 479
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 506
+          },
+          {
+            "identification": 1563,
+            "chromosome": 1595,
+            "position": 1596,
+            "block": 1612,
+            "raw_probability": null,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 2144,
+            "chromosome": 2168,
+            "position": 2169,
+            "block": 2185,
+            "raw_probability": null,
+            "decoded_bytes": 509
+          },
+          {
+            "identification": 2714,
+            "chromosome": 2742,
+            "position": 2743,
+            "block": 2759,
+            "raw_probability": null,
+            "decoded_bytes": 536
+          },
+          {
+            "identification": 3315,
+            "chromosome": 3337,
+            "position": 3338,
+            "block": 3354,
+            "raw_probability": null,
+            "decoded_bytes": 1130
+          },
+          {
+            "identification": 4504,
+            "chromosome": 4538,
+            "position": 4539,
+            "block": 4555,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 4745,
+            "chromosome": 4779,
+            "position": 4780,
+            "block": 4796,
+            "raw_probability": null,
+            "decoded_bytes": 512
+          },
+          {
+            "identification": 5328,
+            "chromosome": 5346,
+            "position": 5347,
+            "block": 5363,
+            "raw_probability": null,
+            "decoded_bytes": 485
+          },
+          {
+            "identification": 5868,
+            "chromosome": 5900,
+            "position": 5901,
+            "block": 5917,
+            "raw_probability": null,
+            "decoded_bytes": 491
+          },
+          {
+            "identification": 6428,
+            "chromosome": 6464,
+            "position": 6465,
+            "block": 6481,
+            "raw_probability": null,
+            "decoded_bytes": 509
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits32_raw",
+      "bits": 32,
+      "codec": "raw",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 594
+          },
+          {
+            "identification": 1635,
+            "chromosome": 1667,
+            "position": 1668,
+            "block": 1684,
+            "raw_probability": 1688,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 2238,
+            "chromosome": 2262,
+            "position": 2263,
+            "block": 2279,
+            "raw_probability": 2283,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 2861,
+            "chromosome": 2889,
+            "position": 2890,
+            "block": 2906,
+            "raw_probability": 2910,
+            "decoded_bytes": 606
+          },
+          {
+            "identification": 3516,
+            "chromosome": 3538,
+            "position": 3539,
+            "block": 3555,
+            "raw_probability": 3559,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3729,
+            "chromosome": 3763,
+            "position": 3764,
+            "block": 3780,
+            "raw_probability": 3784,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 5234,
+            "chromosome": 5268,
+            "position": 5269,
+            "block": 5285,
+            "raw_probability": 5289,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 5903,
+            "chromosome": 5921,
+            "position": 5922,
+            "block": 5938,
+            "raw_probability": 5942,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 6560,
+            "chromosome": 6592,
+            "position": 6593,
+            "block": 6609,
+            "raw_probability": 6613,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 7191,
+            "chromosome": 7227,
+            "position": 7228,
+            "block": 7244,
+            "raw_probability": 7248,
+            "decoded_bytes": 586
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 1619,
+            "chromosome": 1651,
+            "position": 1652,
+            "block": 1668,
+            "raw_probability": 1672,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 2286,
+            "chromosome": 2310,
+            "position": 2311,
+            "block": 2327,
+            "raw_probability": 2331,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 2921,
+            "chromosome": 2949,
+            "position": 2950,
+            "block": 2966,
+            "raw_probability": 2970,
+            "decoded_bytes": 526
+          },
+          {
+            "identification": 3496,
+            "chromosome": 3518,
+            "position": 3519,
+            "block": 3535,
+            "raw_probability": 3539,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3709,
+            "chromosome": 3743,
+            "position": 3744,
+            "block": 3760,
+            "raw_probability": 3764,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3934,
+            "chromosome": 3968,
+            "position": 3969,
+            "block": 3985,
+            "raw_probability": 3989,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 4539,
+            "chromosome": 4557,
+            "position": 4558,
+            "block": 4574,
+            "raw_probability": 4578,
+            "decoded_bytes": 582
+          },
+          {
+            "identification": 5160,
+            "chromosome": 5192,
+            "position": 5193,
+            "block": 5209,
+            "raw_probability": 5213,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 5827,
+            "chromosome": 5863,
+            "position": 5864,
+            "block": 5880,
+            "raw_probability": 5884,
+            "decoded_bytes": 582
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": 1041,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 1659,
+            "chromosome": 1691,
+            "position": 1692,
+            "block": 1708,
+            "raw_probability": 1712,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 2338,
+            "chromosome": 2362,
+            "position": 2363,
+            "block": 2379,
+            "raw_probability": 2383,
+            "decoded_bytes": 622
+          },
+          {
+            "identification": 3005,
+            "chromosome": 3033,
+            "position": 3034,
+            "block": 3050,
+            "raw_probability": 3054,
+            "decoded_bytes": 658
+          },
+          {
+            "identification": 3712,
+            "chromosome": 3734,
+            "position": 3735,
+            "block": 3751,
+            "raw_probability": 3755,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 5205,
+            "chromosome": 5239,
+            "position": 5240,
+            "block": 5256,
+            "raw_probability": 5260,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 5430,
+            "chromosome": 5464,
+            "position": 5465,
+            "block": 5481,
+            "raw_probability": 5485,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 6111,
+            "chromosome": 6129,
+            "position": 6130,
+            "block": 6146,
+            "raw_probability": 6150,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 6740,
+            "chromosome": 6772,
+            "position": 6773,
+            "block": 6789,
+            "raw_probability": 6793,
+            "decoded_bytes": 598
+          },
+          {
+            "identification": 7391,
+            "chromosome": 7427,
+            "position": 7428,
+            "block": 7444,
+            "raw_probability": 7448,
+            "decoded_bytes": 622
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits32_zlib",
+      "bits": 32,
+      "codec": "zlib",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 594
+          },
+          {
+            "identification": 1583,
+            "chromosome": 1615,
+            "position": 1616,
+            "block": 1632,
+            "raw_probability": null,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 1756,
+            "chromosome": 1780,
+            "position": 1781,
+            "block": 1797,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 1943,
+            "chromosome": 1971,
+            "position": 1972,
+            "block": 1988,
+            "raw_probability": null,
+            "decoded_bytes": 606
+          },
+          {
+            "identification": 2557,
+            "chromosome": 2579,
+            "position": 2580,
+            "block": 2596,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2622,
+            "chromosome": 2656,
+            "position": 2657,
+            "block": 2673,
+            "raw_probability": null,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 2721,
+            "chromosome": 2755,
+            "position": 2756,
+            "block": 2772,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 2902,
+            "chromosome": 2920,
+            "position": 2921,
+            "block": 2937,
+            "raw_probability": null,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 3086,
+            "chromosome": 3118,
+            "position": 3119,
+            "block": 3135,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 3661,
+            "chromosome": 3697,
+            "position": 3698,
+            "block": 3714,
+            "raw_probability": null,
+            "decoded_bytes": 586
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 1566,
+            "chromosome": 1598,
+            "position": 1599,
+            "block": 1615,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 1754,
+            "chromosome": 1778,
+            "position": 1779,
+            "block": 1795,
+            "raw_probability": null,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 1942,
+            "chromosome": 1970,
+            "position": 1971,
+            "block": 1987,
+            "raw_probability": null,
+            "decoded_bytes": 526
+          },
+          {
+            "identification": 2452,
+            "chromosome": 2474,
+            "position": 2475,
+            "block": 2491,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2517,
+            "chromosome": 2551,
+            "position": 2552,
+            "block": 2568,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 2594,
+            "chromosome": 2628,
+            "position": 2629,
+            "block": 2645,
+            "raw_probability": null,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 2767,
+            "chromosome": 2785,
+            "position": 2786,
+            "block": 2802,
+            "raw_probability": null,
+            "decoded_bytes": 582
+          },
+          {
+            "identification": 2943,
+            "chromosome": 2975,
+            "position": 2976,
+            "block": 2992,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 3561,
+            "chromosome": 3597,
+            "position": 3598,
+            "block": 3614,
+            "raw_probability": null,
+            "decoded_bytes": 582
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 1609,
+            "chromosome": 1641,
+            "position": 1642,
+            "block": 1658,
+            "raw_probability": null,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 1800,
+            "chromosome": 1824,
+            "position": 1825,
+            "block": 1841,
+            "raw_probability": null,
+            "decoded_bytes": 622
+          },
+          {
+            "identification": 1989,
+            "chromosome": 2017,
+            "position": 2018,
+            "block": 2034,
+            "raw_probability": null,
+            "decoded_bytes": 658
+          },
+          {
+            "identification": 2635,
+            "chromosome": 2657,
+            "position": 2658,
+            "block": 2674,
+            "raw_probability": null,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 3993,
+            "chromosome": 4027,
+            "position": 4028,
+            "block": 4044,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 4070,
+            "chromosome": 4104,
+            "position": 4105,
+            "block": 4121,
+            "raw_probability": null,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 4251,
+            "chromosome": 4269,
+            "position": 4270,
+            "block": 4286,
+            "raw_probability": null,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 4431,
+            "chromosome": 4463,
+            "position": 4464,
+            "block": 4480,
+            "raw_probability": null,
+            "decoded_bytes": 598
+          },
+          {
+            "identification": 5032,
+            "chromosome": 5068,
+            "position": 5069,
+            "block": 5085,
+            "raw_probability": null,
+            "decoded_bytes": 622
+          }
+        ]
+      }
+    },
+    {
+      "stem": "bits32_zstd",
+      "bits": 32,
+      "codec": "zstd",
+      "offsets": {
+        "Ancestry1": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 594
+          },
+          {
+            "identification": 1651,
+            "chromosome": 1683,
+            "position": 1684,
+            "block": 1700,
+            "raw_probability": null,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 2270,
+            "chromosome": 2294,
+            "position": 2295,
+            "block": 2311,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 2909,
+            "chromosome": 2937,
+            "position": 2938,
+            "block": 2954,
+            "raw_probability": null,
+            "decoded_bytes": 606
+          },
+          {
+            "identification": 3580,
+            "chromosome": 3602,
+            "position": 3603,
+            "block": 3619,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3809,
+            "chromosome": 3843,
+            "position": 3844,
+            "block": 3860,
+            "raw_probability": null,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 5330,
+            "chromosome": 5364,
+            "position": 5365,
+            "block": 5381,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 6015,
+            "chromosome": 6033,
+            "position": 6034,
+            "block": 6050,
+            "raw_probability": null,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 6688,
+            "chromosome": 6720,
+            "position": 6721,
+            "block": 6737,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 7335,
+            "chromosome": 7371,
+            "position": 7372,
+            "block": 7388,
+            "raw_probability": null,
+            "decoded_bytes": 586
+          }
+        ],
+        "Ancestry2": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 578
+          },
+          {
+            "identification": 1635,
+            "chromosome": 1667,
+            "position": 1668,
+            "block": 1684,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 2318,
+            "chromosome": 2342,
+            "position": 2343,
+            "block": 2359,
+            "raw_probability": null,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 2969,
+            "chromosome": 2997,
+            "position": 2998,
+            "block": 3014,
+            "raw_probability": null,
+            "decoded_bytes": 526
+          },
+          {
+            "identification": 3560,
+            "chromosome": 3582,
+            "position": 3583,
+            "block": 3599,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 3789,
+            "chromosome": 3823,
+            "position": 3824,
+            "block": 3840,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 4030,
+            "chromosome": 4064,
+            "position": 4065,
+            "block": 4081,
+            "raw_probability": null,
+            "decoded_bytes": 550
+          },
+          {
+            "identification": 4651,
+            "chromosome": 4669,
+            "position": 4670,
+            "block": 4686,
+            "raw_probability": null,
+            "decoded_bytes": 582
+          },
+          {
+            "identification": 5288,
+            "chromosome": 5320,
+            "position": 5321,
+            "block": 5337,
+            "raw_probability": null,
+            "decoded_bytes": 614
+          },
+          {
+            "identification": 5971,
+            "chromosome": 6007,
+            "position": 6008,
+            "block": 6024,
+            "raw_probability": null,
+            "decoded_bytes": 582
+          }
+        ],
+        "Ancestry3": [
+          {
+            "identification": 992,
+            "chromosome": 1020,
+            "position": 1021,
+            "block": 1037,
+            "raw_probability": null,
+            "decoded_bytes": 618
+          },
+          {
+            "identification": 1675,
+            "chromosome": 1707,
+            "position": 1708,
+            "block": 1724,
+            "raw_probability": null,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 2370,
+            "chromosome": 2394,
+            "position": 2395,
+            "block": 2411,
+            "raw_probability": null,
+            "decoded_bytes": 622
+          },
+          {
+            "identification": 3053,
+            "chromosome": 3081,
+            "position": 3082,
+            "block": 3098,
+            "raw_probability": null,
+            "decoded_bytes": 658
+          },
+          {
+            "identification": 3776,
+            "chromosome": 3798,
+            "position": 3799,
+            "block": 3815,
+            "raw_probability": null,
+            "decoded_bytes": 1450
+          },
+          {
+            "identification": 5285,
+            "chromosome": 5319,
+            "position": 5320,
+            "block": 5336,
+            "raw_probability": null,
+            "decoded_bytes": 170
+          },
+          {
+            "identification": 5526,
+            "chromosome": 5560,
+            "position": 5561,
+            "block": 5577,
+            "raw_probability": null,
+            "decoded_bytes": 626
+          },
+          {
+            "identification": 6223,
+            "chromosome": 6241,
+            "position": 6242,
+            "block": 6258,
+            "raw_probability": null,
+            "decoded_bytes": 590
+          },
+          {
+            "identification": 6868,
+            "chromosome": 6900,
+            "position": 6901,
+            "block": 6917,
+            "raw_probability": null,
+            "decoded_bytes": 598
+          },
+          {
+            "identification": 7535,
+            "chromosome": 7571,
+            "position": 7572,
+            "block": 7588,
+            "raw_probability": null,
+            "decoded_bytes": 622
+          }
+        ]
+      }
+    }
+  ]
+}

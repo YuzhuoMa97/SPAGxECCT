@@ -1,0 +1,52 @@
+{
+  "software": "SPAGxE",
+  "version": "1.2.0",
+  "date": "2026-10-29",
+  "passed": true,
+  "methods": [
+    "SPAGxE",
+    "SPAGxE+",
+    "SPAGxEmix",
+    "SPAGxEmix_local"
+  ],
+  "policy": "guarded_partial_normal",
+  "production_sources_changed_from_accepted_baseline": false,
+  "Windows_fresh_source_build_and_units": true,
+  "regression_suites_passed": 17,
+  "source_transport": {
+    "passed": true,
+    "core_autocrlf": true,
+    "normal_git_add_files": 16726,
+    "cpp_files_byte_identical_after_archive": 16618,
+    "git_add_force": false,
+    "remote_operations": false,
+    "source_download_sha256": "b58492a8d4dc8bef28fc13aa8c1d3dc7d0658654d26dd7b961f7f0b83d1f7983"
+  },
+  "fresh_build_seconds": 220.80451150000002,
+  "current_partial_baseline_fields": 64960,
+  "current_partial_baseline_max_difference": 0,
+  "native_local_preparation_commands": 4,
+  "text_packed_local_results_identical": true,
+  "source_bundle_tutorial_results_identical": 45,
+  "binary_sha256": "e8c970c68fbb9b901d23535dd692ac22b03d88ae556e705f4a22763bb71483b4",
+  "binary_bytes": 7265792,
+  "platform": "Windows x86-64 Haswell/AVX2",
+  "runtime_R_Python_compiler_required": false,
+  "Linux_macOS_run_locally": false,
+  "remote_Actions_executed": false,
+  "remote_pushed_or_published": false,
+  "inherited_original_R_GRAB_timing_evidence": "Accepted 2026-10-28 records, linked by exact production-source hashes",
+  "scope": "Defined implementation/format/runtime checks, not universal calibration or a representative biobank benchmark",
+  "documentation_feature_review": {
+    "date": "2026-10-29",
+    "guide": "docs/USER_GUIDE.md",
+    "runnable_groups": 33,
+    "native_calls_per_walkthrough": 38,
+    "canonical_CLI_parameters_covered": 53,
+    "source_Windows_and_Bash_walkthroughs_passed": true,
+    "source_Windows_Bash_files_identical": 85,
+    "production_sources_or_numerical_policy_changed": false,
+    "fresh_build_and_17_suites_above": "Earlier acceptance retained by exact production-source and build-input identity; not rerun for documentation-only changes",
+    "scope": "Executable usage examples and representation consistency; not universal calibration or all-platform runtime validation"
+  }
+}

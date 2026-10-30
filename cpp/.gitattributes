@@ -1,0 +1,9 @@
+# Preserve original bytes by default, especially local CRC-bound sidecars.
+# -text disables EOL conversion; it does not disable ordinary source diffs.
+* -text
+*.sh text eol=lf
+Makefile text eol=lf
+*.mk text eol=lf
+*.localbed -text
+*.localbim -text
+*.localfam -text

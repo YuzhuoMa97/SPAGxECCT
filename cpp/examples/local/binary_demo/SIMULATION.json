@@ -1,0 +1,15 @@
+{
+  "generator": "SPAGxE tests/make_local_fixtures.py",
+  "seed": 20261025,
+  "samples": 450,
+  "variants": 18,
+  "ancestries": [
+    "Ancestry1",
+    "Ancestry2"
+  ],
+  "sha256": {
+    "local.localbed": "ab588b8c1c95bd1be7b65d5b047027e4a2d06da3593fa4d8cf48fcc622285934",
+    "local.localbim": "35b55c85d891612a9f4e0641a81f3b674f69bb932b4d0a74763429c80aa3b443",
+    "local.localfam": "e73bd99f7f1e7071d6d0f39b224b0ab9d9e9fc715d466d86e1b60eb8510e5e68"
+  }
+}
