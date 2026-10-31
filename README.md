@@ -4,7 +4,7 @@
 This repository is the **sole official standalone C++ distribution of the
 SPAGxE method family designated and maintained by Yuzhuo Ma**, the method
 designer and author/maintainer of the original SPAGxE software.
-Questions and installation help: [yuzhuoma@amss.ac.cn](mailto:yuzhuoma@amss.ac.cn).
+Questions and installation help: [yuzhuoma@amss.ac.cn](mailto:yuzhuoma@amss.ac.cn) or https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/spagxe_cpp/index.html.
 
 The executable runs without R or Python. The original R package remains
 available below with its own version, dependencies and installation route.
