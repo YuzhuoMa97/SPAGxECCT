@@ -121,6 +121,8 @@ BedCatalog::BedCatalog(
         if (!in.is_open()) throw std::runtime_error("Cannot open PLINK bim file: " + bimFile);
         std::string line;
         while (std::getline(in, line)) {
+            // getline retains the CR in Windows line endings on POSIX hosts.
+            if (!line.empty() && line.back() == '\r') line.pop_back();
             auto tokens = splitWhitespace(line);
             if (tokens.empty()) continue;
             if (tokens.size() != 6) throw std::runtime_error("PLINK .bim file needs 6 columns: " + bimFile);

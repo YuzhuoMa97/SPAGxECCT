@@ -1,7 +1,6 @@
 # SPAGxE authorship and ownership
 
-The SPAGxE method family is described by Yuzhuo Ma, Yanlong Zhao, Ji-Feng Zhang
-and Wenjian Bi in the published SPAGxE paper. The software maintainer is
+The SPAGxE method family is described in the published SPAGxE paper. The software maintainer is
 Yuzhuo Ma, yuzhuoma@amss.ac.cn.
 
 Copyright in the new standalone SPAGxE changes and project materials is asserted

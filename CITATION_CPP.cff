@@ -5,11 +5,21 @@ version: 1.2.0
 date-released: 2026-10-29
 type: software
 authors:
-    Yuzhuo Ma
+  - family-names: Ma
+    given-names: Yuzhuo
     email: yuzhuoma@amss.ac.cn
 preferred-citation:
   type: article
   title: Efficient and accurate framework for genome-wide gene-environment interaction analysis in large-scale biobanks
+  authors:
+    - family-names: Ma
+      given-names: Yuzhuo
+    - family-names: Zhao
+      given-names: Yanlong
+    - family-names: Zhang
+      given-names: Ji-Feng
+    - family-names: Bi
+      given-names: Wenjian
   journal: Nature Communications
   year: 2025
   volume: 16

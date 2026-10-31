@@ -1,4 +1,4 @@
-﻿# ── Toolchain ─────────────────────────────────────────────────────────────────
+# ── Toolchain ─────────────────────────────────────────────────────────────────
 # External build environments and CI may override the compiler defaults.
 # The supplied workflow builds and tests; Release assets are uploaded separately.
 ifeq ($(origin CXX),default)
@@ -55,7 +55,7 @@ else
   # block in -Bstatic/-Bdynamic forces these three to be picked up
   # from .a archives regardless of the surrounding global link mode
   # so the resulting .exe is fully self-contained.
-  PLATFORM_LDLIBS := -lws2_32 -lshell32 -lregex -Wl,-Bstatic -ltre -lintl -liconv -Wl,-Bdynamic
+  PLATFORM_LDLIBS := -lws2_32 -lshell32 -lregex -Wl,-Bstatic -ltre -lintl -liconv
   PLATFORM_FLAGS  := -pipe
   SHELL     := /usr/bin/bash
   # Redirect linker temp dir to project-local tmp/ (Windows path format).
@@ -136,6 +136,14 @@ TP_CFLAGS   := -O3 -DNDEBUG $(PLATFORM_FLAGS) -ffunction-sections -fdata-section
 # a binary portable to older systems.  Apple clang on macOS doesn't accept
 # these flags, so the override is Linux/Windows-only.
 STATIC_LIBS ?=
+ifeq ($(PLATFORM),windows)
+  # Restore dynamic lookup only for a dynamic build. GCC translates -static
+  # into an early linker switch; a later -Bdynamic would override it for
+  # implicit C++/thread runtime libraries and leave unexpected DLL imports.
+  ifeq ($(filter -static,$(STATIC_LIBS) $(LDFLAGS) $(CXXFLAGS)),)
+    PLATFORM_LDLIBS += -Wl,-Bdynamic
+  endif
+endif
 ifeq ($(PLATFORM),macos)
   LINK_FLAGS := -Wl,-dead_strip -lpthread $(PLATFORM_LDLIBS) $(STATIC_LIBS)
 else

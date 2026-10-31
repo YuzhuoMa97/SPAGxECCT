@@ -27,6 +27,19 @@ def same(label,got,expected):
  records.append({'case':label,'check':'byte-identical','tables':len(got)})
 
 bed=tables(run('bed',['--bfile','examples/synthetic/synthetic','--save-resid']))
+# BIM allele fields must be independent of the producing system's line endings.
+# Compare all four trait outputs with LF, CRLF and a final line without a newline.
+source_prefix=Path('examples/synthetic/synthetic')
+bim_rows=source_prefix.with_suffix('.bim').read_bytes().splitlines()
+assert bim_rows and all(b'\r' not in row and b'\n' not in row for row in bim_rows)
+for label,separator,terminate in [('lf',b'\n',True),('crlf',b'\r\n',True),('crlf_no_final_newline',b'\r\n',False)]:
+ prefix=out/('bim_'+label)
+ prefix.with_suffix('.bed').write_bytes(source_prefix.with_suffix('.bed').read_bytes())
+ prefix.with_suffix('.fam').write_bytes(source_prefix.with_suffix('.fam').read_bytes())
+ prefix.with_suffix('.bim').write_bytes(separator.join(bim_rows)+(separator if terminate else b''))
+ got=tables(run('bim_'+label,['--bfile',str(prefix)]))
+ same('BIM_line_endings_'+label,got,bed)
+ assert all(b'\r' not in raw for raw in got.values()), 'BIM line terminator leaked into association output'
 for label,opts in [('vcf',['--vcf','examples/synthetic/synthetic.vcf']),('bgen',['--bgen','examples/synthetic/synthetic.bgen','ref-first']),('bgen_raw',['--bgen','examples/synthetic/synthetic.raw.bgen','ref-first']),('bgen16',['--bgen','examples/synthetic/synthetic.16bit.bgen','ref-first']),('bgen_raw16',['--bgen','examples/synthetic/synthetic.raw.16bit.bgen','ref-first'])]:
  same('cross_format_'+label,tables(run(label,opts)),bed)
 for label,opts in [('bcf',['--bcf','examples/synthetic/synthetic.bcf']),('bgen_noids',['--bgen','examples/synthetic/synthetic.noids.bgen','ref-first']),('bgen_reflast',['--bgen','examples/synthetic/synthetic.reflast.bgen','ref-last']),('bgen_phased',['--bgen','examples/synthetic/synthetic.phased.bgen','ref-first']),('bgen_v11',['--bgen','examples/synthetic/synthetic.v11.bgen','ref-first']),('bgen_v11raw',['--bgen','examples/synthetic/synthetic.v11raw.bgen','ref-first'])]:
