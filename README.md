@@ -49,7 +49,12 @@ with Haswell/AVX2. Verify the checksum, extract everything, then run:
 
 Source builds and tutorials have local validation on Windows and Ubuntu
 24.04 x86-64 in WSL2, including the CRLF-aware BIM reader correction.
-Check Actions for the selected public commit; macOS remains unverified.
+Published commit `2a14885bd9ebc1bcf51910db852a38e212793225` passed the
+[Windows, Ubuntu and macOS source workflow](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41438512290)
+on 2 November 2026, including build, numerical units, reader regressions
+and source/extracted-runtime tutorials. This records those CI runners;
+it does not certify every OS/CPU or publish a macOS binary. Check Actions
+for later commits. See [validation records](docs/validation/README.md).
 
 ## Documentation and examples
 

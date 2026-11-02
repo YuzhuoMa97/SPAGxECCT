@@ -41,43 +41,55 @@ Both sparse-triplet and PLINK GRM input layouts remain supported.
 
 ## Validation interpretation
 
-Windows fresh source compilation and numerical units passed. All 17
+### Published source CI
+
+Develop commit `2a14885bd9ebc1bcf51910db852a38e212793225` passed the
+[2 November 2026 hosted workflow](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41438512290).
+The Windows, Ubuntu and macOS jobs completed successfully, including source
+build, numerical units, reader/regression checks, and source and extracted
+runtime tutorials with matching output checks. This is actual hosted macOS
+execution, in addition to the earlier local Windows/Linux evidence.
+
+The final portable-reference update changed two unit-test reference files
+and their source manifest; production analysis code did not change. The
+log-probability suite retains its original 53 cases and adds one focused
+reference regression (54 total). The CGF suite retains 28 cases and the
+original identity grid and accuracy criteria. Existing guards for 13 CGF
+measurements that require wider native long double remain; success on a
+binary64-long-double host does not mean those wider-precision measurements
+ran there. No new skips or tolerance relaxation were added by the update.
+
+These results identify one checked commit and the three CI runner routes.
+Later source or documentation revisions need their own CI. They do not
+certify every operating system, CPU, compiler, input or binary distribution.
+There is no published macOS precompiled package. Default x86 builds require
+Haswell/AVX2; dynamic Linux binaries also require compatible glibc/libstdc++.
+
+### Earlier local implementation checks
+
+Fresh Windows source compilation and numerical units passed. All 17 local
 regression suites passed, covering CLI/scope, global/local readers, AF, CCT,
 independent references and stability. The six source tutorials passed.
-The full 33-group walkthrough was run with the previous accepted executable
-and the current executable: 85 files were byte-identical, including 145,985
-numeric fields with maximum delta 0. These finite fixtures are implementation
-checks, not universal population/extreme-tail calibration proofs.
+The previous/current full 33-group walkthrough produced 85 byte-identical
+files, including 145,985 numeric fields with maximum delta 0. Linux local
+build, tests, install-prefix execution and walkthrough checks also passed.
+The acceptance record preserves those historical stages and dates; these
+earlier figures are not relabeled as newly executed hosted measurements.
 
-Linux maintenance-source execution: passed; see the current acceptance record for exact stages and output comparisons.
-macOS has not passed validation. Default x86 builds require Haswell/AVX2;
-dynamic Linux binaries also require compatible glibc/libstdc++.
+Earlier public commits c7c1159, d90fb4c and 2548530 passed Windows/Ubuntu
+but did not complete macOS acceptance. Their platform-dependent unit
+references were subsequently corrected. The successful run above supersedes
+their failed current-platform status while retaining their historical record.
 
-The public source baseline reviewed on 1 November 2026 was develop commit
-c7c11590efbd10504115cd0ad8dbb9c6ca2634e1. Its hosted Windows/Ubuntu jobs passed and macOS failed.
-The maintenance source was subsequently published as develop commit
-d90fb4c45849757c816c5d1ba5d191911443e83c. Its 2 November 2026
-[hosted workflow](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904)
-passed the Windows and Ubuntu jobs, including source and extracted-runtime
-tutorial checks. The macOS build/unit job failed, so the workflow as a whole
-is not green. macOS support must not be inferred from the other two jobs.
-This record identifies the checked commit; later changes need their own CI.
 The documentation website was deployed from commit
-ca8e1d39e1b01732e2c4dd8015f6dc886862725a, including the Linux installation
-section and maintenance page. A source push or website deployment does not
-create a C++ Release or publish its runtime attachments.
-
-A follow-up test-only revision replaces five platform-dependent reference
-calculations with exact combinatorial fixtures or multiprecision oracles.
-The original accuracy criteria and all test cases remain; production
-analysis code is unchanged. The revised units passed locally on Windows.
-A new hosted run, especially the actual macOS job, is still required before
-calling this follow-up validated on that platform.
+`d389e486035d94c1aceb6acc23acf52a6a10f505`. A source push or website
+deployment does not create a C++ Release or publish runtime attachments.
 
 Original R/full-CGF comparisons apply only to matched common domains.
 Partial-normal SPA adds a declared approximation; a full-CGF diagnostic
-threshold is not a bound on P-value error. No representative biobank-scale
-speed advantage or all-platform compatibility is claimed.
+threshold is not a bound on P-value error. Finite fixtures are implementation
+checks, not universal population/extreme-tail calibration proofs. No
+representative biobank-scale speed advantage is claimed.
 
 ## Distribution boundaries
 

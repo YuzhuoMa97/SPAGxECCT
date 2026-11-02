@@ -2,7 +2,7 @@
   "software": "SPAGxE",
   "version": "1.2.0",
   "date": "2026-11-02",
-  "scope": "Published develop source; Windows/Ubuntu hosted CI passed; macOS failed; final C++ tag/assets pending",
+  "scope": "Published develop source; Windows/Ubuntu/macOS hosted CI passed for the pinned commit; final C++ tag/assets pending",
   "public_baseline_commit": "c7c11590efbd10504115cd0ad8dbb9c6ca2634e1",
   "statistical_policy": "paper weights; guarded partial-normal CGF",
   "methods": [
@@ -37,7 +37,7 @@
     "null_spec_cases": 80
   },
   "Linux_locally_validated": true,
-  "macOS_validated": false,
+  "macOS_validated": true,
   "maintenance_candidate_hosted_CI_executed": true,
   "public_CXX_release_published": false,
   "universal_calibration_proven": false,
@@ -166,24 +166,46 @@
     "binary_sha256": "c1bedb883d85f8b5aa9e072fade6f63df4e61e8e44c18548cc3ed42974f60b6c"
   },
   "historical_local_validation_date": "2026-11-01",
-  "reviewed_public_commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
+  "reviewed_public_commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
   "hosted_CI": {
-    "commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
-    "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904",
+    "commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
+    "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41438512290",
     "Windows": "success",
     "Ubuntu": "success",
-    "macOS": "failure",
-    "overall": "failure"
+    "macOS": "success",
+    "overall": "success"
   },
-  "website_deployed_commit": "ca8e1d39e1b01732e2c4dd8015f6dc886862725a",
+  "website_deployed_commit": "d389e486035d94c1aceb6acc23acf52a6a10f505",
   "post_publication_documentation_patch_changes_mathematics": false,
   "portable_test_reference_update": {
     "analysis_code_changed": false,
     "original_accuracy_criteria_retained": true,
-    "test_cases_skipped": false,
-    "Windows_local_make_test_passed": true,
-    "log_probability_cases": 53,
-    "new_hosted_CI_executed": false,
-    "actual_MacOS_rerun_passed": false
+    "new_test_cases_skipped": false,
+    "new_tolerance_relaxation": false,
+    "Windows_local_affected_unit_targets_passed": true,
+    "log_probability_cases": 54,
+    "CGF_cases": 28,
+    "new_hosted_CI_executed": true,
+    "actual_MacOS_rerun_passed": true,
+    "existing_wide_long_double_measurement_guards": 13,
+    "existing_guards_changed": false,
+    "all_wide_measurements_claimed_to_run_on_binary64": false
+  },
+  "historical_hosted_CI": [
+    {
+      "commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
+      "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904",
+      "Windows": "success",
+      "Ubuntu": "success",
+      "macOS": "failure",
+      "overall": "failure"
+    }
+  ],
+  "macOS_validation_scope": "Source build, numerical unit target, reader/regression and source/extracted-runtime tutorial checks on the macos-latest CI job for the recorded commit; no macOS precompiled Release",
+  "documentation_status_update": {
+    "base_commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
+    "analysis_code_changed": false,
+    "new_documentation_commit_CI_required": true,
+    "historical_local_counts_reused_as_new_hosted_counts": false
   }
 }
