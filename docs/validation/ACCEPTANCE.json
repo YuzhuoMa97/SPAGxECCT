@@ -1,8 +1,8 @@
 {
   "software": "SPAGxE",
   "version": "1.2.0",
-  "date": "2026-11-01",
-  "scope": "Local maintenance candidate; hosted CI and final tag/assets pending",
+  "date": "2026-11-02",
+  "scope": "Published develop source; Windows/Ubuntu hosted CI passed; macOS failed; final C++ tag/assets pending",
   "public_baseline_commit": "c7c11590efbd10504115cd0ad8dbb9c6ca2634e1",
   "statistical_policy": "paper weights; guarded partial-normal CGF",
   "methods": [
@@ -38,7 +38,7 @@
   },
   "Linux_locally_validated": true,
   "macOS_validated": false,
-  "maintenance_candidate_hosted_CI_executed": false,
+  "maintenance_candidate_hosted_CI_executed": true,
   "public_CXX_release_published": false,
   "universal_calibration_proven": false,
   "biobank_speed_advantage_proven": false,
@@ -164,5 +164,26 @@
       }
     ],
     "binary_sha256": "c1bedb883d85f8b5aa9e072fade6f63df4e61e8e44c18548cc3ed42974f60b6c"
+  },
+  "historical_local_validation_date": "2026-11-01",
+  "reviewed_public_commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
+  "hosted_CI": {
+    "commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
+    "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904",
+    "Windows": "success",
+    "Ubuntu": "success",
+    "macOS": "failure",
+    "overall": "failure"
+  },
+  "website_deployed_commit": "ca8e1d39e1b01732e2c4dd8015f6dc886862725a",
+  "post_publication_documentation_patch_changes_mathematics": false,
+  "portable_test_reference_update": {
+    "analysis_code_changed": false,
+    "original_accuracy_criteria_retained": true,
+    "test_cases_skipped": false,
+    "Windows_local_make_test_passed": true,
+    "log_probability_cases": 53,
+    "new_hosted_CI_executed": false,
+    "actual_MacOS_rerun_passed": false
   }
 }

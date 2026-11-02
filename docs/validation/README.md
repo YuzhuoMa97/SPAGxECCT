@@ -1,8 +1,8 @@
 # Validation records and interpretation
 
 This maintenance candidate changes production implementation structure while
-preserving the documented statistical policy. The public source baseline is
-recorded separately from the not-yet-pushed local maintenance source.
+preserving the documented statistical policy. The historical source baseline, local validation and subsequently published
+maintenance commit are recorded separately.
 Read [release scope](../RELEASE_STATUS.md) and
 [maintenance notes](../MAINTENANCE_NOTES.md).
 
@@ -26,11 +26,26 @@ different questions.
 
 ## Remaining limits
 
-macOS remains unvalidated. The current maintenance source has not yet been
-pushed or checked by hosted CI. Binary compatibility depends on OS, CPU and
+Published develop commit d90fb4c45849757c816c5d1ba5d191911443e83c was
+checked by [hosted CI](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904):
+Windows and Ubuntu passed, while the macOS build/unit job failed.
+macOS remains unvalidated. These results apply to that exact commit and do
+not certify later changes. Binary compatibility depends on OS, CPU and
 runtime libraries; no finite test set guarantees every input, extreme tail,
 historical default P value or biobank-scale speed claim.
 
 Preserved R code keeps its original dependency chain. The original full-CGF
 R baseline and the accelerated default need not have identical P values in
 every case. Historical results are not relabeled as new tests.
+
+## Portable reference calculations
+
+Five checks previously relied on long double having extra precision or
+range, or on a cancellation-prone linear probability. Their independent
+oracles now use exact integer conditional-HWE enumeration with 80/120-digit
+Decimal checks, or 50-digit multiprecision calculations. The generation
+script and HWE fixtures are included in cpp/tests/. Original tolerances
+and all 53 log-probability cases remain. No analysis formula was changed.
+The revised complete unit target passed locally on Windows; actual macOS
+CI must be rerun. Platform diagnostics print the native floating-point
+precision so assumptions are visible in future test logs.

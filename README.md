@@ -2,7 +2,7 @@
 # SPAGxE 1.2.0: standalone C++ software
 
 This repository is the **sole official standalone C++ distribution of the
-SPAGxE method family.
+SPAGxE method family**.
 Questions and installation help: [yuzhuoma@amss.ac.cn](mailto:yuzhuoma@amss.ac.cn) or https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/spagxe_cpp/index.html.
 
 The executable runs without R or Python. The original R package remains

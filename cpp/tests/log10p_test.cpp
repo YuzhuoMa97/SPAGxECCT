@@ -34,6 +34,7 @@
 
 #include "tinytest.hpp"
 #include "linear_p.hpp"
+#include "exact_hwe_reference.hpp"
 
 #include "util/probability_math.hpp"
 #include "util/spa.hpp"
@@ -42,11 +43,14 @@
 #include <Eigen/Dense>
 
 #include <boost/math/special_functions/beta.hpp>
+#include <boost/math/constants/constants.hpp>
+#include <boost/multiprecision/cpp_dec_float.hpp>
 
 #include <cmath>
 #include <array>
 #include <limits>
 #include <vector>
+#include <stdexcept>
 
 namespace {
 
@@ -55,6 +59,58 @@ constexpr double kLn2  = 0.69314718055994530942;
 
 const double kInf = std::numeric_limits<double>::infinity();
 const double kNaN = std::numeric_limits<double>::quiet_NaN();
+
+// References used at cancellation and overflow boundaries need more than
+// the native long-double precision, which is binary64 on Apple ARM64.
+namespace portable_reference {
+using Real = boost::multiprecision::cpp_dec_float_50;
+
+struct PrecisionReport {
+    PrecisionReport() {
+        std::fprintf(stderr,
+            "Numerical references: decimal digits=%d; native long double "
+            "digits=%d max_exponent=%d; exact HWE fixtures=26\n",
+            std::numeric_limits<Real>::digits10,
+            std::numeric_limits<long double>::digits,
+            std::numeric_limits<long double>::max_exponent);
+    }
+};
+const PrecisionReport precisionReport{};
+
+inline double logAdd(double a, double b) {
+    const Real p = exp(Real(a)) + exp(Real(b));
+    return static_cast<double>(log(p));
+}
+
+inline double extremeNormalMagnitude(double L) {
+    const Real squared = Real(2) * Real(L) * log(Real(10));
+    return static_cast<double>(sqrt(squared));
+}
+
+inline double cauchyCombination(const double *L, int n) {
+    const Real pi = boost::math::constants::pi<Real>();
+    Real sum = 0;
+    for (int i = 0; i < n; ++i) {
+        const Real p = pow(Real(10), -Real(L[i]));
+        sum += Real(1) / tan(pi * p);
+    }
+    const Real mean = sum / n;
+    Real tail;
+    if (mean > 0) tail = atan(Real(1) / mean) / pi;
+    else tail = Real("0.5") - atan(mean) / pi;
+    return static_cast<double>(-log10(tail));
+}
+
+inline double studentLogTail(double t, double df) {
+    const Real u = abs(Real(t));
+    const Real v(df);
+    const Real a = v / 2;
+    const Real b("0.5");
+    const Real y = u * u / (v + u * u);
+    const Real central = boost::math::ibeta(b, a, y);
+    return static_cast<double>(log1p(-central));
+}
+} // namespace portable_reference
 
 // ── long-double references ─────────────────────────────────────────────
 //
@@ -856,17 +912,14 @@ TEST(ptLog_near_unit_probability_is_not_fabricated) {
             CHECK_REL(v, ref, tol);
         }
     }
-    // Between 1e-6 and 1 the reference is the LINEAR two-sided tail, on an
-    // ABSOLUTE criterion: 2*pt(-t,df) is close to 1 there, so its logarithm
-    // carries an absolute error of a few eps and a relative comparison would
-    // measure that rather than ptLog.  The largest residual over this grid is
-    // 1.3e-15 at df = 1, |t| <= 1e-5, and it belongs to the REFERENCE -- the
-    // exact Cauchy closed form below puts ptLog within 1e-16 of the truth at
-    // exactly those cells.
+    // Near a unit probability, compare with the central incomplete-beta
+    // probability at 50 decimal digits and log1p(-central). The linear
+    // double tail rounds close to one and is not an adequate 4e-15 oracle
+    // on every libm/long-double ABI. The accuracy threshold is unchanged.
     for (double df : {1.0, 4.0, 10.0, 1000.0}) {
         for (double t = 1e-6; t < 1.0; t *= 10.0) {
-            const double lin = 2.0 * math::pt(-t, df, true);
-            CHECK(std::fabs(math::ptLog(t, df) - std::log(lin)) <= 4e-15);
+            const double ref = portable_reference::studentLogTail(t, df);
+            CHECK(std::fabs(math::ptLog(t, df) - ref) <= 4e-15);
         }
     }
     // df = 1 has an exact closed form with no truncation at any |t|:
@@ -918,11 +971,10 @@ TEST(zFromNegLog10P_extreme_finite_L_does_not_fabricate) {
         const double z = math::zFromNegLog10P(L, 1.0);
         CHECK(std::isfinite(z));
         CHECK(z > 1e150);                                     // NOT 1
-        // Reference: the Mills asymptote in long double, whose correction
-        // -ln A + ln(2/pi) is 1e-306 of A here and cannot move a double.
-        const long double A = 2.0L * static_cast<long double>(L)
-                              * 2.30258509299404568402L;
-        CHECK_REL(z, static_cast<double>(std::sqrt(A)), 1e-15);
+        // The Mills correction cannot move a double at this scale.
+        // A 50-digit decimal reference forms 2*L*ln(10) without overflow
+        // even when the platform's native long double is binary64.
+        CHECK_REL(z, portable_reference::extremeNormalMagnitude(L), 1e-15);
         CHECK_REL(math::zFromNegLog10P(L, -1.0), -z, 0.0);
     }
     // chisq1 is z^2, so at these L it overflows for real: 4.6e308 is not a
@@ -944,12 +996,12 @@ TEST(cauchyCombineLog10_extreme_finite_L_stays_finite) {
         const double ref = Lmax - std::log10(2.0);
         CHECK_REL(got, ref, 1e-15);
     }
-    // Same identity where it is checkable digit by digit against the long
-    // double reference, which forms T explicitly.
+    // A decimal reference forms T explicitly even beyond the exponent
+    // range of a binary64 long double.
     for (double Lmax : {40.0, 200.0, 320.0}) {
         const double legs[2] = {Lmax, 5.0};
         CHECK_REL(math::cauchyCombineLog10(legs, 2),
-                  static_cast<double>(cauchyCombineNegLog10RefL(legs, 2)), 1e-13);
+                  portable_reference::cauchyCombination(legs, 2), 1e-13);
     }
 }
 
@@ -1182,7 +1234,7 @@ TEST(pmvnorm2dHalfRectLog_failure_modes) {
 //     column would have read "0" and a reader would have taken it for a
 //     measurement of perfect Hardy-Weinberg agreement, the exact opposite of
 //     the truth — the new one returns the correct magnitude, verified against
-//     an independent long-double enumeration;
+//     an independent exact conditional enumeration;
 //   * the result is never negative and never a negative zero, which is
 //     invariant C2 of 04_validation.md §2 applied to a LOG10P-family column.
 
@@ -1191,6 +1243,7 @@ TEST(pmvnorm2dHalfRectLog_failure_modes) {
 #include <algorithm>
 #include <cstdint>
 #include <vector>
+#include <stdexcept>
 
 namespace hwe_stage9 {
 
@@ -1271,56 +1324,23 @@ inline double hweExactLinear(uint32_t obs_hets, uint32_t obs_hom1, uint32_t obs_
     return std::min(p / sum, 1.0);
 }
 
-// ── Reference 2: an independent long-double enumeration, written for clarity
-// rather than speed.  Under H0 the conditional distribution of the
-// heterozygote count given N and the rare-allele count n_A is
-//
-//   ln P(N_AB = h) = h ln2 + ln N! + ln n_A! + ln n_B! - ln n_AA! - ln n_AB!
-//                    - ln n_BB! - ln (2N)!
-//
-// (Wigginton et al. 2005 eq. 2).  The exact-test p is the total probability of
-// the outcomes no more likely than the observed one, accumulated here by
-// logsumexp so that the reference itself never underflows.  It shares no code
-// path with either implementation under test.
-inline long double refLnProb(long double h, long double n, long double rare) {
-    const long double homr = (rare - h) / 2.0L;
-    const long double homc = n - h - homr;
-    return h * std::log(2.0L) + std::lgamma(n + 1) + std::lgamma(rare + 1) +
-           std::lgamma(2 * n - rare + 1) - std::lgamma(homr + 1) -
-           std::lgamma(h + 1) - std::lgamma(homc + 1) - std::lgamma(2 * n + 1);
-}
-
-inline long double refNegLog10P(uint32_t obs_hets, uint32_t obs_hom1, uint32_t obs_hom2) {
-    const long double homr = std::min(obs_hom1, obs_hom2);
-    const long double n = static_cast<long double>(obs_hets) + obs_hom1 + obs_hom2;
-    const long double rare = 2 * homr + obs_hets;
-    if (rare < 2) return 0.0L;                    // no test; p = 1
-    const long double lnObs = refLnProb(obs_hets, n, rare);
-    const long double hmax = std::min(rare, 2 * n - rare);
-    std::vector<long double> terms;
-    long double mx = -std::numeric_limits<long double>::infinity();
-    for (long double h = std::fmod(rare, 2.0L); h <= hmax; h += 2.0L) {
-        const long double lp = refLnProb(h, n, rare);
-        // Slack admits exact ties, which the exact test counts.
-        if (lp <= lnObs + 1e-14L * std::fabs(lnObs) + 1e-14L) {
-            terms.push_back(lp);
-            if (lp > mx) mx = lp;
-        }
-    }
-    if (terms.empty()) return 0.0L;
-    std::sort(terms.begin(), terms.end());        // summation order fixed
-    long double s = 0.0L;
-    for (long double lp : terms) s += std::exp(lp - mx);
-    const long double lnp = mx + std::log(s);
-    return (lnp >= 0.0L) ? 0.0L : -lnp / std::log(10.0L);
+// Independent exact conditional enumeration, generated using integer
+// likelihood weights and an exact normalization/tie comparison. Only the
+// final logarithm is rounded, at 80 and 120 decimal digits. The generator
+// and all count triples are distributed with the test fixtures.
+inline double refNegLog10P(uint32_t obs_hets, uint32_t obs_hom1, uint32_t obs_hom2) {
+    for (const auto &r : test_reference::exact_hwe_reference)
+        if (r.het == obs_hets && r.hom1 == obs_hom1 && r.hom2 == obs_hom2)
+            return r.negLog10P;
+    throw std::invalid_argument("Missing exact conditional-HWE reference triple.");
 }
 
 struct Counts { uint32_t het, homr, homc; };
 
 // A panel spanning the whole reported range: exact agreement, mild departure,
 // the moderate tail, and departures far past the point where a linear p
-// underflows.  n is kept at or below 100 000 so the long-double enumeration
-// stays cheap enough for `make test`.
+// underflows.  n is kept at or below 100 000 so the exact-reference generator
+// remains inexpensive to regenerate.
 inline std::vector<Counts> panel() {
     return {
         // -log10 p at or near 0 (at or near exact HWE proportions)
@@ -1343,10 +1363,10 @@ inline std::vector<Counts> panel() {
 // equilibriumNegLog10P agrees with the deleted linear implementation wherever the
 // latter is representable, to far inside the printed resolution of the column.
 //
-// The bound that matters is the relative one: LOG10P_HWE is printed with six
-// significant figures, so a relative discrepancy below 5e-7 cannot change a
-// printed digit.  The absolute bound is stated as well because it is what
-// 01_numerics §5.2 tabulates.
+// The absolute and relative bounds below are finite-panel regression
+// criteria. They do not guarantee identical rounded output at every
+// decimal rounding boundary; both bounds are retained explicitly.
+// The exact conditional fixtures below provide an independent comparison.
 TEST(hwe_log10p_agrees_with_deleted_linear_implementation) {
     using namespace hwe_stage9;
     double maxAbs = 0.0, maxRel = 0.0;
@@ -1366,19 +1386,19 @@ TEST(hwe_log10p_agrees_with_deleted_linear_implementation) {
     CHECK(maxRel <= 5e-7);
 }
 
-// Both implementations are checked against the independent enumeration.  In
-// the region where the linear one is representable it is in fact the more
-// accurate of the two — plink2's complement branch, ln(1 - centre mass), costs
-// a few times 1e-10 absolute in ln p — but that is three orders of magnitude
-// below the printed resolution, and it is the price of a formulation that also
-// works where the linear one has no answer at all.
+// Exact conditional enumeration checks both ordinary and extreme tails.
+// Finite-precision complement calculations have case-dependent errors;
+// the mixed regression bound below is tested for each count triple.
+// The log-domain implementation also covers tails where the linear
+// implementation underflows. No universal error or printed-digit
+// guarantee is inferred from this finite panel.
 // The criterion is mixed rather than purely relative because -log10 p is a
 // quantity whose zero is meaningful: at a marker in near-exact Hardy-Weinberg
-// proportions the reference is a few times 1e-15 and HweLnP takes its
+// proportions the exact reference is zero and HweLnP takes its
 // documented p = 1 fast path and returns exactly 0.  A relative comparison
-// there measures nothing.  The absolute floor is set at 1e-12, two orders
-// above the largest such reference value in the panel.
-TEST(hwe_log10p_matches_long_double_enumeration) {
+// there measures nothing. The absolute floor remains 1e-12; fixtures
+// at exact equilibrium have a reference magnitude of exactly zero.
+TEST(hwe_log10p_matches_exact_conditional_enumeration) {
     using namespace hwe_stage9;
     for (const Counts &c : panel()) {
         const long double ref = refNegLog10P(c.het, c.homr, c.homc);
@@ -1612,20 +1632,15 @@ TEST(metaPool_carries_the_fallback_status_up) {
 // ──────────────────────────────────────────────────────────────────────
 
 TEST(logAddExp_matches_the_linear_sum_where_the_linear_sum_exists) {
-    // The linear reference is only a reference where it is well conditioned.
-    // ln(1 + e^-d) is about e^-d, and forming 1 + e^-d in long double costs an
-    // absolute 5e-20, so the reference's own relative error is 5e-20·e^d — it
-    // passes 1e-15 at about d = 10 and reports a flat 0 by d = 44.  The band
-    // below stops well short of that, and it is where two saddlepoint tails of
-    // the same marker actually sit.
+    // Evaluate the independent linear expression at 50 decimal digits.
+    // A native binary64 long double loses relative precision in log(1+x)
+    // even at d=5; the original 1e-15 accuracy criterion is unchanged.
     for (double a : {-700.0, -30.0, -1.5, 0.0, 2.0, 300.0}) {
         for (double d : {0.0, 0.3, 1.0, 5.0}) {
             const double b = a - d;
             const double got = math::logAddExp(a, b);
-            const long double ref =
-                std::log(std::exp(static_cast<long double>(a)) +
-                         std::exp(static_cast<long double>(b)));
-            CHECK_REL(got, static_cast<double>(ref), 1e-15);
+            const double ref = portable_reference::logAdd(a, b);
+            CHECK_REL(got, ref, 1e-15);
             CHECK_REL(math::logAddExp(b, a), got, 0.0);       // symmetric
         }
     }

@@ -55,9 +55,24 @@ dynamic Linux binaries also require compatible glibc/libstdc++.
 
 The public source baseline reviewed on 1 November 2026 was develop commit
 c7c11590efbd10504115cd0ad8dbb9c6ca2634e1. Its hosted Windows/Ubuntu jobs passed and macOS failed.
-This maintenance candidate changes production sources and has not yet been
-pushed or validated by hosted CI. Local results must not be presented as a
-successful future public commit. After pushing, inspect the actual new jobs.
+The maintenance source was subsequently published as develop commit
+d90fb4c45849757c816c5d1ba5d191911443e83c. Its 2 November 2026
+[hosted workflow](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904)
+passed the Windows and Ubuntu jobs, including source and extracted-runtime
+tutorial checks. The macOS build/unit job failed, so the workflow as a whole
+is not green. macOS support must not be inferred from the other two jobs.
+This record identifies the checked commit; later changes need their own CI.
+The documentation website was deployed from commit
+ca8e1d39e1b01732e2c4dd8015f6dc886862725a, including the Linux installation
+section and maintenance page. A source push or website deployment does not
+create a C++ Release or publish its runtime attachments.
+
+A follow-up test-only revision replaces five platform-dependent reference
+calculations with exact combinatorial fixtures or multiprecision oracles.
+The original accuracy criteria and all test cases remain; production
+analysis code is unchanged. The revised units passed locally on Windows.
+A new hosted run, especially the actual macOS job, is still required before
+calling this follow-up validated on that platform.
 
 Original R/full-CGF comparisons apply only to matched common domains.
 Partial-normal SPA adds a declared approximation; a full-CGF diagnostic
