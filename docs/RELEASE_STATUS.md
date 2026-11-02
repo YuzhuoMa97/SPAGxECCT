@@ -20,7 +20,8 @@ BED/PGEN/BGEN/VCF/BCF, native linear/logistic/Breslow Cox/ordinal null models,
 explicit CCT weights, AF diagnostics, local text/count/BGEN input and native
 hard-count packing. See [feature coverage](FEATURE_COVERAGE.md).
 
-SPAGxEmixPlus is planned for a future release and is not included. Current
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version. Current
 mix/local modes reject GRM input. The homogeneous GRM workflow corrects score
 variance and is not a general GLMM null fitter. Local inputs require known H;
 the program does not infer ancestry or implement arbitrary uncertain-H joint

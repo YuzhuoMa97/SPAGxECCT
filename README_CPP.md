@@ -4,7 +4,8 @@
 
 Run the extended feature tutorial after the six introductory examples: `examples/tutorials/07_feature_walkthrough.sh` or `examples/tutorials/07_feature_walkthrough.cmd` from `cpp/`. See the guide for executable selection and fresh output directories.
 
-SPAGxEmixPlus is planned for a future release and is not included in the current C++ distribution.
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version.
 For ancestry-specific files, start with [local input preparation](docs/LOCAL_INPUT_PREPARATION.md).
 Development changes are tested on `develop` before merge to `main`; follow
 the [development and release workflow](docs/GITHUB_DISTRIBUTION.md).

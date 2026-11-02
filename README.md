@@ -17,11 +17,11 @@ available below with its own version, dependencies and installation route.
 
 ## Download, build and run
 
-The current C++ source is on `develop`. With C++17 GCC/Clang, a C compiler,
+The current C++ source is on `main`. With C++17 GCC/Clang, a C compiler,
 GNU Make and Bash, download the complete repository and build inside `cpp/`:
 
 ```sh
-git clone --branch develop --single-branch https://github.com/YuzhuoMa97/SPAGxECCT.git
+git clone --branch main --single-branch https://github.com/YuzhuoMa97/SPAGxECCT.git
 cd SPAGxECCT/cpp
 mkdir -p tmp results
 export TMPDIR="$PWD/tmp"
@@ -71,7 +71,8 @@ sample-mapping and numerical-helper structure. See [maintenance notes](docs/MAIN
 
 The four methods use one paper-oriented policy with guarded partial-normal
 SPA. The current C++ edition covers additive genotype/dosage workflows;
-SPAGxEmixPlus is planned for a future release and is not included.
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version.
 See [release scope](docs/RELEASE_STATUS.md), [authorship](OWNERSHIP.md) and
 [incorporated-source notices](THIRD_PARTY_NOTICES.md).
 
@@ -348,7 +349,8 @@ For any questions or collaborative projects, please contact yuzhuoma@amss.ac.cn.
 
 Run the extended feature tutorial after the six introductory examples: `examples/tutorials/07_feature_walkthrough.sh` or `examples/tutorials/07_feature_walkthrough.cmd` from `cpp/`. See the guide for executable selection and fresh output directories.
 
-SPAGxEmixPlus is planned for a future release and is not included in the current C++ distribution.
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version.
 For ancestry-specific files, start with [local input preparation](docs/LOCAL_INPUT_PREPARATION.md).
 Development changes are tested on `develop` before merge to `main`; follow
 the [development and release workflow](docs/GITHUB_DISTRIBUTION.md).
