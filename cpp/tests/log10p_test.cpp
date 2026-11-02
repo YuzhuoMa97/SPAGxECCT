@@ -43,6 +43,7 @@
 #include <Eigen/Dense>
 
 #include <boost/math/special_functions/beta.hpp>
+#include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
@@ -114,18 +115,40 @@ inline double studentLogTail(double t, double df) {
 
 // ── long-double references ─────────────────────────────────────────────
 //
-// long double on x86-64 carries a 64-bit significand and an exponent range to
-// 1e4932, so a probability that is subnormal or zero in double is an ordinary
-// number here.  That is what makes these usable as references in exactly the
-// regime the functions under test exist for.
+// Native helpers below are used in bounded domains that also fit binary64.
+// Cancellation- or range-sensitive references use portable multiprecision.
+// The normal-tail helper switches to its logarithmic expansion before the
+// erfc probability becomes subnormal on a binary64 long-double ABI.
 
 long double lnPhiL(long double x) {
-    if (x > -40.0L) return std::log(0.5L * std::erfc(-x / std::sqrt(2.0L)));
+    if (x > -37.0L) return std::log(0.5L * std::erfc(-x / std::sqrt(2.0L)));
     const long double y = 1.0L / (x * x);
     const long double s =
         y * (-1.0L + y * (3.0L + y * (-15.0L + y * (105.0L + y * (-945.0L + y * 10395.0L)))));
     return -0.5L * x * x - std::log(-x)
            - 0.918938533204672741780329736405617639L + std::log1p(s);
+}
+
+TEST(native_normal_reference_is_finite_in_binary64_underflow_band) {
+    // Direct erfc at 80 and 120 decimal digits agrees to 60 significant digits.
+    // These binary64 inputs cover where native erfc probabilities lose range.
+    struct Case { double x, expectedLogPhi; };
+    const Case cases[] = {
+        {-36.9, -685.33288316535061215835515863194921121528301511726321469443904544},
+        {-37.0, -689.03058557689059360087222141210561057675724259774569854406206196},
+        {-37.5, -707.66898931750719106611317345726044133081337894495837413836856869},
+        {-38.0, -726.55721601882013009650351751713325084526449485856493159199225075},
+        {-38.5, -745.69527029041108132961025035204239925604320452665971619052676983},
+        {-39.0, -765.08315656437754440398025435084948327090494198501509159102376315},
+        {-39.5, -784.72087910431757720493750170840326828364672670469928240149704647},
+        {-39.9, -800.61094201051187461582669305439853822164683756069005310949637643},
+        {-40.0, -804.60844201375378816660683291860993620014963199877792317964779726},
+    };
+    for (const Case &c : cases) {
+        const double got = static_cast<double>(lnPhiL(static_cast<long double>(c.x)));
+        CHECK(std::isfinite(got));
+        CHECK_NEAR(got, c.expectedLogPhi, 5e-13);
+    }
 }
 
 // -log10 of the standard Cauchy upper tail at T, evaluated in long double.
@@ -814,13 +837,16 @@ long double ptLogLargeTRefL(long double t, long double df) {
            - df * std::log(t);
 }
 
-// Reference (b).  ln P(|T_df| > |t|) for |t| << 1, in long double.
+// Reference (b). Small-|t| density approximation at 50 decimal digits.
+// Native lgamma subtraction is not an extra-precision oracle on every ABI.
 long double ptLogSmallTRefL(long double t, long double df) {
-    const long double lnPi = 1.14472988584940017414342735135305871L;
-    const long double lnC  = std::lgamma((df + 1.0L) / 2.0L)
-                             - std::lgamma(df / 2.0L)
-                             - 0.5L * (std::log(df) + lnPi);
-    return std::log1p(-2.0L * t * std::exp(lnC));
+    using Real = portable_reference::Real;
+    const Real v(df);
+    const Real pi = boost::math::constants::pi<Real>();
+    const Real lnC = boost::math::lgamma(Real((v + 1) / 2))
+                     - boost::math::lgamma(Real(v / 2))
+                     - (log(v) + log(pi)) / 2;
+    return static_cast<long double>(log1p(-Real(2) * Real(t) * exp(lnC)));
 }
 
 }  // namespace

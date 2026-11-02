@@ -4,8 +4,8 @@
 // Two layers, added by two stages
 // ══════════════════════════════════════════════════════════════════════
 //
-// PART I characterizes the defect using the reference copies in
-// tests/spa_reference.hpp.  Those tests are retained verbatim: `cgfDiffForm` is
+// PART I checks the genotype identity with high-precision oracles and
+// characterizes defects using tests/spa_reference.hpp: `cgfDiffForm` is
 // a frozen copy of the OLD production algebra, kept so the before/after
 // comparison stays measurable after the production code is replaced, and the
 // characterization assertions fail if anyone reintroduces the differencing form.
@@ -51,6 +51,7 @@
 
 #include "tinytest.hpp"
 #include "spa_reference.hpp"
+#include <boost/multiprecision/cpp_dec_float.hpp>
 
 #include "util/spa_cgf.hpp"
 // For the terminal-K argument: w and the Barndorff-Nielsen tail are what K is
@@ -82,6 +83,36 @@ const std::vector<double> kResids = {-8.0, -3.5, -1.0, -0.25, 0.25, 1.0, 3.5, 8.
 // that no term of either algebra is near cancellation or overflow.
 const std::vector<double> kTBenign = {-0.5, -0.2, -0.05, -1e-3, 0.0, 1e-3, 0.05, 0.2, 0.5};
 
+// The genotype identity uses two independent 50-digit evaluations. Native
+// long double is binary64 on some targets and cannot resolve this comparison.
+using IdentityOracleReal = boost::multiprecision::cpp_dec_float_50;
+struct IdentityOracleCgf { IdentityOracleReal K0, K1, K2; };
+
+IdentityOracleCgf identityClosedForm(double t, double r, double p) {
+    const IdentityOracleReal tt(t), rr(r), pp(p), u = 1 - pp;
+    const IdentityOracleReal tr = tt * rr;
+    const IdentityOracleReal e = pp * exp(tr);
+    const IdentityOracleReal a = u + e;
+    return {2 * log1p(pp * expm1(tr)),
+            2 * rr * e / a,
+            2 * rr * rr * e * u / (a * a)};
+}
+
+IdentityOracleCgf identityGenotypeEnumeration(double t, double r, double p) {
+    const IdentityOracleReal tt(t), rr(r), pp(p), u = 1 - pp;
+    const IdentityOracleReal weights[3] = {u * u, 2 * pp * u, pp * pp};
+    IdentityOracleReal m0 = 0, m1 = 0, m2 = 0;
+    for (int g = 0; g < 3; ++g) {
+        const IdentityOracleReal value = rr * g;
+        const IdentityOracleReal mass = weights[g] * exp(tt * value);
+        m0 += mass;
+        m1 += value * mass;
+        m2 += value * value * mass;
+    }
+    const IdentityOracleReal k1 = m1 / m0;
+    return {log(m0), k1, m2 / m0 - k1 * k1};
+}
+
 } // namespace
 
 // ──────────────────────────────────────────────────────────────────────
@@ -92,8 +123,8 @@ TEST(closed_form_matches_genotype_enumeration) {
     for (double p : kMafs) {
         for (double r : kResids) {
             for (double t : kTBenign) {
-                const CgfL ref = sparef::cgfReference(t, r, p);
-                const CgfL enu = sparef::cgfEnumerate(t, r, p);
+                const IdentityOracleCgf ref = identityClosedForm(t, r, p);
+                const IdentityOracleCgf enu = identityGenotypeEnumeration(t, r, p);
 
                 // K vanishes at t = 0 and is O(1e-8) near it, so the criterion
                 // must be mixed absolute/relative; a pure relative bound is
@@ -101,8 +132,8 @@ TEST(closed_form_matches_genotype_enumeration) {
                 // domain (r != 0, p > 0) and take a relative bound.
                 //
                 // The enumeration path forms K″ as E[X²] − E[X]², so it carries
-                // the very cancellation the stable form avoids; in long double
-                // at these benign arguments that costs a few digits, which the
+                // the very cancellation the stable form avoids. The 50-digit
+                // oracle retains enough precision over this grid; the existing
                 // K″ tolerance accommodates.
                 CHECK_CLOSE(static_cast<double>(ref.K0), static_cast<double>(enu.K0),
                             1e-14, 1e-18);
