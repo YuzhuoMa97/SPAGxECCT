@@ -1,0 +1,9 @@
+Independent local reference rows: 1120
+Dense moment rows: 560
+Ancestry CCT rows: 448
+Original R valid-domain comparisons: 187
+Original R passed: 187
+Original R max log10p error: 1.93844940099552e-13
+R lm/glm/coxph Breslow/clm native residuals and full-model Wald; H rank-basis ancestry adjustment; scalar full and guarded partial-normal Bin(H,q) CGFs and independent bracketed root solving.
+Missing H: common complete-H mask across ancestries; missing G: H*q; H=0 structural zero; high-AF minor dosage: H-G.
+All data are deterministic examples; R is needed only for independent validation, not C++ analysis.

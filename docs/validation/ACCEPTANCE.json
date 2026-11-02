@@ -1,0 +1,211 @@
+{
+  "software": "SPAGxE",
+  "version": "1.2.0",
+  "date": "2026-11-02",
+  "scope": "Published develop source; Windows/Ubuntu/macOS hosted CI passed for the pinned commit; final C++ tag/assets pending",
+  "public_baseline_commit": "c7c11590efbd10504115cd0ad8dbb9c6ca2634e1",
+  "statistical_policy": "paper weights; guarded partial-normal CGF",
+  "methods": [
+    "SPAGxE",
+    "SPAGxE+",
+    "SPAGxEmix",
+    "SPAGxEmix_local"
+  ],
+  "production_sources_changed": true,
+  "mathematical_definitions_changed": false,
+  "Windows_fresh_build_and_units": true,
+  "Windows_regression_suites": 17,
+  "Windows_previous_current_comparison": {
+    "passed": true,
+    "files": 85,
+    "byte_differences": [],
+    "numeric_fields": 145985,
+    "maximum_numeric_delta": 0.0,
+    "non_numeric_differences": [],
+    "before_sha256": "11032005f42cd97b2bfb55bcfe12f63989f2b4fa54743fe942368379f3ddad6c",
+    "after_sha256": "21d4497bc8f7e6612233d38abdecfff97be48c329519e63bef65270298522d1c"
+  },
+  "focused_checks": {
+    "CGF_source_checks": 54,
+    "CGF_module_assembly_equal": true,
+    "tokenizer_cases": 5307078,
+    "subject_mapping_cases": 910,
+    "subject_filter_cases": 1048,
+    "mmap_success_cycles": 2000,
+    "mmap_failure_cases": 400,
+    "outlier_cases": 550,
+    "null_spec_cases": 80
+  },
+  "Linux_locally_validated": true,
+  "macOS_validated": true,
+  "maintenance_candidate_hosted_CI_executed": true,
+  "public_CXX_release_published": false,
+  "universal_calibration_proven": false,
+  "biobank_speed_advantage_proven": false,
+  "original_R_sources_preserved": true,
+  "default_x86_binary_baseline": "Haswell/AVX2",
+  "Linux_validation_summary": {
+    "passed": true,
+    "complete": true,
+    "stages": [
+      {
+        "name": "source_build",
+        "returncode": 0,
+        "seconds": 168.22417330900004
+      },
+      {
+        "name": "numerical_units",
+        "returncode": 0,
+        "seconds": 56.64930980999998
+      },
+      {
+        "name": "version",
+        "returncode": 0,
+        "seconds": 0.005693000000007942
+      },
+      {
+        "name": "cli",
+        "returncode": 0,
+        "seconds": 0.1413400000000138
+      },
+      {
+        "name": "single_policy",
+        "returncode": 0,
+        "seconds": 0.1128869990000112
+      },
+      {
+        "name": "scope",
+        "returncode": 0,
+        "seconds": 0.09996769999997923
+      },
+      {
+        "name": "af_convergence",
+        "returncode": 0,
+        "seconds": 0.07109789999998384
+      },
+      {
+        "name": "af_utility",
+        "returncode": 0,
+        "seconds": 0.07514560000004167
+      },
+      {
+        "name": "observed_mac",
+        "returncode": 0,
+        "seconds": 0.1787191999999891
+      },
+      {
+        "name": "integration",
+        "returncode": 0,
+        "seconds": 2.443352294999954
+      },
+      {
+        "name": "local_oracle",
+        "returncode": 0,
+        "seconds": 0.23177479899999298
+      },
+      {
+        "name": "local_io",
+        "returncode": 0,
+        "seconds": 0.3182480000000396
+      },
+      {
+        "name": "local_bgen",
+        "returncode": 0,
+        "seconds": 0.5378758990000279
+      },
+      {
+        "name": "local_absolute",
+        "returncode": 0,
+        "seconds": 0.06712529899999709
+      },
+      {
+        "name": "local_pack",
+        "returncode": 0,
+        "seconds": 0.09384370000003628
+      },
+      {
+        "name": "local_unicode",
+        "returncode": 0,
+        "seconds": 0.2473693999999682
+      },
+      {
+        "name": "cct",
+        "returncode": 0,
+        "seconds": 0.07558289999997214
+      },
+      {
+        "name": "source_tutorials",
+        "returncode": 0,
+        "seconds": 0.5542821989999993
+      },
+      {
+        "name": "full_walkthrough",
+        "returncode": 0,
+        "seconds": 1.6558226960000297
+      },
+      {
+        "name": "install_prefix",
+        "returncode": 0,
+        "seconds": 0.5406787990000339
+      },
+      {
+        "name": "installed_version",
+        "returncode": 0,
+        "seconds": 0.00478669999995418
+      },
+      {
+        "name": "baseline_full_walkthrough",
+        "returncode": 0,
+        "seconds": 1.6388363959999879
+      },
+      {
+        "name": "baseline_file_equivalence",
+        "returncode": 0
+      }
+    ],
+    "binary_sha256": "c1bedb883d85f8b5aa9e072fade6f63df4e61e8e44c18548cc3ed42974f60b6c"
+  },
+  "historical_local_validation_date": "2026-11-01",
+  "reviewed_public_commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
+  "hosted_CI": {
+    "commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
+    "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41438512290",
+    "Windows": "success",
+    "Ubuntu": "success",
+    "macOS": "success",
+    "overall": "success"
+  },
+  "website_deployed_commit": "d389e486035d94c1aceb6acc23acf52a6a10f505",
+  "post_publication_documentation_patch_changes_mathematics": false,
+  "portable_test_reference_update": {
+    "analysis_code_changed": false,
+    "original_accuracy_criteria_retained": true,
+    "new_test_cases_skipped": false,
+    "new_tolerance_relaxation": false,
+    "Windows_local_affected_unit_targets_passed": true,
+    "log_probability_cases": 54,
+    "CGF_cases": 28,
+    "new_hosted_CI_executed": true,
+    "actual_MacOS_rerun_passed": true,
+    "existing_wide_long_double_measurement_guards": 13,
+    "existing_guards_changed": false,
+    "all_wide_measurements_claimed_to_run_on_binary64": false
+  },
+  "historical_hosted_CI": [
+    {
+      "commit": "d90fb4c45849757c816c5d1ba5d191911443e83c",
+      "run": "https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41416750904",
+      "Windows": "success",
+      "Ubuntu": "success",
+      "macOS": "failure",
+      "overall": "failure"
+    }
+  ],
+  "macOS_validation_scope": "Source build, numerical unit target, reader/regression and source/extracted-runtime tutorial checks on the macos-latest CI job for the recorded commit; no macOS precompiled Release",
+  "documentation_status_update": {
+    "base_commit": "2a14885bd9ebc1bcf51910db852a38e212793225",
+    "analysis_code_changed": false,
+    "new_documentation_commit_CI_required": true,
+    "historical_local_counts_reused_as_new_hosted_counts": false
+  }
+}

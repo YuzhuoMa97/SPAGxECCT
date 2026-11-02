@@ -1,0 +1,4 @@
+ancestry	bgen	counted_allele
+Ancestry1	bits8_raw.Ancestry1.bgen	ALT
+Ancestry2	bits8_raw.Ancestry2.bgen	ALT
+Ancestry3	bits8_raw.Ancestry3.bgen	ALT

@@ -1,0 +1,17 @@
+# Preserve binary genotype and archive bytes during checkout and export.
+# The complete cpp tree has its own byte-preserving attribute policy.
+*.bed -text
+*.bgen -text
+*.bgi -text
+*.pgen -text
+*.bcf -text
+*.localbed -text
+*.localbim -text
+*.localfam -text
+*.gz -text
+*.zst -text
+*.zip -text
+*.pdf -text
+*.png -text
+*.rds -text
+*.RData -text

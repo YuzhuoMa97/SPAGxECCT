@@ -1,0 +1,4 @@
+ancestry	genotype	hapcount	counted_allele
+Ancestry1	bits1_zlib.Ancestry1.G.tsv	bits1_zlib.Ancestry1.H.tsv	ALT
+Ancestry2	bits1_zlib.Ancestry2.G.tsv	bits1_zlib.Ancestry2.H.tsv	ALT
+Ancestry3	bits1_zlib.Ancestry3.G.tsv	bits1_zlib.Ancestry3.H.tsv	ALT

@@ -1,2 +1,14 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+# Standalone C++ sources are excluded from the R source package.
+^cpp$
+^docs$
+^README_CPP.*$
+^OWNERSHIP\.md$
+^THIRD_PARTY_NOTICES\.md$
+^CITATION_CPP\.cff$
+^CHANGELOG_CPP\.md$
+^SOURCE_MANIFEST\.sha256$
+^\.github$
+^\.gitattributes$

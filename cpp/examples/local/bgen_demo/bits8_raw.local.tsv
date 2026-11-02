@@ -1,0 +1,4 @@
+ancestry	genotype	hapcount	counted_allele
+Ancestry1	bits8_raw.Ancestry1.G.tsv	bits8_raw.Ancestry1.H.tsv	ALT
+Ancestry2	bits8_raw.Ancestry2.G.tsv	bits8_raw.Ancestry2.H.tsv	ALT
+Ancestry3	bits8_raw.Ancestry3.G.tsv	bits8_raw.Ancestry3.H.tsv	ALT
