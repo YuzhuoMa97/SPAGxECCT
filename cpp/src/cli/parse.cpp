@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// SPAGxE argument parser. Derived in part from GRAB; see THIRD_PARTY_NOTICES.
 #include "cli/cli.hpp"
 #include <cmath>
 #include <cstdlib>
@@ -102,9 +101,9 @@ Args parseArgs(int argc, char *argv[]) {
             if (a.bgenRefMode != "ref-first" && a.bgenRefMode != "ref-last" && a.bgenRefMode != "ref-unknown")
                 invalid("--bgen requires FILE followed by ref-first, ref-last, or ref-unknown.");
         }
-        else if (arg == "--grm-file" || arg == "--sp-grm-grab") {
+        else if (arg == "--grm-file") {
             if (!a.grmTableFile.empty())
-                invalid("--grm-file was specified more than once, including a legacy alias.");
+                invalid("--grm-file was specified more than once, including repeated values.");
             a.grmTableFile = next();
         }
         else if (arg == "--sp-grm-plink2") a.spGrmPlink2File = next();

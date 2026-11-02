@@ -133,8 +133,9 @@ class TextReader {
     bool m_closed = false;
 
     // Buffered decompression state for zstd
-    static constexpr size_t kZstdInBufSize = 256u * 1024u;
-    static constexpr size_t kZstdOutBufSize = 256u * 1024u;
+    static constexpr size_t kZstdBufferSize = 256u * 1024u;
+    static constexpr size_t kZstdInBufSize = kZstdBufferSize;
+    static constexpr size_t kZstdOutBufSize = kZstdBufferSize;
     char *m_zInBuf = nullptr;
     char *m_zOutBuf = nullptr;
     size_t m_zInPos = 0;

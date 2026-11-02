@@ -1173,7 +1173,7 @@ TEST(pmvnorm2dHalfRectLog_failure_modes) {
 // includes, so that the two stages, written in parallel, merge mechanically.
 //
 // What is under test is spagxe_genotype's equilibriumNegLog10P, the single call into
-// plink2::HweLnP that replaces GRAB's own linear-domain exact HWE test.  Three
+// plink2::HweLnP that replaces the linear-domain exact HWE test.  Three
 // properties are pinned:
 //
 //   * the two implementations agree wherever the linear one is representable,

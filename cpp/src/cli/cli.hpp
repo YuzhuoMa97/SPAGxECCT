@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPAGxE standalone command-line interface.
 // SPAGxE algorithm: Yuzhuo Ma <yuzhuoma@amss.ac.cn>.
-// Derived in part from the GRAB command-line infrastructure; see THIRD_PARTY_NOTICES.
 #pragma once
 
 #include <cstdint>

@@ -559,7 +559,7 @@ struct SplitFull {
 // abscissa distances are built from |t| and |K'/K''| (units of t).  There is
 // exactly ONE dimensional constant left, `coarse`'s last-resort value of 1.0
 // below, and it is reachable only when K''(init) is unusable — which no CGF in
-// GRAB, all strictly convex with a finite K''(0), can produce.
+// this application, all strictly convex with a finite K''(0), can produce.
 //
 // The practical consequence is stronger than "agrees to within tolerance": when
 // c is a power of two the rescaling is exact in binary floating point, so every

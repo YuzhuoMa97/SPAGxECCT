@@ -23,6 +23,12 @@ inline void writeStamped(const char *level, const char *msg) {
     std::strftime(ts, sizeof(ts), "%Y-%m-%d %H:%M:%S", std::localtime(&t));
     std::fprintf(stderr, "[%s] %s %s\n", level, ts, msg);
 }
+
+inline void writeFormatted(const char *level, const char *fmt, va_list args) {
+    char message[512];
+    std::vsnprintf(message, sizeof(message), fmt, args);
+    writeStamped(level, message);
+}
 } // namespace logging_detail
 
 // Function-local static ensures the mutex is initialized exactly once
@@ -31,12 +37,10 @@ inline void infoMsg(
     const char *fmt,
     ...
 ) {
-    char buf[512];
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    logging_detail::writeFormatted("INFO", fmt, args);
     va_end(args);
-    logging_detail::writeStamped("INFO", buf);
 }
 
 // Same shape as infoMsg, but tagged [WARN] for non-fatal anomalies the user
@@ -45,10 +49,8 @@ inline void warnMsg(
     const char *fmt,
     ...
 ) {
-    char buf[512];
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    logging_detail::writeFormatted("WARN", fmt, args);
     va_end(args);
-    logging_detail::writeStamped("WARN", buf);
 }

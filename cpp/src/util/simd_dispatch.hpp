@@ -11,18 +11,24 @@
 
 enum class SimdLevel : int { Scalar = 0, AVX2 = 1, AVX512 = 2 };
 
-inline SimdLevel simdLevel() {
+namespace simd_dispatch_detail {
+
+inline SimdLevel detectLevel() {
 #if defined(__x86_64__) || defined(_M_X64)
-    static const SimdLevel level = [] {
-        __builtin_cpu_init();
-        if (__builtin_cpu_supports("avx512f") && __builtin_cpu_supports("avx512vl"))
-            return SimdLevel::AVX512;
-        if (__builtin_cpu_supports("avx2") && __builtin_cpu_supports("fma"))
-            return SimdLevel::AVX2;
-        return SimdLevel::Scalar;
-    }();
-    return level;
+    __builtin_cpu_init();
+    if (__builtin_cpu_supports("avx512f") && __builtin_cpu_supports("avx512vl"))
+        return SimdLevel::AVX512;
+    if (__builtin_cpu_supports("avx2") && __builtin_cpu_supports("fma"))
+        return SimdLevel::AVX2;
+    return SimdLevel::Scalar;
 #else
     return SimdLevel::Scalar;
 #endif
+}
+
+} // namespace simd_dispatch_detail
+
+inline SimdLevel simdLevel() {
+    static const SimdLevel level = simd_dispatch_detail::detectLevel();
+    return level;
 }

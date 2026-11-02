@@ -1,4 +1,4 @@
-/* config.h — minimal htslib configuration for GRAB
+/* config.h — minimal htslib configuration for SPAGxE
  *
  * Only zlib (required) is enabled.  No bz2, lzma, curl, GCS, S3, plugins.
  * This file is NOT auto-generated; it replaces the autoconf config.h.

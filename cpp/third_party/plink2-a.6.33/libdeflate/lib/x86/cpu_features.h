@@ -166,7 +166,7 @@ static inline u32 get_x86_cpu_features(void) { return 0; }
 #endif
 
 /*
- * GRAB-local patch (toolchain compatibility, not upstream libdeflate).
+ * Toolchain compatibility override for bundled libdeflate.
  * Upstream emits the "evex512" / "no-evex512" target-attribute arguments for
  * any GCC >= 14, but that lower-bound check has no upper bound.  The MSYS2/
  * MinGW GCC used by the Windows release build moved to GCC 16, which dropped
@@ -174,11 +174,11 @@ static inline u32 get_x86_cpu_features(void) { return 0; }
  * command-line flag and the matching target("no-evex512") function attribute
  * were removed), so the build fails with:
  *     error: attribute 'target' argument 'no-evex512' is unknown
- * GRAB never compiles libdeflate with -mevex512 / -mno-evex512, so the
+ * This build does not compile libdeflate with -mevex512 / -mno-evex512, so the
  * override is unnecessary.  Defining both to "" reproduces the known-good
  * pre-GCC-14 expansion on every supported toolchain; the only effect is that
  * the 256-bit AVX-512 adler32/crc32 checksum kernels may emit 512-bit EVEX
- * encodings, which is immaterial to GRAB (decompression I/O, bit-identical
+ * encodings, which is immaterial to the application (decompression I/O, bit-identical
  * results, not a hot path).
  */
 #define EVEX512		""

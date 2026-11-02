@@ -7,6 +7,34 @@
 #include <cstdio>
 #include <stdexcept>
 
+namespace {
+
+std::unordered_set<std::string> loadOptionalFilter(
+    const std::string &path,
+    const char *option
+) {
+    if (path.empty()) return {};
+    auto ids = parseSubjectIDFile(path);
+    infoMsg("%s: %zu subjects listed in %s", option, ids.size(), path.c_str());
+    return ids;
+}
+
+void appendMaskIndices(
+    const std::vector<uint64_t> &mask,
+    std::vector<uint32_t> &indices
+) {
+    for (uint32_t word = 0; word < static_cast<uint32_t>(mask.size()); ++word) {
+        uint64_t remaining = mask[word];
+        while (remaining) {
+            const int bit = __builtin_ctzll(remaining);
+            indices.push_back(word * 64 + static_cast<uint32_t>(bit));
+            remaining &= remaining - 1;
+        }
+    }
+}
+
+} // namespace
+
 SubjectSet::SubjectSet(std::vector<std::string> famIIDs)
     : m_nFam(static_cast<uint32_t>(famIIDs.size())),
       m_famIIDs(std::move(famIIDs))
@@ -33,15 +61,8 @@ void SubjectSet::finalize() {
     // ── Load --keep / --remove subject ID sets ──────────────────────────
     const bool hasKeep = !m_keepFile.empty();
     const bool hasRemove = !m_removeFile.empty();
-    std::unordered_set<std::string> keepSet, removeSet;
-    if (hasKeep) {
-        keepSet = parseSubjectIDFile(m_keepFile);
-        infoMsg("--keep: %zu subjects listed in %s", keepSet.size(), m_keepFile.c_str());
-    }
-    if (hasRemove) {
-        removeSet = parseSubjectIDFile(m_removeFile);
-        infoMsg("--remove: %zu subjects listed in %s", removeSet.size(), m_removeFile.c_str());
-    }
+    const auto keepSet = loadOptionalFilter(m_keepFile, "--keep");
+    const auto removeSet = loadOptionalFilter(m_removeFile, "--remove");
 
     // ── Intersect with .fam, build bitmask ──────────────────────────────
     const uint32_t nWords = (m_nFam + 63) / 64;
@@ -84,7 +105,6 @@ void SubjectSet::finalize() {
     const uint32_t nAfterGrm = hasGrm ? nGrm : nGeno;
     const uint32_t nAfterKeep = hasKeep ? nKeep : nAfterGrm;
     const uint32_t nAfterRemove = hasRemove ? nRemove : nAfterKeep;
-    (void)nAfterRemove;
 
     const std::string genoLabel = m_genoLabel.empty() ? "genotype file" : m_genoLabel;
     const std::string grmLabel = m_grmLabel.empty() ? "sparse GRM" : m_grmLabel;
@@ -124,12 +144,5 @@ void SubjectSet::narrowMask(
     m_nUsed = newNUsed;
     m_usedFamIndices.clear();
     m_usedFamIndices.reserve(m_nUsed);
-    for (uint32_t w = 0; w < static_cast<uint32_t>(m_usedMask.size()); ++w) {
-        uint64_t bits = m_usedMask[w];
-        while (bits) {
-            int b = __builtin_ctzll(bits);
-            m_usedFamIndices.push_back(w * 64 + static_cast<uint32_t>(b));
-            bits &= bits - 1;
-        }
-    }
+    appendMaskIndices(m_usedMask, m_usedFamIndices);
 }

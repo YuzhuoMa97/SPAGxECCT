@@ -6,6 +6,7 @@
 //   § 3  buildIIDMap()    — IID string → uint32_t index map
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <string>
 #include <string_view>
@@ -13,6 +14,18 @@
 #include <vector>
 
 namespace text {
+
+namespace detail {
+
+inline bool horizontalSpace(char value) noexcept {
+    return value == ' ' || value == '\t';
+}
+
+inline void advanceWhitespace(const char *&cursor, const char *limit) noexcept {
+    while (cursor < limit && horizontalSpace(*cursor)) ++cursor;
+}
+
+} // namespace detail
 
 // Strip trailing \r from `line`.  Returns true if the line should be skipped
 // (blank or starts with '#').
@@ -73,8 +86,7 @@ struct TokenScanner {
     // boundary, so there is nothing to skip between fields.
     void skipWS() {
         if (delim == Delim::Tab) return;
-        while (p < end && (*p == ' ' || *p == '\t'))
-            ++p;
+        detail::advanceWhitespace(p, end);
     }
 
     const char *pos() const {
@@ -101,7 +113,7 @@ struct TokenScanner {
         }
         skipWS();
         const char *s = p;
-        while (p < end && *p != ' ' && *p != '\t')
+        while (p < end && !detail::horizontalSpace(*p))
             ++p;
         return {s, static_cast<size_t>(p - s)};
     }
@@ -117,10 +129,10 @@ struct TokenScanner {
         }
         int n = 0;
         while (q < end) {
-            while (q < end && (*q == ' ' || *q == '\t')) ++q;
+            detail::advanceWhitespace(q, end);
             if (q >= end) break;
             ++n;
-            while (q < end && *q != ' ' && *q != '\t') ++q;
+            while (q < end && !detail::horizontalSpace(*q)) ++q;
         }
         return n;
     }
@@ -136,7 +148,9 @@ struct TokenScanner {
 inline std::unordered_map<std::string, uint32_t> buildIIDMap(const std::vector<std::string> &iids) {
     std::unordered_map<std::string, uint32_t> m;
     m.reserve(iids.size());
-    for (uint32_t i = 0; i < static_cast<uint32_t>(iids.size()); ++i)
+    const uint32_t count = static_cast<uint32_t>(iids.size());
+    // emplace deliberately retains the first index of a repeated identifier.
+    for (uint32_t i = 0; i < count; ++i)
         m.emplace(iids[i], i);
     return m;
 }

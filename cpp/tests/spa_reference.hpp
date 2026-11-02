@@ -1,6 +1,6 @@
 // spa_reference.hpp — Reference implementations of the diploid binomial CGF.
 //
-// The saddlepoint machinery in GRAB evaluates, for a subject carrying
+// The saddlepoint implementation evaluates, for a subject carrying
 // genotype G ~ Binomial(2, p) weighted by residual r, the cumulant
 // generating function of r·G:
 //

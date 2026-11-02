@@ -6,7 +6,7 @@ from pathlib import Path
 import argparse,csv,hashlib,json,math,os,subprocess
 from reference_comparison import comparison,depends_on_spa_cgf,valid_changed_p
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--binary',required=True,type=Path);p.add_argument('--baseline',required=True,type=Path);p.add_argument('--out-dir',required=True,type=Path);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--binary',required=True,type=Path);p.add_argument('--baseline',required=True,type=Path);p.add_argument('--out-dir',required=True,type=Path);p.add_argument('--baseline-grm-flag',default='--grm-file');a=p.parse_args()
  root=Path(__file__).resolve().parents[1];out=a.out_dir.resolve();out.mkdir(parents=True,exist_ok=True)
  current=a.binary.resolve();old=a.baseline.resolve();records=[];fail=[];count=0;maximum=0
  deltas=[];strict_count=0;strict_maximum=0
@@ -49,7 +49,7 @@ def main():
   prefixes=[]
   for label,binary in [('current',current),('previous_paper',old)]:
    pref=out/(tag+'_'+label)
-   actual_cmd=[('--sp-grm-grab'if x=='--grm-file'and label=='previous_paper'else x)for x in cmd]
+   actual_cmd=[(a.baseline_grm_flag if x=='--grm-file'and label=='previous_paper'else x)for x in cmd]
    cp=subprocess.run([str(binary),*actual_cmd,'--out',str(pref)],cwd=root,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
    (out/(pref.name+'.log')).write_bytes(cp.stdout)
    if cp.returncode:raise RuntimeError(cp.stdout.decode(errors='replace')[-1000:])

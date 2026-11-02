@@ -44,6 +44,23 @@ namespace spa_cgf {
 
 namespace {
 
+// Resolve the implementation once per kernel. All six reductions use the
+// same architecture preference, so this policy cannot drift between K and
+// its derivatives. Unavailable architecture arguments are omitted entirely.
+template <typename Function>
+Function selectCgfKernel(Function scalar,
+                         Function avx2 = nullptr,
+                         Function avx512 = nullptr) noexcept {
+#if defined(__x86_64__) || defined(_M_X64)
+    switch (simdLevel()) {
+    case SimdLevel::AVX512: return avx512;
+    case SimdLevel::AVX2:   return avx2;
+    default: break;
+    }
+#endif
+    return scalar;
+}
+
 // ══════════════════════════════════════════════════════════════════════
 // Shared scalar loop body
 // ══════════════════════════════════════════════════════════════════════
@@ -80,7 +97,7 @@ inline void accumulateK12(
 
 #if defined(__x86_64__) || defined(_M_X64)
 
-// Horizontal sum of an AVX2 accumulator.  Follows src/spasqr/spasqr.cpp.
+// Fixed-order horizontal sum of an AVX2 accumulator.
 __attribute__((target("avx2,fma")))
 inline double hsum256(__m256d v) {
     __m128d lo = _mm256_castpd256_pd128(v);
@@ -332,30 +349,18 @@ namespace {
 using UniformK12Fn = Cgf12 (*)(double, const double *, int, double) noexcept;
 using UniformK0Fn  = double (*)(double, const double *, int, double) noexcept;
 
-UniformK12Fn pickUniformK12Fn() {
+const UniformK12Fn uniformK12Fn =
+    selectCgfKernel<UniformK12Fn>(tier::binomUniformK12_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomUniformK12_avx512;
-    case SimdLevel::AVX2:   return tier::binomUniformK12_avx2;
-    default: break;
-    }
+        , tier::binomUniformK12_avx2, tier::binomUniformK12_avx512
 #endif
-    return tier::binomUniformK12_scalar;
-}
-
-UniformK0Fn pickUniformK0Fn() {
+    );
+const UniformK0Fn uniformK0Fn =
+    selectCgfKernel<UniformK0Fn>(tier::binomUniformK0_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomUniformK0_avx512;
-    case SimdLevel::AVX2:   return tier::binomUniformK0_avx2;
-    default: break;
-    }
+        , tier::binomUniformK0_avx2, tier::binomUniformK0_avx512
 #endif
-    return tier::binomUniformK0_scalar;
-}
-
-const UniformK12Fn uniformK12Fn = pickUniformK12Fn();
-const UniformK0Fn  uniformK0Fn  = pickUniformK0Fn();
+    );
 
 }  // namespace
 
@@ -667,30 +672,18 @@ namespace {
 using IndivK12Fn = Cgf12 (*)(double, const double *, const double *, int) noexcept;
 using IndivK0Fn  = double (*)(double, const double *, const double *, int) noexcept;
 
-IndivK12Fn pickIndivK12Fn() {
+const IndivK12Fn indivK12Fn =
+    selectCgfKernel<IndivK12Fn>(tier::binomIndivK12_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomIndivK12_avx512;
-    case SimdLevel::AVX2:   return tier::binomIndivK12_avx2;
-    default: break;
-    }
+        , tier::binomIndivK12_avx2, tier::binomIndivK12_avx512
 #endif
-    return tier::binomIndivK12_scalar;
-}
-
-IndivK0Fn pickIndivK0Fn() {
+    );
+const IndivK0Fn indivK0Fn =
+    selectCgfKernel<IndivK0Fn>(tier::binomIndivK0_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomIndivK0_avx512;
-    case SimdLevel::AVX2:   return tier::binomIndivK0_avx2;
-    default: break;
-    }
+        , tier::binomIndivK0_avx2, tier::binomIndivK0_avx512
 #endif
-    return tier::binomIndivK0_scalar;
-}
-
-const IndivK12Fn indivK12Fn = pickIndivK12Fn();
-const IndivK0Fn  indivK0Fn  = pickIndivK0Fn();
+    );
 
 }  // namespace
 
@@ -957,30 +950,18 @@ using HapcountK12Fn =
 using HapcountK0Fn =
     double (*)(double, const double *, const double *, int, double) noexcept;
 
-HapcountK12Fn pickHapcountK12Fn() {
+const HapcountK12Fn hapcountK12Fn =
+    selectCgfKernel<HapcountK12Fn>(tier::binomHapcountK12_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomHapcountK12_avx512;
-    case SimdLevel::AVX2:   return tier::binomHapcountK12_avx2;
-    default: break;
-    }
+        , tier::binomHapcountK12_avx2, tier::binomHapcountK12_avx512
 #endif
-    return tier::binomHapcountK12_scalar;
-}
-
-HapcountK0Fn pickHapcountK0Fn() {
+    );
+const HapcountK0Fn hapcountK0Fn =
+    selectCgfKernel<HapcountK0Fn>(tier::binomHapcountK0_scalar
 #if defined(__x86_64__) || defined(_M_X64)
-    switch (simdLevel()) {
-    case SimdLevel::AVX512: return tier::binomHapcountK0_avx512;
-    case SimdLevel::AVX2:   return tier::binomHapcountK0_avx2;
-    default: break;
-    }
+        , tier::binomHapcountK0_avx2, tier::binomHapcountK0_avx512
 #endif
-    return tier::binomHapcountK0_scalar;
-}
-
-const HapcountK12Fn hapcountK12Fn = pickHapcountK12Fn();
-const HapcountK0Fn  hapcountK0Fn  = pickHapcountK0Fn();
+    );
 
 }  // namespace
 

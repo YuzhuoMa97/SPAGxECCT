@@ -69,12 +69,12 @@ using sparef::CgfL;
 
 namespace {
 
-// Representative minor-allele frequencies, spanning the range GRAB admits:
+// Representative minor-allele frequencies, spanning the supported range:
 // the rare end is where alpha is dominated by (1-p), the common end where the
 // two terms are comparable.
 const std::vector<double> kMafs = {1e-6, 1e-4, 1e-3, 0.01, 0.05, 0.1, 0.25, 0.5};
 
-// Residual weights.  GRAB centres residuals, so both signs occur; the
+// Residual weights.  The null model centres residuals, so both signs occur; the
 // magnitude spread reflects what the IQR outlier filter admits.
 const std::vector<double> kResids = {-8.0, -3.5, -1.0, -0.25, 0.25, 1.0, 3.5, 8.0};
 
@@ -565,7 +565,7 @@ std::vector<Tier<HapcountK0Fn>> hapcountK0Tiers() {
 //
 // ── Why the L1 scale rather than the value of the sum ──
 //
-// K1's summands h*r_i*pi_i carry the sign of r_i, and GRAB centres its
+// K1's summands h*r_i*pi_i carry the sign of r_i, and The null model centres its
 // residuals: at t = 0 every pi_i is equal, so the sum collapses to
 // 2*p*sum(r_i) ~ 0 while the summands themselves are O(1).  A purely relative
 // criterion on such a cancelling sum is unsatisfiable by construction — two

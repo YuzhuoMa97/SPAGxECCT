@@ -369,7 +369,7 @@ double cauchyCombineLog10(const double *negLog10p, int n) {
 //      6 / 12 / 20 points for |r| < 0.3 / < 0.75 / else; the |r| ≥ 0.925
 //      branch is always in the last bin.
 //
-// Observable consequence in GRAB.  `pmvnorm2dHalfRect` clamps ρ into
+// Boundary case.  `pmvnorm2dHalfRect` clamps ρ into
 // [−1, 1] and routes |ρ| ≥ 1 − 1e-12 through this function; WtCoxG's
 // Branch B builds ρ from a variance recovered by inverting an SPA p-value
 // through qchisq, which is not constrained to keep the 2×2 covariance

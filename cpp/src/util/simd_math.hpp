@@ -1,7 +1,8 @@
 // simd_math.hpp — Vectorised exp/log for double precision (AVX2 / AVX-512)
 //
-// Cephes-style minimax polynomials with ~1 ULP accuracy over the full
-// double range.  No special NaN/Inf handling — SPA values are well-bounded.
+// Cephes-style polynomial exp and decomposed polynomial log for finite
+// CGF inputs. The exp argument is clamped; these routines do not implement
+// general NaN/Inf handling or promise a universal ULP bound.
 //
 // x86_64-only: on other architectures (e.g. arm64) this header expands
 // to nothing; callers must use scalar fallbacks.
@@ -16,6 +17,31 @@
 #include <immintrin.h>
 #include <cstdint>
 
+// One coefficient table feeds both vector widths. Updating a polynomial in
+// only one implementation would otherwise silently change cross-tier results.
+namespace spagxe_simd_detail {
+inline constexpr double kExpLog2E = 1.4426950408889634;
+inline constexpr double kExpLn2High = 6.93145751953125e-1;
+inline constexpr double kExpLn2Low = 1.42860682030941723212e-6;
+inline constexpr double kExpMaximum = 709.0;
+inline constexpr double kExpMinimum = -709.0;
+inline constexpr double kExpCoefficients[] = {
+    1.0, 1.0, 0.5, 1.6666666666666666e-1,
+    4.1666666666666664e-2, 8.3333333333333332e-3,
+    1.3888888888888889e-3, 1.9841269841269841e-4,
+    2.4801587301587302e-5, 2.7557319223985893e-6,
+    2.7557319223985888e-7, 2.5052108385441720e-8
+};
+inline constexpr double kLogLn2 = 0.6931471805599453;
+inline constexpr double kLogSqrt2 = 1.4142135623730950488;
+inline constexpr double kLogCoefficients[] = {
+    6.666666666666735130e-1, 3.999999999940941908e-1,
+    2.857142874366239149e-1, 2.222219843214978396e-1,
+    1.818357216161805012e-1, 1.531383769920937332e-1,
+    1.479819860511658591e-1
+};
+}  // namespace spagxe_simd_detail
+
 // ════════════════════════════════════════════════════════════════════
 // AVX2 (4 × double)
 // ════════════════════════════════════════════════════════════════════
@@ -25,28 +51,28 @@ __attribute__((target("avx2,fma")))
 inline __m256d avx2_exp_pd(__m256d x)
 {
     // Constants
-    const __m256d LOG2E   = _mm256_set1_pd(1.4426950408889634);     // log2(e)
-    const __m256d LN2_HI  = _mm256_set1_pd(6.93145751953125e-1);   // ln(2) high part
-    const __m256d LN2_LO  = _mm256_set1_pd(1.42860682030941723212e-6); // ln(2) low part
+    const __m256d LOG2E   = _mm256_set1_pd(spagxe_simd_detail::kExpLog2E);     // log2(e)
+    const __m256d LN2_HI  = _mm256_set1_pd(spagxe_simd_detail::kExpLn2High);   // ln(2) high part
+    const __m256d LN2_LO  = _mm256_set1_pd(spagxe_simd_detail::kExpLn2Low); // ln(2) low part
     const __m256d HALF    = _mm256_set1_pd(0.5);
 
     // Polynomial coefficients (minimax on [-ln2/2, ln2/2])
-    const __m256d P0 = _mm256_set1_pd(1.0);
-    const __m256d P1 = _mm256_set1_pd(1.0);
-    const __m256d P2 = _mm256_set1_pd(0.5);
-    const __m256d P3 = _mm256_set1_pd(1.6666666666666666e-1);   // 1/6
-    const __m256d P4 = _mm256_set1_pd(4.1666666666666664e-2);   // 1/24
-    const __m256d P5 = _mm256_set1_pd(8.3333333333333332e-3);   // 1/120
-    const __m256d P6 = _mm256_set1_pd(1.3888888888888889e-3);   // 1/720
-    const __m256d P7 = _mm256_set1_pd(1.9841269841269841e-4);   // 1/5040
-    const __m256d P8 = _mm256_set1_pd(2.4801587301587302e-5);   // 1/40320
-    const __m256d P9 = _mm256_set1_pd(2.7557319223985893e-6);   // 1/362880
-    const __m256d P10 = _mm256_set1_pd(2.7557319223985888e-7);  // 1/3628800
-    const __m256d P11 = _mm256_set1_pd(2.5052108385441720e-8);  // 1/39916800
+    const __m256d P0 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[0]);
+    const __m256d P1 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[1]);
+    const __m256d P2 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[2]);
+    const __m256d P3 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[3]);   // 1/6
+    const __m256d P4 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[4]);   // 1/24
+    const __m256d P5 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[5]);   // 1/120
+    const __m256d P6 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[6]);   // 1/720
+    const __m256d P7 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[7]);   // 1/5040
+    const __m256d P8 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[8]);   // 1/40320
+    const __m256d P9 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[9]);   // 1/362880
+    const __m256d P10 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[10]);  // 1/3628800
+    const __m256d P11 = _mm256_set1_pd(spagxe_simd_detail::kExpCoefficients[11]);  // 1/39916800
 
     // Clamp to avoid overflow/underflow in integer conversion
-    const __m256d MAX_X = _mm256_set1_pd(709.0);
-    const __m256d MIN_X = _mm256_set1_pd(-709.0);
+    const __m256d MAX_X = _mm256_set1_pd(spagxe_simd_detail::kExpMaximum);
+    const __m256d MIN_X = _mm256_set1_pd(spagxe_simd_detail::kExpMinimum);
     x = _mm256_max_pd(_mm256_min_pd(x, MAX_X), MIN_X);
 
     // n = round(x * log2(e))
@@ -98,17 +124,17 @@ inline __m256d avx2_log_pd(__m256d x)
     const __m256d ONE  = _mm256_set1_pd(1.0);
     const __m256d HALF = _mm256_set1_pd(0.5);
     const __m256d TWO  = _mm256_set1_pd(2.0);
-    const __m256d LN2  = _mm256_set1_pd(0.6931471805599453);
-    const __m256d SQRT2 = _mm256_set1_pd(1.4142135623730950488);
+    const __m256d LN2  = _mm256_set1_pd(spagxe_simd_detail::kLogLn2);
+    const __m256d SQRT2 = _mm256_set1_pd(spagxe_simd_detail::kLogSqrt2);
 
     // Minimax coefficients for R(z)/z where z = s²  (from glibc/musl)
-    const __m256d Lg1 = _mm256_set1_pd(6.666666666666735130e-1);
-    const __m256d Lg2 = _mm256_set1_pd(3.999999999940941908e-1);
-    const __m256d Lg3 = _mm256_set1_pd(2.857142874366239149e-1);
-    const __m256d Lg4 = _mm256_set1_pd(2.222219843214978396e-1);
-    const __m256d Lg5 = _mm256_set1_pd(1.818357216161805012e-1);
-    const __m256d Lg6 = _mm256_set1_pd(1.531383769920937332e-1);
-    const __m256d Lg7 = _mm256_set1_pd(1.479819860511658591e-1);
+    const __m256d Lg1 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[0]);
+    const __m256d Lg2 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[1]);
+    const __m256d Lg3 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[2]);
+    const __m256d Lg4 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[3]);
+    const __m256d Lg5 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[4]);
+    const __m256d Lg6 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[5]);
+    const __m256d Lg7 = _mm256_set1_pd(spagxe_simd_detail::kLogCoefficients[6]);
 
     // Extract exponent and mantissa
     __m256i xi = _mm256_castpd_si256(x);
@@ -171,26 +197,26 @@ inline __m256d avx2_log_pd(__m256d x)
 __attribute__((target("avx2,avx512f,avx512vl,fma")))
 inline __m512d avx512_exp_pd(__m512d x)
 {
-    const __m512d LOG2E   = _mm512_set1_pd(1.4426950408889634);
-    const __m512d LN2_HI  = _mm512_set1_pd(6.93145751953125e-1);
-    const __m512d LN2_LO  = _mm512_set1_pd(1.42860682030941723212e-6);
+    const __m512d LOG2E   = _mm512_set1_pd(spagxe_simd_detail::kExpLog2E);
+    const __m512d LN2_HI  = _mm512_set1_pd(spagxe_simd_detail::kExpLn2High);
+    const __m512d LN2_LO  = _mm512_set1_pd(spagxe_simd_detail::kExpLn2Low);
     const __m512d HALF    = _mm512_set1_pd(0.5);
 
-    const __m512d P0  = _mm512_set1_pd(1.0);
-    const __m512d P1  = _mm512_set1_pd(1.0);
-    const __m512d P2  = _mm512_set1_pd(0.5);
-    const __m512d P3  = _mm512_set1_pd(1.6666666666666666e-1);
-    const __m512d P4  = _mm512_set1_pd(4.1666666666666664e-2);
-    const __m512d P5  = _mm512_set1_pd(8.3333333333333332e-3);
-    const __m512d P6  = _mm512_set1_pd(1.3888888888888889e-3);
-    const __m512d P7  = _mm512_set1_pd(1.9841269841269841e-4);
-    const __m512d P8  = _mm512_set1_pd(2.4801587301587302e-5);
-    const __m512d P9  = _mm512_set1_pd(2.7557319223985893e-6);
-    const __m512d P10 = _mm512_set1_pd(2.7557319223985888e-7);
-    const __m512d P11 = _mm512_set1_pd(2.5052108385441720e-8);
+    const __m512d P0  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[0]);
+    const __m512d P1  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[1]);
+    const __m512d P2  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[2]);
+    const __m512d P3  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[3]);
+    const __m512d P4  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[4]);
+    const __m512d P5  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[5]);
+    const __m512d P6  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[6]);
+    const __m512d P7  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[7]);
+    const __m512d P8  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[8]);
+    const __m512d P9  = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[9]);
+    const __m512d P10 = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[10]);
+    const __m512d P11 = _mm512_set1_pd(spagxe_simd_detail::kExpCoefficients[11]);
 
-    const __m512d MAX_X = _mm512_set1_pd(709.0);
-    const __m512d MIN_X = _mm512_set1_pd(-709.0);
+    const __m512d MAX_X = _mm512_set1_pd(spagxe_simd_detail::kExpMaximum);
+    const __m512d MIN_X = _mm512_set1_pd(spagxe_simd_detail::kExpMinimum);
     x = _mm512_max_pd(_mm512_min_pd(x, MAX_X), MIN_X);
 
     __m512d t = _mm512_fmadd_pd(x, LOG2E, HALF);
@@ -227,16 +253,16 @@ inline __m512d avx512_log_pd(__m512d x)
     const __m512d ONE  = _mm512_set1_pd(1.0);
     const __m512d HALF = _mm512_set1_pd(0.5);
     const __m512d TWO  = _mm512_set1_pd(2.0);
-    const __m512d LN2  = _mm512_set1_pd(0.6931471805599453);
-    const __m512d SQRT2 = _mm512_set1_pd(1.4142135623730950488);
+    const __m512d LN2  = _mm512_set1_pd(spagxe_simd_detail::kLogLn2);
+    const __m512d SQRT2 = _mm512_set1_pd(spagxe_simd_detail::kLogSqrt2);
 
-    const __m512d Lg1 = _mm512_set1_pd(6.666666666666735130e-1);
-    const __m512d Lg2 = _mm512_set1_pd(3.999999999940941908e-1);
-    const __m512d Lg3 = _mm512_set1_pd(2.857142874366239149e-1);
-    const __m512d Lg4 = _mm512_set1_pd(2.222219843214978396e-1);
-    const __m512d Lg5 = _mm512_set1_pd(1.818357216161805012e-1);
-    const __m512d Lg6 = _mm512_set1_pd(1.531383769920937332e-1);
-    const __m512d Lg7 = _mm512_set1_pd(1.479819860511658591e-1);
+    const __m512d Lg1 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[0]);
+    const __m512d Lg2 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[1]);
+    const __m512d Lg3 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[2]);
+    const __m512d Lg4 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[3]);
+    const __m512d Lg5 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[4]);
+    const __m512d Lg6 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[5]);
+    const __m512d Lg7 = _mm512_set1_pd(spagxe_simd_detail::kLogCoefficients[6]);
 
     __m512i xi = _mm512_castpd_si512(x);
     __m512i mant_mask = _mm512_set1_epi64(0x000FFFFFFFFFFFFFLL);

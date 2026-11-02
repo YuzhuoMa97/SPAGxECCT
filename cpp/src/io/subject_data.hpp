@@ -36,16 +36,36 @@ struct PerPhenoInfo {
     unionToLocal;     // size = nUnionUsed; maps union-dense index → pheno-dense index (UINT32_MAX if absent)
 };
 
+namespace subject_detail {
+
+// Use the same subject selection for scalar and matrix extraction.  The
+// callback only performs the assignment; index order is always union order.
+template <typename CopyRow>
+inline void forPresentSubjects(
+    Eigen::Index unionSize,
+    const PerPhenoInfo &info,
+    CopyRow copyRow
+) {
+    for (Eigen::Index source = 0; source < unionSize; ++source) {
+        const uint32_t destination = info.unionToLocal[static_cast<size_t>(source)];
+        if (destination != UINT32_MAX) copyRow(source, destination);
+    }
+}
+
+} // namespace subject_detail
+
 // Extract dense per-phenotype vector from union-dimension vector.
 inline Eigen::VectorXd extractPhenoVec(
     const Eigen::VectorXd &unionVec,
     const PerPhenoInfo &info
 ) {
     Eigen::VectorXd out(info.nUsed);
-    for (Eigen::Index i = 0; i < unionVec.size(); ++i) {
-        uint32_t li = info.unionToLocal[static_cast<size_t>(i)];
-        if (li != UINT32_MAX) out[li] = unionVec[i];
-    }
+    subject_detail::forPresentSubjects(
+        unionVec.size(), info,
+        [&](Eigen::Index source, uint32_t destination) {
+            out[destination] = unionVec[source];
+        }
+    );
     return out;
 }
 
@@ -55,10 +75,12 @@ inline Eigen::MatrixXd extractPhenoMat(
     const PerPhenoInfo &info
 ) {
     Eigen::MatrixXd out(info.nUsed, unionMat.cols());
-    for (Eigen::Index i = 0; i < unionMat.rows(); ++i) {
-        uint32_t li = info.unionToLocal[static_cast<size_t>(i)];
-        if (li != UINT32_MAX) out.row(li) = unionMat.row(i);
-    }
+    subject_detail::forPresentSubjects(
+        unionMat.rows(), info,
+        [&](Eigen::Index source, uint32_t destination) {
+            out.row(destination) = unionMat.row(source);
+        }
+    );
     return out;
 }
 

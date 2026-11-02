@@ -17,7 +17,7 @@ namespace util {
 class MmapReadOnly {
 public:
     explicit MmapReadOnly(const std::string &path);
-    ~MmapReadOnly();
+    ~MmapReadOnly() noexcept;
 
     MmapReadOnly(const MmapReadOnly &)            = delete;
     MmapReadOnly &operator=(const MmapReadOnly &) = delete;

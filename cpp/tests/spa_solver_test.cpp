@@ -104,7 +104,7 @@ struct PoissonCgf {
 };
 
 // One subject contributing r * G with G ~ Binomial(2, p).  This is the atom
-// out of which all four of GRAB's binomial CGFs are summed.
+// out of which the supported binomial CGFs are summed.
 //
 //   K(t)   = 2*log(1 - p + p*e^{t*r})
 //   K'(t)  = 2*r*p*e^{t*r} / (1 - p + p*e^{t*r})
@@ -1244,7 +1244,7 @@ TEST(status_nonfinite_from_solver_interior) {
     // creeps up to its edge, as the comment at that retreat says — and the
     // solver then reports MaxIter for want of a sign change rather than
     // NonFinite.  That is a property of the expansion, not of this status, and
-    // no CGF in GRAB can produce it: spa_cgf clamps t*r, so its cumulants are
+    // no supported CGF can produce it: spa_cgf clamps t*r, so its cumulants are
     // finite at every finite abscissa and the non-finite region, where one
     // exists at all, is a half-line rather than an interval.
     auto res = [](double t) {

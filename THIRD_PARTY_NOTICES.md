@@ -3,8 +3,7 @@
 SPAGxE algorithms and new standalone changes: Yuzhuo Ma, yuzhuoma@amss.ac.cn.
 The method's published authorship is retained in CITATION_CPP.cff.
 
-New SPAGxE work includes the paper-defined interaction policy, complete-CGF
-workflow, AF/input/numerical corrections, local G/H analysis and packing,
+New SPAGxE work includes the paper-defined interaction policy, guarded partial-normal SPA with full-CGF diagnostics, AF/input/numerical corrections, local G/H analysis and packing,
 standalone interfaces, examples and validation. Historical R files in this
 repository keep their existing contents and license scope.
 
@@ -20,7 +19,7 @@ repository keep their existing contents and license scope.
 | zstd | cpp/third_party/zstd-1.5.7 | Included BSD/GPL choices |
 | SQLite | cpp/third_party/sqlite-3.53.2 | Public domain dedication |
 
-The public examples/1kg dataset is retained from the same upstream snapshot.
+Bundled sample inputs are provided for format and tutorial validation.
 Other bundled association examples are synthetic SPAGxE data.
 No private external-project source, manuscripts or real study datasets are
 included in the new standalone distribution.

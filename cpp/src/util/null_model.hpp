@@ -1,11 +1,9 @@
-// null_model.hpp — Unified null-model fitting engine
+// Null-model inputs, inference and residual fitting for SPAGxE analyses.
 //
-// Provides the upstream null-model fitting path consumed by SPACox / SPAGRM /
-// SPAmix when the user supplies phenotype columns instead of pre-computed
-// residuals.  Each PhenoSpec is fitted independently by the appropriate
-// regression function in src/util/regression.hpp; multiple phenotypes are
-// fitted in parallel via a std::thread / std::atomic pool that mirrors the
-// marker-engine pattern in src/engine/marker.cpp.
+// Phenotype specifications are independent fitting jobs. Each job selects
+// its regression family, keeps complete rows, then restores residuals to
+// the shared subject order. EngineOptions controls family-specific solvers
+// and the number of phenotype jobs fitted concurrently.
 //
 // Output is a union-length residual vector per phenotype (NaN-padded at rows
 // the per-pheno regression dropped because of missing inputs).  Downstream
@@ -91,11 +89,15 @@ struct PhenoSpec {
     std::string yColumn;     // non-Cox: phenotype column header
     std::string timeColumn;  // Cox: time column header
     std::string eventColumn; // Cox: event column header
+
+    bool isSurvival() const noexcept {
+        return !timeColumn.empty();
+    }
 };
 
 // True when the spec represents a survival (Cox) phenotype.
 inline bool isCoxSpec(const PhenoSpec &s) {
-    return !s.timeColumn.empty();
+    return s.isSurvival();
 }
 
 // Parse the raw --pheno-name string (commas separate phenotypes).

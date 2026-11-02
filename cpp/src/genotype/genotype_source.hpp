@@ -60,7 +60,7 @@ struct GenotypeInput {
 
 };
 
-// Return a descriptive label for the GRM source, e.g. "--grm-file e_grm.grab".
+// Return a descriptive label for the GRM source, e.g. "--grm-file sparse_grm.tsv".
 inline std::string grmFlagLabel(
     const std::string &tripletFile,
     const std::string &gctaFile

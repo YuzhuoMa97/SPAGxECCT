@@ -15,11 +15,13 @@
 #include <cstdio>
 #include <exception>
 #include <fstream>
+#include <limits>
 #include <mutex>
 #include <set>
 #include <sstream>
 #include <stdexcept>
 #include <thread>
+#include <utility>
 
 namespace nullmodel {
 
@@ -51,6 +53,34 @@ std::vector<std::string> splitCommaRaw(const std::string &s) {
         if (!t.empty()) out.push_back(std::move(t));
     }
     return out;
+}
+
+// Keep the canonical residual-column name in one place for both parsers.
+PhenoSpec makeSurvivalSpec(std::string timeColumn, std::string eventColumn) {
+    PhenoSpec spec;
+    spec.name = timeColumn + "_" + eventColumn;
+    spec.timeColumn = std::move(timeColumn);
+    spec.eventColumn = std::move(eventColumn);
+    return spec;
+}
+
+std::string subjectLabelAt(
+    Eigen::Index row, const std::vector<std::string> &unionIIDs
+) {
+    if (row >= 0 && static_cast<size_t>(row) < unionIIDs.size())
+        return unionIIDs[static_cast<size_t>(row)];
+    return "?";
+}
+
+// Restore fitted rows without changing the order produced by regression.
+void restoreResidualRows(
+    NullModelFit &fit,
+    const std::vector<Eigen::Index> &rows,
+    const Eigen::VectorXd &residuals
+) {
+    for (size_t i = 0; i < rows.size(); ++i)
+        fit.residuals[rows[i]] = residuals[static_cast<Eigen::Index>(i)];
+    fit.nUsedRows = static_cast<int>(rows.size());
 }
 
 // Build keep-mask in union rows: true where every named column is non-NaN.
@@ -117,10 +147,8 @@ Eigen::VectorXi coerceOrdinal(
     for (Eigen::Index i = 0; i < y.size(); ++i) {
         double v = y[i];
         if (!std::isfinite(v) || v < 0.0 || v > 1e6 || v != std::floor(v)) {
-            std::string iid = (idx[static_cast<size_t>(i)] >= 0 &&
-                               static_cast<size_t>(idx[static_cast<size_t>(i)]) < unionIIDs.size())
-                                  ? unionIIDs[static_cast<size_t>(idx[static_cast<size_t>(i)])]
-                                  : std::string("?");
+            const std::string iid =
+                subjectLabelAt(idx[static_cast<size_t>(i)], unionIIDs);
             std::ostringstream msg;
             msg << "Null-model fit for '" << phenoName << "': ordinal column '"
                 << columnName << "' must contain non-negative integer values"
@@ -204,9 +232,7 @@ NullModelFit fitOne(
         Eigen::VectorXd w = Eigen::VectorXd::Ones(static_cast<Eigen::Index>(idx.size()));
         Eigen::VectorXd r = regression::coxResiduals(timeK, eventK, X, w,
                                                     opts.coxTol, opts.coxMaxIter);
-        for (size_t i = 0; i < idx.size(); ++i)
-            fit.residuals[idx[i]] = r[static_cast<Eigen::Index>(i)];
-        fit.nUsedRows = static_cast<int>(idx.size());
+        restoreResidualRows(fit, idx, r);
         return fit;
     }
 
@@ -279,9 +305,7 @@ NullModelFit fitOne(
             "': internal error - regression returned " + std::to_string(r.size()) +
             " residuals for " + std::to_string(idx.size()) + " kept rows");
 
-    for (size_t i = 0; i < idx.size(); ++i)
-        fit.residuals[idx[i]] = r[static_cast<Eigen::Index>(i)];
-    fit.nUsedRows = static_cast<int>(idx.size());
+    restoreResidualRows(fit, idx, r);
     return fit;
 }
 
@@ -409,12 +433,6 @@ InferredSurv inferCoxSurvival(
         throw std::runtime_error(
             "inferCoxSurvival: time and event columns differ in length");
 
-    auto iidAt = [&](Eigen::Index i) -> std::string {
-        if (i >= 0 && static_cast<size_t>(i) < unionIIDs.size())
-            return unionIIDs[static_cast<size_t>(i)];
-        return "?";
-    };
-
     // Validate time: every non-NaN value must be > 0
     for (Eigen::Index i = 0; i < time.size(); ++i) {
         double t = time[i];
@@ -422,7 +440,7 @@ InferredSurv inferCoxSurvival(
         if (!(t > 0.0)) {
             std::ostringstream m;
             m << "time column '" << timeName << "': non-positive value " << t
-              << " at IID=" << iidAt(i) << " (time-to-event requires t > 0)";
+              << " at IID=" << subjectLabelAt(i, unionIIDs) << " (time-to-event requires t > 0)";
             throw std::runtime_error(m.str());
         }
     }
@@ -437,7 +455,7 @@ InferredSurv inferCoxSurvival(
         if (e == 1.0) { sawOne = true; continue; }
         std::ostringstream m;
         m << "event column '" << eventName << "': value " << e
-          << " at IID=" << iidAt(i)
+          << " at IID=" << subjectLabelAt(i, unionIIDs)
           << " is not 0 or 1; event must be a 0/1 indicator";
         throw std::runtime_error(m.str());
     }
@@ -472,9 +490,7 @@ PhenoSpec parsePhenoSpecAuto(const std::string &token) {
             throw std::runtime_error(
                 "Cox phenotype '" + tok +
                 "': both TIME and EVENT column names must be non-empty");
-        p.name = timeCol + "_" + eventCol;
-        p.timeColumn = std::move(timeCol);
-        p.eventColumn = std::move(eventCol);
+        p = makeSurvivalSpec(std::move(timeCol), std::move(eventCol));
     } else {
         p.name = tok;
         p.yColumn = tok;
@@ -517,11 +533,7 @@ std::vector<PhenoSpec> parsePhenoSpecList(
             // Canonical name uses '_' instead of ':' so the residual column
             // header satisfies the strict-format regex [0-9A-Za-z_\-.]+ when
             // the engine writes PREFIX.null.resid for round-trip reload.
-            PhenoSpec p;
-            p.name = timeCol + "_" + eventCol;
-            p.timeColumn = std::move(timeCol);
-            p.eventColumn = std::move(eventCol);
-            out.push_back(std::move(p));
+            out.push_back(makeSurvivalSpec(std::move(timeCol), std::move(eventCol)));
         } else {
             if (colonCount != 0)
                 throw std::runtime_error(
@@ -539,11 +551,11 @@ std::vector<PhenoSpec> parsePhenoSpecList(
 std::vector<std::string> columnsNeeded(const std::vector<PhenoSpec> &specs) {
     std::set<std::string> seen;
     std::vector<std::string> out;
+    auto add = [&](const std::string &name) {
+        if (name.empty()) return;
+        if (seen.insert(name).second) out.push_back(name);
+    };
     for (const auto &s : specs) {
-        auto add = [&](const std::string &name) {
-            if (name.empty()) return;
-            if (seen.insert(name).second) out.push_back(name);
-        };
         add(s.yColumn);
         add(s.timeColumn);
         add(s.eventColumn);

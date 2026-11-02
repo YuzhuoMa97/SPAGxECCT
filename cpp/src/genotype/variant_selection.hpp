@@ -29,7 +29,7 @@ std::unordered_set<std::string> readVariantSelection(const std::string &path);
 // std::runtime_error so the caller surfaces a clear diagnostic instead
 // of silently producing zero variants.  IDs present in the include /
 // exclude file that do not match any marker are silently ignored, mirroring
-// plink2 and grab's --keep / --remove behaviour.
+// the --keep / --remove sample filters.
 void applyVariantSelection(
     std::vector<GenotypeCatalog::MarkerInfo> &markers,
     const std::string &extractFile,

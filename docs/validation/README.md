@@ -1,44 +1,36 @@
 # Validation records and interpretation
 
-The current candidate is a local repair of public development commit
-`ce9c2473649e0be2a8b70dd2f6186a03b25d21aa`. Read
-[release status](../RELEASE_STATUS.md) for the distinction between the failed
-public Actions run and locally passing repaired source.
+This maintenance candidate changes production implementation structure while
+preserving the documented statistical policy. The public source baseline is
+recorded separately from the not-yet-pushed local maintenance source.
+Read [release scope](../RELEASE_STATUS.md) and
+[maintenance notes](../MAINTENANCE_NOTES.md).
 
-The [acceptance summary](ACCEPTANCE.json) records the current Windows/Linux
-scope and retains the earlier acceptance object under a historical key.
-Historical source counts, hashes and test dates describe those snapshots;
-they are not the identities of a later repaired release asset.
+## Current candidate
 
-## Current repaired candidate
+- Fresh Windows build and numerical units passed.
+- Seventeen regression suites passed. An initial private driver path-escaping
+  defect affected two reference invocations; only those two were rerun after
+  fixing the driver, with the original diagnostics retained.
+- Previous/current full walkthroughs produced 85 byte-identical files and
+  145,985 identical numeric fields.
+- Focused scanner, sample mapping, file-resource, null-model specification,
+  outlier and CGF checks supplement the full application regressions.
+- Linux results are recorded explicitly in ACCEPTANCE.json when complete.
 
-- CRLF/LF/no-final-newline BIM metadata and cross-format integration are
-  explicitly tested in cpp/tests/run_integration.py.
-- The Windows full-static link mode is checked from the compiler-driver
-  command and PE imports, with native minimal-PATH tutorials.
-- Windows numerical units, 17 regression suites, six tutorials and the full
-  33-group walkthrough have passing local records.
-- Ubuntu 24.04.5 x86-64/WSL2, GCC 13.3: 22 stages cover units, 14 CI suites,
-  integration, tutorials, bundle extraction and PREFIX installation.
-- Cross-platform association/CCT values agree within the documented floating
-  point tolerance. This does not replace actual-R, independent scalar or
-  high-precision references, nor population-level type-I error studies.
-
-Developer scripts regenerate their own JSON summaries under cpp/results/.
-Analysis and example execution do not require Python or R; developer/reference
-tests may require them. Source-only checks and actual binary execution are
-different evidence.
+Developer scripts regenerate their summaries under cpp/results/. Reference
+tests may use Python or R; analysis and bundled tutorials do not require them.
+Matching old/current implementations is reproducibility evidence. Independent
+scalar/R/high-precision checks and population-level calibration answer
+different questions.
 
 ## Remaining limits
 
-The original public CI run failed. A repaired local source tree is not a new
-remote commit, and its checks must run again after the maintainer pushes it.
-macOS remains unverified. No finite test collection proves universal extreme-
-tail calibration, every historical default P value, every possible input or
-a biobank-scale speed advantage. Native Linux testing under WSL2 does not
-measure bare-metal biobank throughput or support all older glibc releases.
+macOS remains unvalidated. The current maintenance source has not yet been
+pushed or checked by hosted CI. Binary compatibility depends on OS, CPU and
+runtime libraries; no finite test set guarantees every input, extreme tail,
+historical default P value or biobank-scale speed claim.
 
-Original R/full-CGF comparisons apply only to matched common domains. The
-guarded partial default deliberately adds an approximation; full-CGF candidate
-diagnostics are not a P-value error bound. The historical R source and interface
-remain available, with their own versions and dependencies.
+Preserved R code keeps its original dependency chain. The original full-CGF
+R baseline and the accelerated default need not have identical P values in
+every case. Historical results are not relabeled as new tests.

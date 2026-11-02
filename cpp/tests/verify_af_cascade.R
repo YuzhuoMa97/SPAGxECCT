@@ -1,6 +1,6 @@
 # Original-R and native AF-cascade counterexamples using valid hardcalls.
 # Run from cpp: Rscript tests/verify_af_cascade.R [binary] [output-directory]
-# The executable has one published-method implementation; historical GRAB
+# The executable has one published-method implementation; historical comparison
 # AF/CGF calculations below are independent comparisons, not product modes.
 # No original source file is modified. R is a validation dependency only.
 options(digits=17)
@@ -29,15 +29,15 @@ for(name in names(cases)){
  qr<-if(negative>.1)lq else pmax(0,pmin(1,ols))
  qp<-if(outside>=.1)lq else pmax(0,pmin(1,ols))
  qg<-if(outside>=.1&&sum(carrier)<=20)rep(q,nn)else qp
- references<-list(original_R=qr,paper=qp,grab2=qg)
+ references<-list(original_R=qr,paper=qp,projected_hybrid=qg)
  record<-function(label,value,qi=NULL){k<<-k+1L;results[[k]]<<-data.frame(CASE=name,AF_STRATEGY=label,N=nn,POOLED_AF=q,MAC=sum(g),CARRIERS=sum(carrier),NEGATIVE_OLS_RATIO=negative,UPPER_OLS_RATIO=mean(ols>1),OUTSIDE_OLS_RATIO=outside,OLS_MIN=min(ols),OLS_MAX=max(ols),LOGISTIC_CONVERGED=logistic$converged,AF_MIN=if(is.null(qi))NA_real_ else min(qi),AF_MAX=if(is.null(qi))NA_real_ else max(qi),LOG10P_SPA=value,check.names=FALSE)}
  expected<-list()
  for(flavour in names(references)){
   qi<-references[[flavour]];v<-2*qi*(1-qi);lambda<-sum(v*E*R^2)/sum(v*R^2)
   full<-unname(spa(g,(E-lambda)*R,qi,NULL,FALSE)["LOG10P"])
   record(paste0("independent_",flavour,"_full"),full,qi)
-  expected[[flavour]]<-if(flavour=="grab2")unname(spa(g,(E-lambda)*R,qi,NULL,TRUE)["LOG10P"])else full
-  if(flavour=="grab2")record("independent_grab2_default_hybrid",expected[[flavour]],qi)
+  expected[[flavour]]<-if(flavour=="projected_hybrid")unname(spa(g,(E-lambda)*R,qi,NULL,TRUE)["LOG10P"])else full
+  if(flavour=="projected_hybrid")record("independent_projected_hybrid_default_hybrid",expected[[flavour]],qi)
  }
  ans<-legacy$SPAGxEmix_CCT_one_SNP(traits="quantitative",g=g,R=R,E=E,Phen.mtx=data.frame(Y=R),Cova.mtx=as.matrix(PC),topPCs=as.matrix(PC),epsilon=0)
  record("actual_original_R_tight",-log10(ans[3]))

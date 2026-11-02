@@ -6,7 +6,7 @@ correctness regression but far too small to measure the saddlepoint rework's
 effect: at that size the per-marker cost is dominated by I/O and engine
 overhead rather than by the CGF kernel and root finder under change.  This
 script writes a PLINK1 BED/BIM/FAM triple, a phenotype table matching the
-schema of examples/1kg.pheno, and a sparse GRM in the format GRAB's
+schema of examples/1kg.pheno, and a sparse GRM in the format the reader
 --sparse-grm reader expects, at whatever scale the benchmark needs.
 
 The data are pure noise with no genotype-phenotype association by
@@ -38,7 +38,7 @@ also the two the synthetic null cohort can measure.
                            matched to the .bim by (CHROM, ID);  REF/ALT are
                            the .bim col6/col5 alleles, so no strand flip is
                            exercised and ALT_FREQS is the frequency of the
-                           allele GRAB's cursor counts.
+                           allele the genotype cursor counts.
   <out>.clusters.txt       --leaf-cluster-file layout: header `#IID cluster`,
                            cluster in {1, ..., --n-clusters}.
 
@@ -99,7 +99,7 @@ import numpy as np
 def write_fam(path, iids):
     with open(path, "w") as fh:
         for iid in iids:
-            # FID IID PAT MAT SEX PHENO — GRAB keys on IID; the rest are padding.
+            # FID IID PAT MAT SEX PHENO — sample matching uses IID; the rest are padding.
             fh.write("0\t%s\t0\t0\t0\t-9\n" % iid)
 
 

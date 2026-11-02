@@ -6,6 +6,11 @@
 #include <unordered_set>
 #include <vector>
 
+namespace subject_filter {
+using IDSet = std::unordered_set<std::string>;
+using OrderedIndices = std::vector<uint32_t>;
+} // namespace subject_filter
+
 // Parse a PLINK2-style sample ID file and return the set of IIDs it contains.
 //
 // Supported formats:
@@ -15,7 +20,7 @@
 //   No header, 2+ columns         → column 2 treated as IID (PLINK 1.x FID/IID)
 //
 // When FID is undefined it is treated as '0'.
-std::unordered_set<std::string> parseSubjectIDFile(const std::string &path);
+subject_filter::IDSet parseSubjectIDFile(const std::string &path);
 
 // Given an ordered list of sample IDs from the genotype file and optional
 // keep/remove filter files, return the 0-based indices (into sampleIDs) of
@@ -26,9 +31,8 @@ std::unordered_set<std::string> parseSubjectIDFile(const std::string &path);
 //
 // Subjects in keepFile that are not present in sampleIDs are silently ignored
 // (with an info message).  The returned vector preserves the original order.
-std::vector<uint32_t>buildKeptIndices(
+subject_filter::OrderedIndices buildKeptIndices(
     const std::vector<std::string> &sampleIDs,
     const std::string &keepFile,
-    const
-    std::string &removeFile
+    const std::string &removeFile
 );

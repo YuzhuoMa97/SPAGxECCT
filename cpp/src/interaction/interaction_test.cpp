@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPAGxE GxE tests with guarded partial-normal saddlepoint acceleration.
 // Copyright (c) 2026 Yuzhuo Ma <yuzhuoma@amss.ac.cn>.
-// Adapted in part from GRAB infrastructure; see THIRD_PARTY_NOTICES.
 //
 // One genotype-independent null model supplies residuals for each phenotype.
 // Branch A uses (E-lambda)*R; Branch B projects R on [1,G] then uses E*R0.

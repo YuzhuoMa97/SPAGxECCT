@@ -5,8 +5,9 @@ source versus binary directory layouts, step-by-step first runs, all four
 methods and 33 runnable feature groups. Start there for a complete tutorial.
 
 R and C++ live side by side in this repository. Installing the historical R
-package does not install the independent executable. Windows binary users can
-use the Release directly; source users build the complete `cpp/` tree.
+package does not install the independent executable. Windows and compatible Linux
+binary users can use a complete Release bundle; source users build the complete
+`cpp/` tree.
 
 SPAGxE is a standalone C++17 application. Analysis/tutorials do not call R or
 Python; those are optional developer/reference-check dependencies. The
@@ -29,6 +30,32 @@ The prepared binary needs Windows x86-64 with Haswell/AVX2, not R/Python/compile
 Keep examples and licenses with the EXE. Tutorials write cpp/results/tutorials;
 packing refuses existing outputs, so rerun it in a fresh output directory.
 Root run_examples.cmd belongs to the binary bundle, not the source checkout.
+
+## Linux precompiled package
+
+Download the complete SPAGxE-1.2.0-linux-x86_64.tar.gz and SHA256SUMS.txt from
+[Releases](https://github.com/YuzhuoMa97/SPAGxECCT/releases). The maintainer must
+upload these assets before this route is available. In the download directory,
+check the Linux archive's own checksum entry, then extract the complete bundle:
+
+~~~sh
+grep 'SPAGxE-1.2.0-linux-x86_64.tar.gz$' SHA256SUMS.txt | sha256sum -c -
+tar -xzf SPAGxE-1.2.0-linux-x86_64.tar.gz
+cd SPAGxE-1.2.0-linux-x86_64
+./cpp/SPAGxE --version
+./cpp/SPAGxE --help
+bash run_examples.sh
+~~~
+
+The prepared binary was tested on Ubuntu 24.04.5 under WSL2. It requires an
+x86-64 Haswell/AVX2 CPU and compatible dynamic libraries providing at least
+GLIBC 2.38, GLIBCXX 3.4.30 and CXXABI 1.3.13. It does not require R, Python
+or a compiler; Bash and the compatible system runtime remain necessary.
+Older distributions or other CPU targets should use the source-build route
+below instead of assuming this binary is portable to every Linux system.
+Keep examples and licenses with the executable and run in a writable directory.
+Tutorials write cpp/results/tutorials; use a fresh output directory when
+repeating a packing example because existing packing outputs are refused.
 
 ## Source
 
@@ -81,5 +108,5 @@ Small-example permissive QC is not a real-cohort threshold recommendation.
 
 CI artifacts are development outputs, not a substitute for the complete Release
 bundle. The supplied build workflow does not publish a Release automatically.
-The maintainer must create the tag/Release and upload the Windows ZIP and
-SHA256SUMS.txt after verifying the selected source commit.
+The maintainer must create the tag/Release and upload the Windows ZIP, Linux
+TAR.GZ and SHA256SUMS.txt after verifying the selected source commit.

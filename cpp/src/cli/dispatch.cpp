@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPAGxE standalone validation and dispatch.
-// Adapted from GRAB CLI infrastructure; see THIRD_PARTY_NOTICES.
 #include "util/version.hpp"
 #include "cli/cli.hpp"
 #include "cli/cct_combine.hpp"

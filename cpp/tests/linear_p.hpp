@@ -30,8 +30,8 @@
 //   * NaN propagates: a p-value that does not exist must not become a number.
 //   * L <= 0 returns exactly 1 rather than a `pow()` of a negative zero.
 
-#ifndef GRAB_TESTS_LINEAR_P_HPP
-#define GRAB_TESTS_LINEAR_P_HPP
+#ifndef SPAGXE_TESTS_LINEAR_P_HPP
+#define SPAGXE_TESTS_LINEAR_P_HPP
 
 #include <cmath>
 #include <limits>
@@ -46,4 +46,4 @@ inline double pFromNegLog10P(double negLog10p) noexcept {
 
 }  // namespace tref
 
-#endif  // GRAB_TESTS_LINEAR_P_HPP
+#endif  // SPAGXE_TESTS_LINEAR_P_HPP

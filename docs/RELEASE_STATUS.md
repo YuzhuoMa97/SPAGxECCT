@@ -1,116 +1,79 @@
 # SPAGxE 1.2.0 release scope
 
-This standalone application implements SPAGxE, SPAGxE+, SPAGxEmix and
-SPAGxEmix_local using one documented statistical policy: paper-defined
-weights and guarded partial-normal CGF acceleration. Original R remains a
-historical interface with its own version/dependencies, not a C++ runtime.
+SPAGxE is the author-designated official standalone C++ distribution of the
+SPAGxE method family, maintained by Yuzhuo Ma (yuzhuoma@amss.ac.cn).
+It runs without R or Python. Preserved R sources retain their historical
+interface, version and dependency chain.
 
-Included: global BED/PGEN/BGEN/VCF/BCF; native linear/logistic/Breslow Cox/
-ordinal null models; homogeneous sparse-GRM correction; individual AF;
-known-H local text/count/BGEN; C++ hardcall packing; ID/allele/QC checks;
-explicit CCT weights; annotated tutorials and build instructions.
+## Methods and inputs
 
-Excluded: unpublished individual-AF + cross-individual-GRM GxE, ancestry
-inference, arbitrary uncertain-H/joint posterior tests, or direct support for
-every other program's local binary format.
+| Method | Scope |
+|---|---|
+| SPAGxE | Shared AF, unrelated subjects |
+| SPAGxE+ | Shared AF, sparse-GRM score-variance correction |
+| SPAGxEmix | Individual-specific AF, unrelated multi-ancestry subjects |
+| SPAGxEmix_local | Ancestry-specific G/H conditional on known H |
 
-SPAGxEmixPlus is planned for a future release and is not included in the current C++ distribution.
+All four methods use one paper-oriented statistical policy with guarded
+partial-normal CGF acceleration. Included are additive genotype/dosage
+BED/PGEN/BGEN/VCF/BCF, native linear/logistic/Breslow Cox/ordinal null models,
+explicit CCT weights, AF diagnostics, local text/count/BGEN input and native
+hard-count packing. See [feature coverage](FEATURE_COVERAGE.md).
 
-The homogeneous GRM method corrects the score variance. Native null fitting
-provides the listed GLM/Cox/ordinal models; it is not a general SAIGE/GLMM null
-fitter. A suitable externally fitted null residual can be supplied explicitly.
+SPAGxEmixPlus is planned for a future release and is not included. Current
+mix/local modes reject GRM input. The homogeneous GRM workflow corrects score
+variance and is not a general GLMM null fitter. Local inputs require known H;
+the program does not infer ancestry or implement arbitrary uncertain-H joint
+posterior tests. Arbitrary R model objects, dominant/recessive recoding and
+general counting-process/stratified survival formulas are not native inputs.
 
-Development validation proceeds on public `develop`, followed by a reviewed
-merge to `main` and a fixed release tag. See the
-[development and release procedure](GITHUB_DISTRIBUTION.md).
+## Maintenance revision
+
+The current source includes maintainability changes in file resource handling,
+subject mapping, null-model result assembly, outlier partitioning, numerical
+helper selection and shared SIMD coefficients. Public result columns,
+statistical formulas, arithmetic/reduction order and convergence rules remain
+unchanged. See [maintenance notes](MAINTENANCE_NOTES.md).
+
+The canonical sparse-GRM table option is --grm-file. An obsolete pre-release
+GRM option alias was removed; update old development commands to --grm-file.
+Both sparse-triplet and PLINK GRM input layouts remain supported.
 
 ## Validation interpretation
 
-Acceptance checks include Git source transport/fresh build, numerical units,
-CLI/scope guards, global/local readers, AF/CCT, independent formula/R references,
-same-kernel numerical regression and native four-method tutorials.
-Developer tests under cpp/tests regenerate their own summaries.
+Windows fresh source compilation and numerical units passed. All 17
+regression suites passed, covering CLI/scope, global/local readers, AF, CCT,
+independent references and stability. The six source tutorials passed.
+The full 33-group walkthrough was run with the previous accepted executable
+and the current executable: 85 files were byte-identical, including 145,985
+numeric fields with maximum delta 0. These finite fixtures are implementation
+checks, not universal population/extreme-tail calibration proofs.
 
-Windows x86-64 and Ubuntu 24.04.5 x86-64 under WSL2 have local execution
-evidence for the repaired candidate described below. The default x86 binary
-needs Haswell/AVX2. macOS has not passed validation. Check actual Actions for
-the released commit; the original development run failed and a local repair
-does not change that run. An initial pre-release remains appropriate.
+Linux maintenance-source execution: passed; see the current acceptance record for exact stages and output comparisons.
+macOS has not passed validation. Default x86 builds require Haswell/AVX2;
+dynamic Linux binaries also require compatible glibc/libstdc++.
 
-Original R/full-CGF baseline agreement is limited to stated common domains,
-not every historical default/defective edge case. The accelerated default can
-change P values; independent partial-policy validation and full-reference delta
-comparisons serve different purposes. R preservation was checked with compatible
-installed dependencies, not all fresh-machine dependency routes.
+The public source baseline reviewed on 1 November 2026 was develop commit
+c7c11590efbd10504115cd0ad8dbb9c6ca2634e1. Its hosted Windows/Ubuntu jobs passed and macOS failed.
+This maintenance candidate changes production sources and has not yet been
+pushed or validated by hosted CI. Local results must not be presented as a
+successful future public commit. After pushing, inspect the actual new jobs.
 
-Partial-normal SPA adds a declared approximation; full-CGF diagnostics at
-1e-3 do not bound P-value error. Full-CGF SPA is itself an approximation. Passing examples does not prove universal
-population/GWAS-tail calibration or a measured biobank-scale speed advantage.
-See [method policy](METHOD_POLICY.md) and [equations](METHOD_EQUATIONS.md).
+Original R/full-CGF comparisons apply only to matched common domains.
+Partial-normal SPA adds a declared approximation; a full-CGF diagnostic
+threshold is not a bound on P-value error. No representative biobank-scale
+speed advantage or all-platform compatibility is claimed.
 
-The tagged source archive contains preserved R plus cpp/. The C++ version is
-1.2.0; root DESCRIPTION remains the historical R version. Binary assets require
-a separate maintainer upload; see [distribution](GITHUB_DISTRIBUTION.md).
+## Distribution boundaries
 
+The C++ version is 1.2.0; DESCRIPTION retains the historical R version.
+R installation does not install the standalone executable.
+The candidate preserves applicable component copyright and license files.
 
-## Official release channel
-
-This is the standalone C++ distribution designated and maintained as official
-by Yuzhuo Ma, the method designer and original software author.
-Contact: yuzhuoma@amss.ac.cn. The root README gives the official installation
-and example entry points. Author designation does not change the measured
-platform, comparison-domain or calibration limits above.
-See [implementation choices](IMPLEMENTATION_CHOICE.md).
-
-
-## Model and distribution boundaries
-
-The four methods use additive allele dosage/counts. Native survival input is
-one TIME:EVENT pair per subject, with Breslow ties. Dominant/recessive genotype
-recoding, stratified or counting-process survival formulas and arbitrary R
-model objects are not native interfaces. Supplying residuals does not establish
-that every external model is valid for this test or add a prospective Wald leg.
-See [feature coverage](FEATURE_COVERAGE.md) for the complete public scope.
-
-CI supplies build/test jobs and development artifacts. It does not create a
-GitHub Release or upload the complete prepared Windows bundle automatically.
-The maintainer uploads the verified bundle and its matching checksum separately.
-
-
-## Development verification, 31 October 2026
-
-The public source was downloaded from commit
-`ce9c2473649e0be2a8b70dd2f6186a03b25d21aa`. Its
-[Actions run](https://github.com/YuzhuoMa97/SPAGxECCT/actions/runs/41034171345)
-failed on Ubuntu, Windows and macOS. These results must not be relabeled as
-successful after local work.
-
-Native Ubuntu testing reproduced a CRLF BIM-reader defect: the final carriage
-return entered REF and contaminated tabular output. The repaired reader
-removes that terminator. The integration test now explicitly compares LF,
-CRLF and no-final-newline BIM files across four trait models. A separate
-Windows Makefile repair keeps library lookup static when a full `-static`
-build is requested, instead of switching implicit runtime libraries back to
-dynamic lookup. This explains a possible hosted Windows dependency failure;
-the hosted rerun is still required. The statistical equations are unchanged.
-
-The repaired local candidate passed:
-
-- Windows numerical units, 17 regression suites, the six bundled tutorials
-  and the 33-group complete walkthrough. Native runs used a minimal PATH.
-  PE imports contain Windows system libraries, without compiler-runtime DLLs.
-- Ubuntu 24.04.5/GCC 13.3 numerical units, 14 CI regression suites, 51
-  integration checks over 52,416 rows, tutorials, distribution extraction and
-  PREFIX installation: 22 recorded stages in total. This was a Linux ELF
-  running under WSL2, not Windows Bash.
-- Source and extracted bundles reproduced 45 tutorial result files. Across
-  Windows and Linux, 43 association/CCT tables with 139,709 numeric fields
-  agreed within about 1.42e-14 absolute difference. This is portability and
-  reproducibility evidence, not an independent calibration proof.
-
-Apply the repaired source to a development branch, rerun the actual hosted
-checks, and identify the final accepted commit before making a Release.
-Ubuntu-built dynamic binaries require compatible glibc/libstdc++ and do not
-promise compatibility with every older Linux distribution. macOS remains
-unverified; its original build failure has not been diagnosed from a complete
-log. Preserved R code uses its own historical dependency chain.
+At review, public Releases contained only historical R v1.1.0, with no
+cpp-v1.2.0 C++ tag or runtime assets. Development sources can be downloaded
+and compiled. A future tagged source archive will contain R plus cpp/.
+Prepared local archives and CI artifacts are not already published Releases.
+Match the final reviewed commit, tag, complete runtime archives and checksums.
+An initial Windows/Linux pre-release should state its tested platform scope.
+See [distribution instructions](GITHUB_DISTRIBUTION.md).

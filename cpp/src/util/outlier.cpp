@@ -1,15 +1,16 @@
-// outlier.cpp — IQR-based residual outlier detection (shared by spamix / wtcoxg).
+// IQR partition selection and residual gathering.
 
 #include "util/outlier.hpp"
 #include "util/logging.hpp"
 
 #include <algorithm>
+#include <utility>
 #include <vector>
 
 namespace {
 
 // R-style type-7 quantile on a pre-sorted vector.
-double quantile7(
+double type7QuantileOnSorted(
     const std::vector<double> &sorted,
     double p
 ) {
@@ -19,6 +20,55 @@ double quantile7(
     double g = h - j;
     if (j + 1 >= n) return sorted[n - 1];
     return sorted[j] + g * (sorted[j + 1] - sorted[j]);
+}
+
+std::vector<uint32_t> selectOutlierPositions(
+    const Eigen::VectorXd &residuals,
+    double lowerQuartile,
+    double upperQuartile,
+    double iqr,
+    double multiplier
+) {
+    const double lo = lowerQuartile - multiplier * iqr;
+    const double hi = upperQuartile + multiplier * iqr;
+    const int count = static_cast<int>(residuals.size());
+    std::vector<uint32_t> positions;
+    for (int i = 0; i < count; ++i)
+        if (residuals[i] < lo || residuals[i] > hi)
+            positions.push_back(static_cast<uint32_t>(i));
+    return positions;
+}
+
+OutlierData gatherPartition(
+    const Eigen::VectorXd &residuals,
+    std::vector<uint32_t> outlierPositions
+) {
+    const int count = static_cast<int>(residuals.size());
+    std::vector<bool> isOutlier(count, false);
+    for (uint32_t row : outlierPositions)
+        isOutlier[row] = true;
+    std::vector<uint32_t> centralPositions;
+    centralPositions.reserve(static_cast<size_t>(count) - outlierPositions.size());
+    for (int i = 0; i < count; ++i)
+        if (!isOutlier[i])
+            centralPositions.push_back(static_cast<uint32_t>(i));
+
+    OutlierData partition;
+    partition.posOutlier = std::move(outlierPositions);
+    partition.posNonOutlier = std::move(centralPositions);
+    const int nOutlier = static_cast<int>(partition.outlierCount());
+    const int nCentral = static_cast<int>(partition.centralCount());
+    partition.residOutlier.resize(nOutlier);
+    partition.residNonOutlier.resize(nCentral);
+    partition.resid2NonOutlier.resize(nCentral);
+    for (int i = 0; i < nOutlier; ++i)
+        partition.residOutlier[i] = residuals[partition.posOutlier[i]];
+    for (int i = 0; i < nCentral; ++i) {
+        const double value = residuals[partition.posNonOutlier[i]];
+        partition.residNonOutlier[i] = value;
+        partition.resid2NonOutlier[i] = value * value;
+    }
+    return partition;
 }
 
 } // anonymous namespace
@@ -32,17 +82,12 @@ OutlierData detectOutliers(
     std::vector<double> sorted(resid.data(), resid.data() + N);
     std::sort(sorted.begin(), sorted.end());
 
-    double q25 = quantile7(sorted, 0.25);
-    double q75 = quantile7(sorted, 0.75);
+    double q25 = type7QuantileOnSorted(sorted, 0.25);
+    double q75 = type7QuantileOnSorted(sorted, 0.75);
     double iqr = q75 - q25;
 
     auto findOutliers = [&](double r) {
-        double lo = q25 - r * iqr;
-        double hi = q75 + r * iqr;
-        std::vector<uint32_t> pos;
-        for (int i = 0; i < N; ++i)
-            if (resid[i] < lo || resid[i] > hi) pos.push_back(static_cast<uint32_t>(i));
-        return pos;
+        return selectOutlierPositions(resid, q25, q75, iqr, r);
     };
 
     auto posOutlier = findOutliers(outlierRatio);
@@ -78,31 +123,5 @@ OutlierData detectOutliers(
         }
     }
 
-    std::vector<bool> isOutlier(N, false);
-    for (uint32_t idx : posOutlier)
-        isOutlier[idx] = true;
-    std::vector<uint32_t> posNonOutlier;
-    posNonOutlier.reserve(static_cast<size_t>(N) - posOutlier.size());
-    for (int i = 0; i < N; ++i)
-        if (!isOutlier[i]) posNonOutlier.push_back(static_cast<uint32_t>(i));
-
-    OutlierData od;
-    od.posOutlier = std::move(posOutlier);
-    od.posNonOutlier = std::move(posNonOutlier);
-
-    const int nOut = static_cast<int>(od.posOutlier.size());
-    const int nNon = static_cast<int>(od.posNonOutlier.size());
-    od.residOutlier.resize(nOut);
-    od.residNonOutlier.resize(nNon);
-    od.resid2NonOutlier.resize(nNon);
-
-    for (int i = 0; i < nOut; ++i)
-        od.residOutlier[i] = resid[od.posOutlier[i]];
-    for (int i = 0; i < nNon; ++i) {
-        double r = resid[od.posNonOutlier[i]];
-        od.residNonOutlier[i] = r;
-        od.resid2NonOutlier[i] = r * r;
-    }
-
-    return od;
+    return gatherPartition(resid, std::move(posOutlier));
 }

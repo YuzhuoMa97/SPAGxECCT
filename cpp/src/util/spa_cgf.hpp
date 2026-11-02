@@ -1,227 +1,20 @@
-// spa_cgf.hpp — Cancellation-free binomial cumulant generating functions
+// Binomial CGF reductions for shared AF, individual AF and known trial counts.
 //
-// Stage 2 of the saddlepoint rework.  Three shared CGF variants serve the four
-// binomial saddlepoint methods; the SPAGRM family blocks and the SPACox
-// empirical table are deliberately NOT expressed here (they are tier-3,
-// per-method code).
+// A weighted Binomial(h,p) contribution has alpha=(1-p)+p*exp(t*r):
+// K=h*log(alpha), K'=h*r*pi and K''=h*r*r*pi*(1-pi).
+// The implementation obtains pi and its complement as e/alpha and
+// (1-p)/alpha, avoiding subtraction of nearly equal values.
 //
-//   binomUniform    G_i ~ Binomial(2, p),   one p for all subjects
-//                   consumers: SPAsqr, WtCoxG, LEAF
-//   binomIndiv      G_i ~ Binomial(2, p_i), per-individual allele frequency
-//                   consumers: SPAmix, SPAGxE, SPAGxEmix
-//   binomHapcount   G_i ~ Binomial(h_i, q), per-individual trial count
-//                   consumers: SPAmixLocalPlus
+// K12 evaluates derivatives for Newton iterations. KFull reuses that exact
+// derivative path and evaluates terminal K separately. KFullExact retains
+// scalar log1p/expm1 for diagnostics that need relative accuracy in K itself.
 //
-// ══════════════════════════════════════════════════════════════════════
-// The algebra
-// ══════════════════════════════════════════════════════════════════════
-//
-// A subject carries genotype G ~ Binomial(h, p) and enters the statistic with
-// residual weight r, so its contribution to the CGF of the score is the CGF of
-// r·G.  With
-//
-//     lambda = e^{t·r},   u = 1 - p,   e = p·lambda,   alpha = u + e
-//
-// the moment generating function is, by the binomial theorem,
-//
-//     M(t) = E[e^{t·r·G}] = ((1-p) + p·e^{t·r})^h = alpha^h
-//
-// and therefore
-//
-//     K(t)   = h·log(alpha)
-//     K'(t)  = h·r·e/alpha             = h·r·pi              , pi := e/alpha
-//     K''(t) = h·r^2·e·u/alpha^2       = h·r^2·pi·(1-pi)
-//
-// ── Derivation of K'' (the point of this file) ────────────────────────
-//
-//     d(alpha)/dt = p·r·lambda = r·e
-//
-//     K'  = h · (d alpha/dt)/alpha = h·r·e/alpha
-//
-//     K'' = h·r · d/dt (e/alpha)
-//         = h·r · [ (de/dt)·alpha - e·(d alpha/dt) ] / alpha^2
-//         = h·r · [ r·e·alpha - e·r·e ] / alpha^2
-//         = h·r^2·e·(alpha - e) / alpha^2
-//         = h·r^2·e·u / alpha^2                       since alpha - e = u
-//
-// The last substitution is the whole point.  `alpha - e` is a difference of two
-// positive quantities that coincide to machine precision once t·r grows: for
-// t·r >~ 36 with p = 0.5, alpha and e agree in every representable bit, so the
-// difference is pure rounding noise.  Replacing it with the loop invariant
-// u = 1 - p — which is exact, computed once, and independent of t — removes the
-// cancellation entirely.  Every operation in the resulting expression is a
-// multiplication or a division of non-negative quantities.
-//
-// Setting h == 2 recovers the diploid form K'' = 2·r^2·e·u/alpha^2 used by
-// binomUniform and binomIndiv, so all three variants share one derivation.
-//
-// Note that the superficially similar "fix" K'' = h·r^2·pi·(1-pi) with `1-pi`
-// evaluated as a subtraction is NOT a fix: 1-pi cancels in exactly the regime
-// where alpha-e did.  This file always forms 1-pi as the quotient u/alpha, never
-// as a difference.  See 01_findings.md D1.
-//
-// ── Why K'' is regrouped as h·r^2·pi·(1-pi) rather than h·r^2·e·u/alpha^2 ──
-//
-// The two are algebraically identical; the grouping below evaluates
-//
-//     pi  = e * inva ,  omp = u * inva ,  K'' = h*r*r * pi * omp
-//
-// instead of the left-to-right `h*r*r*e*u*inva*inva`.  The reason is overflow,
-// not accuracy.  At the top of the clamped domain e reaches ~3e307, so the
-// partial product h*r*r*e overflows to +inf for |r| >~ 2, after which the two
-// subsequent multiplications by inva (~3e-308) cannot recover it and K'' is
-// reported as +inf instead of ~0.  Because pi and omp are both confined to
-// [0, 1] by construction, the regrouped form cannot overflow anywhere in the
-// domain, and it makes the absence of cancellation visually evident.
-//
-// ══════════════════════════════════════════════════════════════════════
-// The k12 / kFull split
-// ══════════════════════════════════════════════════════════════════════
-//
-// The Newton loop consumes K' and K'' alone; K is needed only once per tail, at
-// the converged root, where it enters w = sgn(zeta)·sqrt(2·(zeta·s - K)).  The
-// production kernels compute a logarithm on every iteration and discard it
-// (01_findings.md P2), and `avx512_log_pd` costs one `vdivpd` on top of its
-// polynomial — the divides, not the polynomials, dominate this kernel.  Hence:
-//
-//   k12    1 exp, 1 reciprocal, no logarithm.       Newton loop.
-//   kFull  k12 + K.                                 Terminal evaluation only.
-//
-// ══════════════════════════════════════════════════════════════════════
-// The terminal K: why it is vectorized, and what that costs numerically
-// ══════════════════════════════════════════════════════════════════════
-//
-// Stage 2 accumulated K in a scalar loop calling `logAlpha` once per subject —
-// one `expm1` plus one `log1p` each — on the argument that kFull runs twice per
-// marker rather than twice per Newton iteration and so "is not on the hot path".
-// Stage 4 measured that argument to be wrong.  At n = 651 outliers on AVX-512:
-//
-//     k12,   dispatched                    0.75 ns/subject      490 ns/call
-//     kFull, scalar expm1/log1p pass       9.19 ns/subject     6033 ns/call
-//
-// One kFull cost 12x one k12 and 4.7x an entire old hand-written kernel
-// evaluation.  Against a Newton schedule of three to four k12 calls per tail,
-// the two kFull calls per marker were the LARGER half of all CGF time, not a
-// rounding error.  The terminal K is therefore vectorized too, through the
-// existing `avx2_log_pd` / `avx512_log_pd`, and `logAlphaFast` below replaces
-// the log1p/expm1 spelling in the production path.
-//
-// ── The numerical argument, and its measurement ──────────────────────
-//
-// N1 is framed as a RELATIVE error in K, and on that metric
-// `log1p(p*expm1(x))` is far better than `log(u + p*e^x)`: near x = 0 the latter
-// materializes alpha = 1 + delta and rounding alpha discards delta's low bits.
-// But K is consumed ONLY through
-//
-//     w = sgn(zeta) * sqrt(2 * (zeta*s - K))
-//
-// and every SPA site gates entry on |z| > spaCutoff (default 2.0), so
-// zeta*s - K is bounded away from zero and w is of order 2 or more.  What
-// propagates into w is therefore the ABSOLUTE error in K:
-// dw = -dK/w, so |dw| <= |dK|/2.  For small delta, log(alpha) ~ delta and
-// rounding alpha = 1 + delta to a double costs an absolute error of order eps —
-// the same order as the log1p spelling costs.  The expensive spelling buys
-// relative accuracy in a quantity nothing consumes relatively.
-//
-// The scope of that argument, and how Stage 8 kept it true.  The premise is "w
-// is of order 2 or more", which the |z| > spaCutoff entry gate delivers — the
-// measurement above records min |w| = 1.779 over the production grid — and the
-// absolute-error argument for the cheap K holds only while it does.  Perturbing
-// K alone moves w by dK/w and r* by roughly dK/w^3, since d/dw[log(v/w)/w] is
-// -(1 + log(v/w))/w^2 and log(v/w) -> 0 as w -> 0.  At |w| = 1e-4 that turns an
-// absolute error of 1e-11 in K — well inside the budget this section defends —
-// into an error of order 10 in r*.  Stage 8 therefore did NOT set
-// `spa::kWSingularity` to the 1e-4 the plan proposed: at n = 2e5 the measured
-// |dK| of 2.1e-11 puts the abscissa where dK/|w|^3 reaches one at 2.8e-4, ABOVE
-// that threshold, so 1e-4 would have left the catastrophic region partly
-// unguarded.  The constant is 1e-3, chosen to sit above the catastrophe onset
-// for cohorts up to n ~ 1e7 and a decade below the |w| ~ 1e-2 that the
-// CLI-enforced minimum spaCutoff of 0.01 makes reachable, and below it the tail
-// degrades to Phi(+/-w) with r* never formed.  Nothing in this file is licence
-// to evaluate r* at small |w|.  See the kWSingularity comment in util/spa.hpp.
-//
-// Measured against a long-double reference over the domain the solver visits
-// (MAF 5e-4 to 0.5, residual scale 0.2 to 8, |z| 2 to 12, both tails, the
-// analytic Gaussian block scaled over six orders of magnitude so that |zeta|
-// ranges from 1e-5 to 50, and both mixed-sign and one-sign residual sets):
-//
-//     spelling of K                    |dK|abs    |dK|rel    |dw|     |dLOG10P|
-//     ------------------------------   --------   --------   ------   ---------
-//     n = 651
-//     log1p(p*expm1(x))   [Stage 2]    2.41e-13   1.62e-14   2.6e-14   1.07e-13
-//     log(u + p*e^x)      scalar       2.70e-13   8.61e-14   4.3e-14   1.07e-13
-//     log(u + p*e^x)      avx512       4.23e-13   8.79e-14   4.3e-14   1.99e-13
-//     log(u + p*e^x)      avx2         4.25e-13   8.85e-14   4.2e-14   1.85e-13
-//     n = 5000
-//     log1p(p*expm1(x))   [Stage 2]    1.96e-12   4.06e-13   2.4e-13   8.88e-13
-//     log(u + p*e^x)      avx512       7.35e-13   3.36e-11   2.9e-13   3.27e-13
-//
-// The absolute error and the error in w are the same order for every spelling —
-// within a factor of two, and at n = 5000 the vectorized spelling is the more
-// accurate of the two in absolute terms, because there the error of the
-// REDUCTION dominates the error of any individual term.  The induced error in
-// -log10(p) never exceeds 1e-12, ten orders of magnitude below the tightest
-// budget any stage of this rework was held to.  The relative-error column is the
-// one place the log1p spelling remains clearly better, by two orders of
-// magnitude at n = 5000; `binom*KFullExact` below keeps that spelling available.
-//
-// ── What `simd_math.hpp` costs here, and what it does not ────────────
-//
-// `avx512_log_pd` and `avx2_log_pd` were characterized for this change at
-// 1.48 ULP worst case over alpha in [1e-16, 3e307], and 3.7e-16 absolute over
-// alpha in [0.05, 20] — so the header's "~1 ULP" claim holds for `log`.  It does
-// NOT hold for `exp`, which Stage 4 measured at up to 38.9 ULP, and that is the
-// real limit on the vectorized K's relative accuracy near t = 0: delta must be
-// recovered as p*(lambda - 1), whose relative error is eps*lambda/(lambda - 1)
-// however accurate lambda itself is.  Restoring N1's relative accuracy in a
-// vectorized kernel would need a vectorized `expm1`, which would have to live in
-// `simd_math.hpp` — validated shared infrastructure this stage may not modify.
-// The consequence is recorded rather than worked around: the production kernels
-// are relatively accurate in K to the level the vendored vector exp allows, and
-// `binom*KFullExact` is the entry point that is relatively accurate in K
-// unconditionally.
-//
-// ══════════════════════════════════════════════════════════════════════
-// Interface shape
-// ══════════════════════════════════════════════════════════════════════
-//
-// The production entry points are reductions over a subject set: they return
-// the SUM over the supplied subjects, because that is what every consumer needs.
-// Each caller then adds its own analytic non-outlier block and subtracts the
-// score in its own association order — those terms differ per method (SPAsqr's
-// variance-ratio rescaling, WtCoxG's deliberately inconsistent (K, K'') pair,
-// SPAmixLocalPlus's hapcount-weighted mean) and are tier-3 by the boundary rule.
-//
-// The per-subject scalar cores are also exposed, inline, because they are the
-// shared loop body and because point-by-point comparison against a long-double
-// reference is how the reductions are validated.
-//
-// ══════════════════════════════════════════════════════════════════════
-// SIMD
-// ══════════════════════════════════════════════════════════════════════
-//
-// Each of the three k12 reductions, and each of the three K reductions, ships
-// the mandated scalar + AVX2 + AVX-512 triple with a `simdLevel()` dispatch
-// site, following `src/spasqr/spasqr.cpp`.  The AVX-512 variants use a masked
-// tail; the AVX2 variants a scalar tail.
-//
-// Masked lanes contribute exactly zero in both halves, but for different
-// reasons, and both are load-bearing:
-//
-//   * k12 — inactive lanes load r = 0, and both K' and K'' carry a factor r.
-//   * K   — inactive lanes load r = 0 and, where they are vectors, af = 0 and
-//           hap = 0.  With r = 0 the argument is t*r = 0, alpha = u + p = 1
-//           EXACTLY for every double p in (0, 1) (the rounding error of
-//           fl(1 - p) is at most 2^-54, and 1 + eta rounds to 1.0 for
-//           |eta| <= 2^-54), and log(1) = 0 exactly in all three tiers.  For
-//           binomHapcount the factor hap = 0 zeroes the lane a second time.
-//
-// The kFull reductions dispatch their (K', K'') half through the same k12
-// kernels rather than recomputing them, so kFull's K' and K'' are bit-identical
-// to k12's at the same abscissa.  That identity is asserted by
-// tests/spa_cgf_test.cpp and matters to the solver: the terminal K'' is the one
-// the tail kernel divides by, and it must be the same number the Newton loop
-// converged against.
+// Derivative exponent arguments saturate at +/-708. Terminal K restores the
+// correct directional linear excess; the exact-relative diagnostic instead
+// uses a factored expression above 700. These are distinct numerical policies.
+// Scalar, AVX2 and AVX-512 paths keep their existing summation/lane order.
+// Frequencies must be in [0,1], trial counts nonnegative, and input products
+// finite. Empty reductions return zero. Runtime dispatch is architecture-aware.
 
 #pragma once
 
@@ -403,14 +196,27 @@ inline double logAlpha(double x, double p) noexcept {
 //      alpha = e^{clamp(x)} >= 3.3e-308, which is normal.  This matters because
 //      `avx512_log_pd` decomposes its argument by masking the exponent field and
 //      would return a wrong answer, not an infinity, on a subnormal.
+namespace detail {
+
+// Endpoint-aware correction is kept separate from exp/log evaluation so the
+// terminal-CGF clamp policy has one explicit scalar definition.
+inline double terminalClampCorrection(double complement,
+                                      double frequency,
+                                      double excess) noexcept {
+    double correction = 0.0;
+    if (complement == 0.0)                    correction = excess;
+    else if (frequency > 0.0 && excess > 0.0) correction = excess;
+    return correction;
+}
+
+}  // namespace detail
+
 inline double logAlphaFast(double x, double p) noexcept {
     const double u  = 1.0 - p;
     const double xc = clampTr(x);
     const double a  = u + p * std::exp(xc);
     const double excess = x - xc;              // 0 strictly inside the clamp
-    double add = 0.0;                          // see property 2 above
-    if (u == 0.0)                    add = excess;
-    else if (p > 0.0 && excess > 0.0) add = excess;
+    const double add = detail::terminalClampCorrection(u, p, excess);
     return std::log(a) + add;
 }
 
@@ -430,12 +236,6 @@ inline double logAlphaFast(double x, double p) noexcept {
 // in that corner is G == h almost surely, hence pi = 1 and pi·(1-pi) = 0.
 // Substituting (e, alpha) <- (1, 1) while leaving u == 0 reproduces both values
 // exactly, and is the only degenerate input this core can receive.
-//
-// This is the corner that `kG012Local` currently mishandles: it sets
-// K0 = -infinity when its `base <= 1e-15`, which makes zeta·s - K0 = +inf, passes
-// the `temp <= 0` guard, and yields w = inf and a p-value of
-// numeric_limits<double>::min() — a fabricated genome-wide-significant hit
-// (01_findings.md D3).  Here the values are finite and correct instead.
 //
 // h == 0 needs no special case: K', K'' and K are all proportional to h, and
 // every factor they multiply is finite, so all three return exactly zero.
@@ -475,7 +275,7 @@ inline Cgf012 subjectKFull(double t, double r, double p, double h) noexcept {
 // The p == 1 and p == 0 endpoints are resolved in closed form before the loop is
 // entered, so the vector body may assume 0 < p < 1 and therefore
 // alpha >= u > 0.  That removes the per-lane alpha == 0 guard from the hot path
-// of the variant that serves SPAsqr, WtCoxG and LEAF.
+// of the shared-frequency variant.
 Cgf12  binomUniformK12(double t, const double *resid, int n, double p) noexcept;
 Cgf012 binomUniformKFull(double t, const double *resid, int n, double p) noexcept;
 

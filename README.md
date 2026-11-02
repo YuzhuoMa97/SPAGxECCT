@@ -2,8 +2,7 @@
 # SPAGxE 1.2.0: standalone C++ software
 
 This repository is the **sole official standalone C++ distribution of the
-SPAGxE method family designated and maintained by Yuzhuo Ma**, the method
-designer and author/maintainer of the original SPAGxE software.
+SPAGxE method family.
 Questions and installation help: [yuzhuoma@amss.ac.cn](mailto:yuzhuoma@amss.ac.cn) or https://yuzhuoma97.github.io/RetroSPAgwas.github.io/docs/spagxe_cpp/index.html.
 
 The executable runs without R or Python. The original R package remains
@@ -53,6 +52,10 @@ Source builds and tutorials have local validation on Windows and Ubuntu
 Check Actions for the selected public commit; macOS remains unverified.
 
 ## Documentation and examples
+
+The maintenance revision keeps one statistical policy and refines resource,
+sample-mapping and numerical-helper structure. See [maintenance notes](docs/MAINTENANCE_NOTES.md).
+
 
 - [Installation and first run](docs/INSTALLATION.md)
 - [Complete official user guide](docs/USER_GUIDE.md): four methods, inputs,

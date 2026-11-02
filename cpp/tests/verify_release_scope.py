@@ -102,7 +102,7 @@ def main():
     table(prefix, '.R_quant.SPAGxEmix')
     prefix, _ = run('local', local)
     table(prefix, '.R.SPAGxE_local')
-    for layout, grm_flags in (('grab', triplet_flags), ('plink', plink_flags)):
+    for layout, grm_flags in (('triplet', triplet_flags), ('plink', plink_flags)):
         run('unrelated_reject_' + layout + '_grm', [*unrelated, *grm_flags],
             'supports unrelated samples; GRM input is not supported')
         run('local_reject_' + layout + '_grm', [*local, *grm_flags],

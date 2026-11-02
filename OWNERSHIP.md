@@ -13,7 +13,7 @@ historical texts; it does not silently resolve that discrepancy.
 
 The standalone C++ application is distributed under cpp/LICENSE, with its
 retained source and dependency notices. THIRD_PARTY_NOTICES.md records the
-incorporated GPL infrastructure and public example-data provenance.
+component licenses and the scope of bundled example inputs.
 Renaming files or functions does not change those origins or license terms.
 
 

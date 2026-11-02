@@ -98,5 +98,5 @@ class SubjectSet {
     std::string m_removeFile;
     std::unordered_set<std::string> m_grmSubjects;
     std::string m_genoLabel; // e.g., "--bfile d_bed"
-    std::string m_grmLabel;  // e.g., "--grm-file e_grm.grab"
+    std::string m_grmLabel;  // e.g., "--grm-file sparse_grm.tsv"
 };
