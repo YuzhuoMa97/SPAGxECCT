@@ -20,7 +20,8 @@ The historical R package remains available for reproducibility and compatibility
 Published-paper coauthorship and incorporated-source authorship and licenses
 remain as recorded in CITATION_CPP.cff, OWNERSHIP.md and THIRD_PARTY_NOTICES.md.
 
-SPAGxEmixPlus is planned for a future release and is not included in the current C++ distribution.
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version.
 
 Prepare known-H ancestry-specific input with the
 [local input guide](../docs/LOCAL_INPUT_PREPARATION.md). The native packer writes

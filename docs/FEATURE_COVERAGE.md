@@ -47,7 +47,8 @@ ordering and allele conventions are satisfied; CRCs bind their actual bytes.
 See [CLI](CLI_REFERENCE.md), [local counts](LOCAL_ANCESTRY_FORMAT.md) and
 [local BGEN](LOCAL_BGEN_FORMAT.md).
 
-SPAGxEmixPlus is planned for a future release and is not included in the current C++ distribution.
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version.
 The GRM-adjusted score workflow does not imply a native general GLMM null fitter.
 See [local input preparation](LOCAL_INPUT_PREPARATION.md) for native conversion
 capabilities and the limits of ancestry-specific data generation.

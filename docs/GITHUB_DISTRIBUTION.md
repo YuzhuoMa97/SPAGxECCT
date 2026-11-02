@@ -5,6 +5,7 @@
 | Historical R workflow | R source with compatible legacy dependencies | Existing R interface |
 | C++ source user | Clone, Code ZIP or tagged source archive | Read root README_CPP.md, build inside cpp/ |
 | Windows binary user | Complete Windows ZIP from Releases | Extract, run cpp/SPAGxE.exe or root run_examples.cmd |
+| Linux binary user | Complete compatible Linux TAR.GZ from Releases | Extract, run cpp/SPAGxE or bash run_examples.sh |
 
 R installation does not install the independent EXE. R build exclusions omit
 cpp/docs from the R tarball, not the GitHub repository/source ZIP.
@@ -57,7 +58,7 @@ is a wrapper: extract it first, verify the enclosed tar.gz, then extract that
 complete bundle and run run_examples.cmd or run_examples.sh for its platform.
 
 These are commit-specific test candidates. They are not automatically published
-Releases and do not replace the maintainer's verified Windows Release ZIP.
+Releases and do not replace the maintainer's verified Windows ZIP or Linux TAR.GZ.
 The separate validation-* artifacts contain job evidence. A workflow file is
 not proof that a platform run passed; inspect the actual job for the target
 commit before making platform claims.
@@ -75,14 +76,15 @@ an absent or skipped run is not a successful validation result.
    Retain the historical R tag. If this C++ tag was already published, use a
    consistently updated software version and tag instead of replacing its code
    or assets with a changed algorithm.
-3. Attach SPAGxE-1.2.0-windows-x86_64.zip and SHA256SUMS.txt listing that exact
-   asset. The complete bundle includes the executable, examples, attribution
-   and licenses. Confirm it corresponds to the accepted source and build policy.
+3. Attach SPAGxE-1.2.0-windows-x86_64.zip,
+   SPAGxE-1.2.0-linux-x86_64.tar.gz and SHA256SUMS.txt with both archive
+   entries. Each complete bundle includes its executable, examples, attribution
+   and licenses. Confirm correspondence to the accepted source and build policy.
 4. Use the tag's automatic Source code ZIP/tar as the corresponding source;
    do not substitute an unrelated older snapshot. A source archive contains
-   build inputs, while the prepared Windows ZIP contains the runnable program.
-5. Save a draft and review the target, tag, English notes and both attachments.
-   Initially mark pre-release while broader platform evidence remains pending.
+   build inputs; the Windows ZIP and Linux TAR.GZ contain platform programs.
+5. Save a draft and review the target, tag, English notes and all three attachments.
+   An initial pre-release can collect feedback from additional user environments.
    If immutable releases are enabled, attach all assets before publication.
 6. Publish only when the claims match the evidence. Download the actual assets,
    verify SHA256, extract the complete folder, and run the version/tutorial

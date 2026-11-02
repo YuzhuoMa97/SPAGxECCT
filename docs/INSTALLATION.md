@@ -63,19 +63,17 @@ Clone or download the repository/tag source ZIP. Read root README_CPP.md,
 then build inside cpp/. Keep the complete cpp/ tree, including third_party/,
 Makefile, VERSION, examples and tests; src/ alone is insufficient.
 
-Before the first C++ release, select the published `develop` branch explicitly;
-the default `main` branch may still contain only the historical R package.
-The commands below require the maintainer to have pushed that C++ branch.
-After the release is available, replace `--branch develop` with
-`--branch cpp-v1.2.0` to obtain the fixed release source. For development
-comparisons, record the full tested commit rather than relying on a moving
-branch. Code -> Download ZIP likewise uses the selected branch or tag.
+The `main` branch includes the standalone C++ source alongside the historical
+R package. Use `main` for the current source and `develop` for ongoing
+development. Once `cpp-v1.2.0` is published, use that tag for a fixed release
+source snapshot. Record the full tested commit when using a moving branch.
+Code -> Download ZIP likewise uses the selected branch or tag.
 See the [development and release procedure](GITHUB_DISTRIBUTION.md).
 
 With C++17 GCC/Clang, a C compiler, GNU Make and Bash:
 
 ~~~sh
-git clone --branch develop --single-branch https://github.com/YuzhuoMa97/SPAGxECCT.git
+git clone --branch main --single-branch https://github.com/YuzhuoMa97/SPAGxECCT.git
 cd SPAGxECCT/cpp
 mkdir -p tmp results
 export TMPDIR="$PWD/tmp"

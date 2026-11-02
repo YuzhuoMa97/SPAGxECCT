@@ -6,8 +6,8 @@ distribution designated and maintained by **Yuzhuo Ma**, the method designer
 and author of the original SPAGxE software. Questions, installation help and
 bug reports: **[yuzhuoma@amss.ac.cn](mailto:yuzhuoma@amss.ac.cn)**.
 
-SPAGxEmixPlus is planned for a future release and is not included in the
-current C++ distribution. Incorporated components retain their authorship,
+SPAGxEmixPlus and SPAGxEmixLocalPlus are planned for upcoming updates.
+Neither method is released or included in this C++ version. Incorporated components retain their authorship,
 licenses and notices. The original R package remains available for historical
 reproducibility and compatibility; installing it does not install this C++
 executable.
@@ -77,14 +77,15 @@ triplets; do not repeatedly run it against an already populated prefix.
 ### Build the complete source
 
 Download the selected source archive and extract it, or clone the repository.
-Use the approved tag once it exists. During development, select `develop`
-explicitly; before the C++ update is merged, `main` can still contain only the
-historical R package. See the [development/release procedure](GITHUB_DISTRIBUTION.md).
+The `main` branch contains the C++ source alongside the historical R package.
+Use the approved release tag once it is published; `develop` remains the
+ongoing development branch. Record the commit when using a moving branch.
+See the [development/release procedure](GITHUB_DISTRIBUTION.md).
 
-For example, after the maintainer has pushed `develop`:
+To build the current source from `main`:
 
 ```sh
-git clone --branch develop https://github.com/YuzhuoMa97/SPAGxECCT.git
+git clone --branch main https://github.com/YuzhuoMa97/SPAGxECCT.git
 cd SPAGxECCT
 git rev-parse HEAD
 ```
